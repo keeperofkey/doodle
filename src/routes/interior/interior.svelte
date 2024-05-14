@@ -6,7 +6,6 @@
     const renderer = new SPLAT.WebGLRenderer();
     const controls = new SPLAT.OrbitControls(camera, renderer.canvas);
 
-    renderer.canvas.style.position = "fixed";
     renderer.backgroundColor = new SPLAT.Color32(255, 255, 255, 255);
     renderer.setSize(window.innerWidth, window.innerHeight);
 
