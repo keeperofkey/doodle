@@ -7,6 +7,7 @@
     const color = new SPLAT.Color32(50, 50, 50, 0);
 
     renderer.canvas.style.position = "fixed";
+    renderer.canvas.style.zIndex = "-1";
     renderer.backgroundColor = color;
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.position = new SPLAT.Vector3(
@@ -22,9 +23,11 @@
     );
 
     async function main() {
+        // const url = "models/twogs.ply";
         const url = "models/splat.splat";
 
         await SPLAT.Loader.LoadAsync(url, scene, () => {});
+        // await SPLAT.PLYLoader.LoadAsync(url, scene, () => {});
 
         const frame = () => {
             controls.update();
