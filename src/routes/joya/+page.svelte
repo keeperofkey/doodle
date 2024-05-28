@@ -5,19 +5,19 @@
 </script>
 
 <body>
-    <!-- <div class="frame"> -->
-    <!--     <Splat /> -->
-    <!-- </div> -->
-    <div class="container">
-        <Joya />
+    <div class="frame">
+        <Splat />
     </div>
+    <!-- <div class="container"> -->
+    <!--     <Joya /> -->
+    <!-- </div> -->
     <Overlay />
 </body>
 
 <style>
-    .container {
-        height: 800dvh;
-    }
+    /* .container { */
+    /*     height: 400dvh; */
+    /* } */
     /* .frame { */
     /*     padding-top: 50rem; */
     /* } */

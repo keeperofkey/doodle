@@ -1,20 +1,26 @@
 <script lang="ts">
     import * as SPLAT from "gsplat";
-    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    // const canvas = document.getElementById("canvas") as HTMLCanvasElement;
     const scene = new SPLAT.Scene();
     const camera = new SPLAT.Camera();
-    const renderer = new SPLAT.WebGLRenderer(canvas);
-    const controls = new SPLAT.OrbitControls(camera, canvas);
+    const renderer = new SPLAT.WebGLRenderer();
+    const controls = new SPLAT.OrbitControls(camera, renderer.canvas);
     const color = new SPLAT.Color32(50, 50, 50, 0);
 
-    // renderer.canvas.style.position = "fixed";
+    renderer.canvas.style.position = "fixed";
     renderer.canvas.style.zIndex = "0";
+    renderer.canvas.style.top = "0px";
     renderer.backgroundColor = color;
-    // renderer.setSize(window.innerWidth, window.innerHeight);
 
+    camera.position = new SPLAT.Vector3(0, 0, 15);
+    controls.setCameraTarget(new SPLAT.Vector3(0, 0, 0));
+    controls.orbitSpeed = 0.5;
     async function main() {
         const handleResize = () => {
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setSize(
+                renderer.canvas.clientWidth,
+                renderer.canvas.clientHeight,
+            );
         };
         // ply files use different loader
         // const url = "models/twogs.ply";
