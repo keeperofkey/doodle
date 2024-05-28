@@ -1,38 +1,22 @@
-# create-svelte
+# Personal Website
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+[liamdodd.com](https://liamdodd.com)
 
-## Creating a project
+This is the repository for my personal website, built using the following technologies:
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Technologies
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- [Svelte](https://svelte.dev/): A modern, component-based UI framework for building web applications.
+- [SvelteKit](https://kit.svelte.dev/): A framework for building Svelte applications with a focus on server-side rendering (SSR) and static site generation (SSG).
+- [Three.js](https://threejs.org/): A cross-browser JavaScript library and API used to create and display animated 3D computer graphics on the web.
+- [gsplat.js](https://github.com/huggingface/gsplat.js): an easy-to-use, general-purpose, open-source 3D Gaussian Splatting library, providing functionality similar to three.js but for Gaussian Splatting.
+- [GSOPs](https://github.com/david-rhodes/GSOPs): A collection of Gaussian Splatting Operators for Houdini.
+- [Houdini](https://www.sidefx.com/): A powerful, efficient, and feature-rich framework for creating interactive 3D content.
+- [Vercel](https://vercel.com/): A cloud platform for static sites and Serverless Functions, used for hosting and deployment.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Features
 
-## Developing
+- Interactive 3D environments and animations powered by Three.js and gsplat.js.
+- Seamless deployment and hosting on Vercel.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+# Thank you for looking!
