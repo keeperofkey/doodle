@@ -32,7 +32,6 @@
         const frame = () => {
             controls.update();
             renderer.render(scene, camera);
-            console.log(camera.position, camera.rotation);
 
             requestAnimationFrame(frame);
         };

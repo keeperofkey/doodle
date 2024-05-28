@@ -40,12 +40,12 @@
                 action = mixer.clipAction(anim[0], camera);
 
                 model = gltf.scene.children[0].children[0];
-                mat = new THREE.MeshBasicMaterial({
-                    color: 0xffffff,
-                    wireframe: true,
-                    vertexColors: true,
-                    wireframeLinewidth: 5,
-                });
+                // mat = new THREE.MeshBasicMaterial({
+                //     color: 0xffffff,
+                //     wireframe: true,
+                //     vertexColors: true,
+                //     wireframeLinewidth: 5,
+                // });
                 // model.material = mat;
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
