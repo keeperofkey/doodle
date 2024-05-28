@@ -5,9 +5,9 @@
 </script>
 
 <body>
-    <div class="frame">
-        <Splat />
-    </div>
+    <!-- <div class="frame"> -->
+    <!--     <Splat /> -->
+    <!-- </div> -->
     <div class="container">
         <Joya />
     </div>
@@ -18,7 +18,7 @@
     .container {
         height: 800dvh;
     }
-    .frame {
-        padding-top: 50rem;
-    }
+    /* .frame { */
+    /*     padding-top: 50rem; */
+    /* } */
 </style>
