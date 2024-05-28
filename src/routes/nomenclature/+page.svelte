@@ -2,11 +2,9 @@
     import Senior from "./senior.svelte";
 </script>
 
-<body>
-    <div class="container">
-        <Senior />
-    </div>
-</body>
+<div class="container">
+    <Senior />
+</div>
 
 <style>
     .container {

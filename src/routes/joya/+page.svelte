@@ -4,15 +4,11 @@
     import Splat from "./splat.svelte";
 </script>
 
-<body>
-    <div class="frame">
-        <Splat />
-    </div>
-    <!-- <div class="container"> -->
-    <!--     <Joya /> -->
-    <!-- </div> -->
-    <Overlay />
-</body>
+<!-- <div class="container"> -->
+<Splat />
+<!-- </div> -->
+<!--     <Joya /> -->
+<Overlay />
 
 <style>
     /* .container { */

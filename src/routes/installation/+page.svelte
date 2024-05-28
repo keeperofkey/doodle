@@ -2,11 +2,9 @@
     import Install from "./install.svelte";
 </script>
 
-<body>
-    <div class="container">
-        <Install />
-    </div>
-</body>
+<div class="container">
+    <Install />
+</div>
 
 <style>
     .container {

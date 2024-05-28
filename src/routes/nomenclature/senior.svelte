@@ -13,18 +13,12 @@
     let mixer: THREE.AnimationMixer;
     let action: THREE.AnimationAction;
     const Clock = new THREE.Clock();
-    init();
-    // animate();
-    function init(this: any) {
-        const container = document.createElement("div");
-        container.style.position = "fixed";
-        container.style.top = "0";
-        container.style.left = "0";
-        container.style.zIndex = "-1";
-        // container.style.width = "100%";
-        // container.style.overflow = "auto";
-        document.body.appendChild(container);
+    const canvas = document.getElementById("three") as HTMLCanvasElement;
+    const splat = document.getElementById("splat") as HTMLCanvasElement;
+    splat.style.display = "none";
+    canvas.style.display = "block";
 
+    function init(this: any) {
         scene = new THREE.Scene();
 
         // model
@@ -58,13 +52,16 @@
                 animate();
             });
 
-        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
         renderer.setPixelRatio(1);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
-        container.appendChild(renderer.domElement);
 
+        renderer.domElement.style.position = "fixed";
+
+        renderer.domElement.style.top = "0";
+        renderer.domElement.style.zIndex = "-1";
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         const light = new THREE.AmbientLight();
         light.position.set(0, 0, 0);
@@ -110,6 +107,8 @@
     }
 
     function render() {
+        renderer.clear();
         renderer.render(scene, camera);
     }
+    init();
 </script>

@@ -3,24 +3,24 @@
 
 <div class="overlay">
     <img src="images/cans-1.webp" alt="from artist residency" />
-    <div></div>
+    <div class="space"></div>
     <div class="text">Images from an artist residency in Spain</div>
     <div class="text">
         Exploring the cravases cut into the landscape by monumental floods
     </div>
-    <div></div>
+    <div class="space"></div>
     <img src="images/cans-2.webp" alt="from artist residency" />
     <img src="images/cans-3.webp" alt="from artist residency" />
-    <div></div>
+    <div class="space"></div>
     <div class="text">
         Castings made from varying mixtures of earth and cement using cans and
         debris
     </div>
     <div class="text">Meant to erode</div>
-    <div></div>
+    <div class="space"></div>
     <img src="images/cans-5.webp" alt="from artist residency" />
     <img src="images/cans-7.webp" alt="from artist residency" />
-    <div></div>
+    <div class="space"></div>
     <div class="text">left to disperse</div>
 </div>
 
@@ -31,7 +31,9 @@
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(5, 1fr);
         max-width: 100dvw;
-        z-index: 1;
+    }
+    .space {
+        pointer-events: none;
     }
     img {
         width: 100%;

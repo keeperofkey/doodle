@@ -16,14 +16,14 @@
     init();
     // animate();
     function init(this: any) {
-        const container = document.createElement("div");
-        container.style.position = "fixed";
-        container.style.top = "0";
-        container.style.left = "0";
-        container.style.zIndex = "-1";
-        container.style.width = "100%";
-        container.style.overflow = "auto";
-        document.body.appendChild(container);
+        // const container = document.createElement("div");
+        // container.style.position = "fixed";
+        // container.style.top = "0";
+        // container.style.left = "0";
+        // container.style.zIndex = "-1";
+        // container.style.width = "100%";
+        // container.style.overflow = "auto";
+        // document.body.appendChild(container);
 
         scene = new THREE.Scene();
 
@@ -72,7 +72,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
-        container.appendChild(renderer.domElement);
+        document.appendChild(renderer.domElement);
 
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         const light = new THREE.AmbientLight();

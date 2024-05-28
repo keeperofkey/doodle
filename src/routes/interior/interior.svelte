@@ -2,27 +2,28 @@
     import * as SPLAT from "gsplat";
     const scene = new SPLAT.Scene();
     const camera = new SPLAT.Camera();
-    const renderer = new SPLAT.WebGLRenderer();
-    const controls = new SPLAT.OrbitControls(camera, renderer.canvas);
+    const three = document.getElementById("three") as HTMLCanvasElement;
+    const canvas = document.getElementById("splat") as HTMLCanvasElement;
+    const renderer = new SPLAT.WebGLRenderer(canvas);
+    const controls = new SPLAT.OrbitControls(camera, canvas);
     const color = new SPLAT.Color32(50, 50, 50, 0);
-
-    renderer.canvas.style.position = "fixed";
-    renderer.canvas.style.zIndex = "-1";
+    three.style.display = "none";
+    canvas.style.position = "fixed";
+    canvas.style.zIndex = "-1";
+    canvas.style.top = "0px";
+    canvas.style.display = "block";
     renderer.backgroundColor = color;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.position = new SPLAT.Vector3(
-        -6.51976989357603,
-        -1.144404726108678,
-        -3.43753809993422,
-    );
-    camera.rotation = new SPLAT.Quaternion(
-        -0.07613025951148068,
-        0.5638710731365932,
-        0.05230734433708954,
-        0.8206811428288715,
-    );
+    camera.position = new SPLAT.Vector3(-8, 0, -2);
+    controls.setCameraTarget(new SPLAT.Vector3(0, 0, -1));
 
     async function main() {
+        const handleResize = () => {
+            renderer.setSize(
+                renderer.canvas.clientWidth,
+                renderer.canvas.clientHeight,
+            );
+        };
         // const url = "models/twogs.ply";
         const url = "models/splat.splat";
 
@@ -36,6 +37,9 @@
             requestAnimationFrame(frame);
         };
 
+        renderer.dispose();
+        handleResize();
+        window.addEventListener("resize", handleResize);
         requestAnimationFrame(frame);
     }
 

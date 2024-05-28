@@ -2,11 +2,9 @@
     import Interior from "./interior.svelte";
 </script>
 
-<body>
-    <div class="container">
-        <Interior />
-    </div>
-</body>
+<div class="container">
+    <Interior />
+</div>
 
 <style>
 </style>
