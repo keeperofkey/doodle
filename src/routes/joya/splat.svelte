@@ -14,6 +14,7 @@
     canvas.style.zIndex = "-1";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
+    canvas.style.position = "fixed";
     canvas.style.top = "0px";
     renderer.backgroundColor = color;
 
