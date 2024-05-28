@@ -21,7 +21,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@lumaai/luma-web": "^0.2.2",
 		"@sveltejs/adapter-vercel": "^5.2.0",
 		"gsplat": "^1.2.4",
 		"three": "^0.157.0"
