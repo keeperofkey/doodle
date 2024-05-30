@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onNavigate } from "$app/navigation";
     import * as SPLAT from "gsplat";
+    import { onDestroy } from "svelte";
 
     export let modelUrl: string;
     export let camStart = new SPLAT.Vector3(0, 0, 0);
@@ -48,7 +49,6 @@
         handleResize();
         window.addEventListener("resize", handleResize);
 
-        renderer.dispose();
         requestAnimationFrame(frame);
     }
 

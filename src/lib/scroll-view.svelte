@@ -3,26 +3,27 @@
 
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
     import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
-    import { onMount } from "svelte";
     import { onNavigate } from "$app/navigation";
+    import { onDestroy } from "svelte";
 
     export let modelName: string;
-    const canvas = document.createElement("canvas");
-    // const splat = document.getElementById("splat") as HTMLCanvasElement;
     let action: THREE.AnimationAction;
     let mixer: THREE.AnimationMixer;
     let camera: THREE.PerspectiveCamera;
     let renderer: THREE.WebGLRenderer;
     let scene = new THREE.Scene();
 
-    // splat.style.display = "none";
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    let canvas = renderer.domElement;
+
     canvas.style.display = "block";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
     canvas.style.position = "fixed";
     canvas.style.top = "0";
     canvas.style.zIndex = "-1";
-    const Clock = new THREE.Clock();
+
+    let Clock = new THREE.Clock();
 
     function init(this: any) {
         // model
@@ -56,14 +57,10 @@
                 animate();
             });
 
-        renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
-        // renderer.domElement.style.position = "fixed";
-        // renderer.domElement.style.top = "0";
-        // renderer.domElement.style.zIndex = "-1";
         document.body.appendChild(canvas);
 
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -127,12 +124,11 @@
     }
 
     function render() {
-        renderer.clear();
         renderer.render(scene, camera);
     }
     init();
     onNavigate(() => {
-        renderer.dispose();
+        renderer.clear();
         canvas.remove();
     });
 </script>
