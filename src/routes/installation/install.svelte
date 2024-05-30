@@ -61,7 +61,7 @@
         renderer.toneMappingExposure = 1;
         renderer.domElement.style.position = "fixed";
         renderer.domElement.style.top = "0";
-        renderer.domElement.style.zIndex = "-1";
+        renderer.domElement.style.zIndex = "1";
 
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         const light = new THREE.AmbientLight();

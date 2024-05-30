@@ -1,8 +1,11 @@
 <script lang="ts">
-    const splat = document.getElementById("splat") as HTMLCanvasElement;
-    const three = document.getElementById("three") as HTMLCanvasElement;
-    three.style.display = "none";
-    splat.style.display = "none";
+    // import { onMount } from "svelte";
+    // onMount(() => {
+    //     const three = document.getElementById("three") as HTMLCanvasElement;
+    //     const splat = document.getElementById("splat") as HTMLCanvasElement;
+    //     three.style.display = "none";
+    //     splat.style.display = "none";
+    // });
 </script>
 
 <div class="container">

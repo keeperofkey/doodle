@@ -3,7 +3,7 @@
     <a href="/installation">Mind your head</a>
     <a href="/joya">Joya: AiR</a>
     <a href="/nomenclature">Nomenclature</a>
-    <a href="/interior">interior</a>
+    <a href="/interior">Interior</a>
 </nav>
 
 <slot />
@@ -16,6 +16,7 @@
         box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
         position: fixed;
         pointer-events: auto;
+        z-index: 999;
     }
 
     nav a {

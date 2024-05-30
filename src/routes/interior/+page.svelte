@@ -1,9 +1,14 @@
 <script lang="ts">
-    import Interior from "./interior.svelte";
+    import Gsplat from "$lib/gsplat.svelte";
+    import { Vector3 } from "gsplat";
 </script>
 
 <div class="container">
-    <Interior />
+    <Gsplat
+        modelUrl="models/splat.splat"
+        camStart={new Vector3(-8, 0, -2)}
+        camTarget={new Vector3(0, 0, -1)}
+    />
 </div>
 
 <style>

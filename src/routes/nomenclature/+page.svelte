@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Senior from "./senior.svelte";
+    import ScrollView from "$lib/scroll-view.svelte";
 </script>
 
 <div class="container">
-    <Senior />
+    <ScrollView modelName="senior-anim-24.glb" />
 </div>
 
 <style>
