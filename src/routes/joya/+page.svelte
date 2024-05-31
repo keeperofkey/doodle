@@ -1,7 +1,15 @@
 <script lang="ts">
     import Gsplat from "$lib/gsplat.svelte";
     import { Vector3 } from "gsplat";
-    import Overlay from "./overlay.svelte";
+    import Overlay from "$lib/overlay.svelte";
+
+    const images = import.meta.glob("$lib/images/cans/*.webp");
+    const text = [
+        "Images from an artist residency in Spain",
+        "Castings made from varying mixtures of earth and cement using cans and debris",
+        "Meant to erode",
+        "left to disperse",
+    ];
 </script>
 
 <Gsplat
@@ -9,7 +17,7 @@
     camStart={new Vector3(0, 0, 15)}
     camTarget={new Vector3(0, 0, 0)}
 /> >
-<Overlay />
+<Overlay {images} {text} />
 
 <style>
 </style>

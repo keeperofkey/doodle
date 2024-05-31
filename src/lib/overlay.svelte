@@ -1,43 +1,35 @@
 <script lang="ts">
+    export let images: Object;
+
+    export let text: string[];
     let expandedImage: string | null = null;
 
     function toggleExpand(event: MouseEvent) {
         const target = event.target as HTMLImageElement;
         expandedImage = expandedImage === target.src ? null : target.src;
     }
+
+    const imagesArray = Object.values(images);
 </script>
 
 <div class="overlay">
-    <button type="button" on:click={toggleExpand}>
-        <img src="images/cans-1.webp" alt="from artist residency" />
-    </button>
-    <div class="space"></div>
-    <div class="text">Images from an artist residency in Spain</div>
-    <div class="text">
-        Exploring the cravases cut into the landscape by monumental floods
-    </div>
-    <div class="space"></div>
-    <button type="button" on:click={toggleExpand}>
-        <img src="images/cans-2.webp" alt="from artist residency" />
-    </button>
-    <button type="button" on:click={toggleExpand}>
-        <img src="images/cans-3.webp" alt="from artist residency" />
-    </button>
-    <div class="space"></div>
-    <div class="text">
-        Castings made from varying mixtures of earth and cement using cans and
-        debris
-    </div>
-    <div class="text">Meant to erode</div>
-    <div class="space"></div>
-    <button type="button" on:click={toggleExpand}>
-        <img src="images/cans-5.webp" alt="from artist residency" />
-    </button>
-    <button type="button" on:click={toggleExpand}>
-        <img src="images/cans-7.webp" alt="from artist residency" />
-    </button>
-    <div class="space"></div>
-    <div class="text">left to disperse</div>
+    {#each imagesArray as image, i}
+        {#if i % 2 === 0 && text[i]}
+            <button type="button" on:click={toggleExpand}>
+                <img src={image.name} alt={`image-${i}`} />
+                <!-- <img src={image} alt={`image-${i}`} /> -->
+            </button>
+            <div class="space"></div>
+            <div class="text">{text[i]}</div>
+        {:else if i % 2 !== 0 && text[i]}
+            <div class="text">{text[i]}</div>
+            <div class="space"></div>
+            <button type="button" on:click={toggleExpand}>
+                <img src={image.name} alt={`image-${i}`} />
+                <!-- <img src={image} alt={`image-${i}`} /> -->
+            </button>
+        {/if}
+    {/each}
 </div>
 
 {#if expandedImage}
