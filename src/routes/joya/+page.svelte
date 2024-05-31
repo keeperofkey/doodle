@@ -5,6 +5,7 @@
 
     const images = import.meta.glob("$lib/images/cans/*.webp", {
         eager: true,
+        query: { enhanced: true },
     });
     // console.log(images);
     const text = [
