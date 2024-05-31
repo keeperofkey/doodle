@@ -16,7 +16,7 @@
     {#each imagesArray as image, i}
         {#if i % 2 === 0 && text[i]}
             <button type="button" on:click={toggleExpand}>
-                <img src={image.name} alt={`image-${i}`} />
+                <img src={image.default} alt={`image-${i}`} />
                 <!-- <img src={image} alt={`image-${i}`} /> -->
             </button>
             <div class="space"></div>
@@ -25,7 +25,7 @@
             <div class="text">{text[i]}</div>
             <div class="space"></div>
             <button type="button" on:click={toggleExpand}>
-                <img src={image.name} alt={`image-${i}`} />
+                <img src={image.default} alt={`image-${i}`} />
                 <!-- <img src={image} alt={`image-${i}`} /> -->
             </button>
         {/if}
