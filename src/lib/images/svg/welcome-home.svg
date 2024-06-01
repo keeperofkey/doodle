@@ -47302,6 +47302,6 @@
     <path d="M498.793 106.679a.314.314 0 0 1-.136.109.56.56 0 0 1-.318-.1c.103-.055.454-.01.454-.01"
       id="path131-70" />
   </g>
-  <script href="./animate.ts">
+  <script href="$lib/images/svg/animate.ts">
   </script>
 </svg>
