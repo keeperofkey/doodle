@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <nav>
     <a href="/">Home</a>
     <a href="/installation">Mind your head</a>

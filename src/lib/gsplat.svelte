@@ -7,43 +7,61 @@
     export let camStart = new SPLAT.Vector3(0, 0, 0);
     export let camTarget = new SPLAT.Vector3(0, 0, 0);
 
-    const scene = new SPLAT.Scene();
-    const camera = new SPLAT.Camera();
-    const renderer = new SPLAT.WebGLRenderer();
-    const canvas = renderer.canvas;
-    const controls = new SPLAT.OrbitControls(camera, canvas);
+    let scene = new SPLAT.Scene();
+    let camera = new SPLAT.Camera();
+    let renderer = new SPLAT.WebGLRenderer();
+    let canvas = renderer.canvas;
+    let controls = new SPLAT.OrbitControls(camera, canvas);
+
     const color = new SPLAT.Color32(50, 50, 50, 0);
 
-    canvas.style.display = "block";
-    canvas.style.zIndex = "0";
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.position = "fixed";
-    canvas.style.top = "0px";
-    renderer.backgroundColor = color;
+    function createScene() {
+        canvas.style.display = "block";
+        canvas.style.zIndex = "0";
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        canvas.style.position = "fixed";
+        canvas.style.top = "0px";
+        renderer.backgroundColor = color;
 
-    camera.position = camStart;
-    controls.setCameraTarget(camTarget);
-    controls.orbitSpeed = 0.5;
+        camera.position = camStart;
+        controls.setCameraTarget(camTarget);
+        controls.orbitSpeed = 0.5;
+    }
+
+    function destroyScene() {
+        if (scene) {
+            scene.reset();
+        }
+        if (renderer) {
+            renderer.dispose();
+        }
+        if (controls) {
+            controls.dispose();
+        }
+    }
+
     async function main() {
+        createScene();
+
         const handleResize = () => {
-            renderer.setSize(
-                renderer.canvas.clientWidth,
-                renderer.canvas.clientHeight,
-            );
+            if (renderer) {
+                renderer.setSize(
+                    renderer.canvas.clientWidth,
+                    renderer.canvas.clientHeight,
+                );
+            }
         };
-        // ply files use different loader
-        // const url = "models/twogs.ply";
-        // await SPLAT.PLYLoader.LoadAsync(url, scene, () => {});
 
         const url = modelUrl;
         await SPLAT.Loader.LoadAsync(url, scene, () => {});
 
         const frame = () => {
-            controls.update();
-            renderer.render(scene, camera);
-
-            requestAnimationFrame(frame);
+            if (controls && renderer && scene && camera) {
+                controls.update();
+                renderer.render(scene, camera);
+                requestAnimationFrame(frame);
+            }
         };
 
         handleResize();
@@ -53,7 +71,13 @@
     }
 
     main();
+
     onNavigate(() => {
+        destroyScene();
+    });
+
+    onDestroy(() => {
+        destroyScene();
         canvas.remove();
     });
 </script>
