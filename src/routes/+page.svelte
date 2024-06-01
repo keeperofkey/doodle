@@ -1,15 +1,13 @@
 <script lang="ts">
-    // import { onMount } from "svelte";
-    // onMount(() => {
-    //     const three = document.getElementById("three") as HTMLCanvasElement;
-    //     const splat = document.getElementById("splat") as HTMLCanvasElement;
-    //     three.style.display = "none";
-    //     splat.style.display = "none";
-    // });
+    import welcome from "$lib/images/svg/welcome-home.svg"
 </script>
 
 <div class="container">
-    <object title="Welcome" type="image/svg+xml" data={"welcome.svg"} />
+    <object
+        title="Welcome"
+        type="image/svg+xml"
+        data="{welcome}"
+    />
 </div>
 <div class="warning">
     <span>This site is in active development</span>
