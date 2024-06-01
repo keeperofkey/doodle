@@ -47302,6 +47302,25 @@
     <path d="M498.793 106.679a.314.314 0 0 1-.136.109.56.56 0 0 1-.318-.1c.103-.055.454-.01.454-.01"
       id="path131-70" />
   </g>
-  <script href="$lib/images/svg/animate.ts">
+  <script lang="ts"> let currentFrame = 1; let direction = 1; const delay = 50; const allFrames =
+    Array.from(document.getElementsByTagName("g")); for (let i = 1; i &lt; allFrames.length ; i++) {
+    allFrames[i].style.display="none" ;
+    }
+    function animateFrames() {
+    if (currentFrame &gt; 0 &amp;&amp; currentFrame &lt; allFrames.length ) {
+    allFrames[currentFrame].style.display="inline" ;
+    allFrames[currentFrame - direction].style.display="none" ;
+    }
+    if
+    (currentFrame=== allFrames.length - 1 || currentFrame === 0) {
+    direction *= -1;
+    }
+
+    currentFrame += direction;
+    setTimeout(animateFrames, delay);
+    // requestAnimationFrame(animateFrames);
+    }
+
+    animateFrames();
   </script>
 </svg>
