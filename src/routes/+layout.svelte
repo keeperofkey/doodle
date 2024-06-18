@@ -20,6 +20,7 @@
         position: fixed;
         pointer-events: auto;
         z-index: 999;
+        margin: 1rem;
     }
 
     nav a {

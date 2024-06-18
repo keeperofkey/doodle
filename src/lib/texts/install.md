@@ -26,3 +26,9 @@ lives.
 Through this captivating fusion of art, architecture, and nature, "Mind Your
 Head" offers a sanctuary for introspection and a reminder to be mindful of the
 present moment, to embrace the beauty that surrounds us.
+
+<style>
+    h1 {
+        margin: 0;
+    }
+</style>
