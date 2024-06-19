@@ -2,6 +2,12 @@
     import ScrollView from "$lib/scroll-view.svelte";
     import { marked } from "marked";
     import mdContent from "$lib/texts/senior.md?raw";
+    import Gallery from "$lib/gallery.svelte";
+
+    const images = import.meta.glob("$lib/images/senior/*.webp", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <div class="texts">
@@ -11,6 +17,8 @@
 <div id="stage">
     <ScrollView modelName="senior-anim-24.glb" />
 </div>
+
+<Gallery {images} />
 
 <style>
     #stage {

@@ -13,6 +13,7 @@
         top: 4rem;
         margin: 1rem;
         padding: 0.3rem 1rem;
+        font-size: 1.5rem;
         background-color: #ffffffcc;
         border-radius: 1rem;
         box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);

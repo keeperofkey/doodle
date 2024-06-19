@@ -1,6 +1,6 @@
 # About
 
-Hi there! Welcome to my personal website and portfolio. Everything you see here is my own work, and the code behind it. I hope you enjoy it!
+Hi there! Welcome to my personal website and portfolio. Everything you see here is my own work including the code behind it. I hope you enjoy it!
 
 It's a work in progress, so please check back often.
 
@@ -16,3 +16,9 @@ I hope to showcase a variety of skills I have acquired throughout the years. If 
 - [Nerfstudio](https://nerf.studio/)
 - [Vercel](https://vercel.com/)
 - [Neovim](https://neovim.io/)
+
+<style>
+    h1 {
+        margin: 0; 
+    }
+</style>
