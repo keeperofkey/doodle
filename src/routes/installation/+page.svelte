@@ -30,11 +30,12 @@
     }
     .texts {
         position: absolute;
-        bottom: 0;
+        top: 4rem;
         margin: 1rem;
         padding: 1rem;
         background-color: #ffffffcc;
         border-radius: 1rem;
         max-width: 25%;
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     }
 </style>

@@ -56,9 +56,11 @@
     }
     .overlay {
         display: grid;
+        margin: 1rem;
+        margin-top: 0;
         position: relative;
         z-index: 2;
-        padding-top: 4rem;
+        padding-top: 5rem;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(5, 1fr);
         max-width: 100dvw;
@@ -100,5 +102,6 @@
         max-width: 90vw;
         max-height: 90vh;
         box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+        border-radius: 0.5rem;
     }
 </style>

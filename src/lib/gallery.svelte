@@ -3,13 +3,37 @@
 
     import "@appnest/masonry-layout";
 
+    let expandedImage: string | null = null;
+
+    function toggleExpand(event: MouseEvent) {
+        const target = event.target as HTMLImageElement;
+        expandedImage = expandedImage === target.src ? null : target.src;
+    }
+
     const imagesArray = Object.values(images);
 </script>
 
-<masonry-layout id="gallery" gap="12px">
+<masonry-layout id="gallery" gap="5rem">
     {#each imagesArray as image, i}
-        <enhanced:img class="images" src={image.default} alt={`image-${i}`} />
+        <button type="button" on:click={toggleExpand}>
+            <enhanced:img
+                class="images"
+                src={image.default}
+                alt={`image-${i}`}
+            />
+        </button>
     {/each}
+    {#if expandedImage}
+        <div
+            class="expanded-overlay"
+            role="button"
+            tabindex="0"
+            on:click={() => (expandedImage = null)}
+            on:keydown={() => (expandedImage = null)}
+        >
+            <img src={expandedImage} alt="expanded" />
+        </div>
+    {/if}
 </masonry-layout>
 
 <style>
@@ -20,5 +44,30 @@
         border-radius: 0.5rem;
         max-width: 100%;
         height: auto;
+    }
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        pointer-events: auto;
+    }
+    .expanded-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        cursor: pointer;
+    }
+    .expanded-overlay img {
+        max-width: 90vw;
+        max-height: 90vh;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+        border-radius: 0.5rem;
     }
 </style>
