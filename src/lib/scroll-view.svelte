@@ -73,17 +73,19 @@
     }
 
     function onScroll() {
-        // Normalize scroll position to 0-1
-        let scroll =
-            window.scrollY /
-            (document.getElementsByClassName("container")[0].scrollHeight -
-                window.innerHeight);
-        // Clamp scroll position (0-1) insures you dont go out of animation bounds
-        const clamp = (num: number, min: number, max: number) =>
-            Math.min(Math.max(num, min), max);
-        scroll = clamp(scroll, 0, 0.99);
-        // Set the animation time to the scroll position mapped to the animation duration
-        action.time = scroll * action.getClip().duration;
+        const stageElement = document.getElementById("stage");
+        if (stageElement) {
+            // Normalize scroll position to 0-1
+            let scroll =
+                window.scrollY /
+                (stageElement.scrollHeight - window.innerHeight);
+            // Clamp scroll position (0-1) insures you dont go out of animation bounds
+            const clamp = (num: number, min: number, max: number) =>
+                Math.min(Math.max(num, min), max);
+            scroll = clamp(scroll, 0, 0.99);
+            // Set the animation time to the scroll position mapped to the animation duration
+            action.time = scroll * action.getClip().duration;
+        }
     }
     // let internalId: number;
     //
@@ -132,5 +134,8 @@
     onNavigate(() => {
         renderer.clear();
         canvas.remove();
+    });
+    onDestroy(() => {
+        renderer.dispose();
     });
 </script>

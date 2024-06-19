@@ -11,8 +11,8 @@
     const text = [
         "Images from an artist residency in Spain",
         "Castings made from varying mixtures of earth and cement using cans and debris",
-        "Meant to erode",
-        "left to disperse",
+        "Exploring the relationship between the natural and artificial",
+        "Imaginary artifacts",
     ];
 </script>
 
@@ -20,7 +20,8 @@
     modelUrl="models/cans.splat"
     camStart={new Vector3(0, 0, 15)}
     camTarget={new Vector3(0, 0, 0)}
-/> >
+/>
+
 <Overlay {images} {text} />
 
 <style>

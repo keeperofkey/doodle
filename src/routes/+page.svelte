@@ -12,10 +12,4 @@
         place-items: center;
         height: 100dvh;
     }
-    .warning {
-        position: absolute;
-        color: red;
-        bottom: 0;
-        right: 0;
-    }
 </style>

@@ -6,14 +6,19 @@
     const imagesArray = Object.values(images);
 </script>
 
-<masonry-layout id="gallery" gap="12">
+<masonry-layout id="gallery" gap="12px">
     {#each imagesArray as image, i}
-        <img src={image.name} alt={`image-${i}`} />
+        <enhanced:img class="images" src={image.default} alt={`image-${i}`} />
     {/each}
 </masonry-layout>
 
 <style>
-    #gallery img {
-        border-radius: 16px;
+    #gallery {
+        margin: 1rem;
+    }
+    .images {
+        border-radius: 0.5rem;
+        max-width: 100%;
+        height: auto;
     }
 </style>

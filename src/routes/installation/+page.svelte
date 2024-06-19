@@ -5,6 +5,7 @@
     import Gallery from "$lib/gallery.svelte";
 
     const images = import.meta.glob("$lib/images/install/*.webp", {
+        eager: true,
         query: { enhanced: true },
     });
     // const imageSources = imagesArray.map((image) => image.name);
@@ -14,14 +15,14 @@
     {@html marked.parse(mdContent)}
 </div>
 
-<div class="container">
+<div id="stage">
     <ScrollView modelName="mesh-one-anim-24.glb" />
 </div>
 
 <Gallery {images} />
 
 <style>
-    .container {
+    #stage {
         height: 600dvh;
         scroll-behavior: smooth;
         scroll-snap-type: y mandatory;
@@ -36,12 +37,4 @@
         border-radius: 1rem;
         max-width: 25%;
     }
-    /* :global(img) { */
-    /*     opacity: 0.9; */
-    /*     transition: all 0.2s; */
-    /* } */
-    /* :global(img):hover { */
-    /*     opacity: 1; */
-    /*     transform: scale(1.04); */
-    /* } */
 </style>

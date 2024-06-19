@@ -2,12 +2,12 @@
     import ScrollView from "$lib/scroll-view.svelte";
 </script>
 
-<div class="container">
+<div id="stage">
     <ScrollView modelName="senior-anim-24.glb" />
 </div>
 
 <style>
-    .container {
+    #stage {
         height: 600dvh;
     }
 </style>
