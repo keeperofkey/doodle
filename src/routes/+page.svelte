@@ -1,16 +1,9 @@
 <script lang="ts">
-    import welcome from "$lib/images/svg/welcome-home.svg"
+    import welcome from "$lib/images/svg/welcome-home.svg";
 </script>
 
 <div class="container">
-    <object
-        title="Welcome"
-        type="image/svg+xml"
-        data="{welcome}"
-    />
-</div>
-<div class="warning">
-    <span>This site is in active development</span>
+    <object title="Welcome" type="image/svg+xml" data={welcome} />
 </div>
 
 <style>

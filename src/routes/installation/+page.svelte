@@ -3,6 +3,7 @@
     import ScrollView from "$lib/scroll-view.svelte";
     import mdContent from "$lib/texts/install.md?raw";
     import "@appnest/masonry-layout";
+
     const images = import.meta.glob("$lib/images/install/*.webp", {
         query: { enhanced: true },
     });
