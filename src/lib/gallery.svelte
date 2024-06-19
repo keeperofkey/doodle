@@ -39,6 +39,8 @@
 <style>
     #gallery {
         margin: 1rem;
+        z-index: 1;
+        position: relative;
     }
     .images {
         border-radius: 0.5rem;
