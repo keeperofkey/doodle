@@ -1,6 +1,12 @@
 <script lang="ts">
     import Gsplat from "$lib/gsplat.svelte";
     import { Vector3 } from "gsplat";
+    import Gallery from "$lib/gallery.svelte";
+
+    const images = import.meta.glob("$lib/images/interior/*.webp", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <div class="container">
@@ -10,6 +16,10 @@
         camTarget={new Vector3(0, 0, -1)}
     />
 </div>
+<Gallery {images} />
 
 <style>
+    .container {
+        height: 100vh;
+    }
 </style>
