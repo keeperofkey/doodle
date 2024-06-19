@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import { onNavigate } from "$app/navigation";
     import * as SPLAT from "gsplat";
     import { onDestroy } from "svelte";
@@ -69,12 +70,15 @@
 
         requestAnimationFrame(frame);
     }
-
-    main();
-
-    onNavigate(() => {
-        destroyScene();
+    onMount(() => {
+        main();
     });
+
+    // main();
+
+    // onNavigate(() => {
+    //     destroyScene();
+    // });
 
     onDestroy(() => {
         destroyScene();

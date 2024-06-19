@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as THREE from "three";
+    import { onMount } from "svelte";
 
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
     import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
@@ -130,12 +131,16 @@
     function render() {
         renderer.render(scene, camera);
     }
-    init();
-    onNavigate(() => {
-        renderer.clear();
-        canvas.remove();
+    onMount(() => {
+        init();
     });
+    // init();
+    // onNavigate(() => {
+    //     renderer.clear();
+    //     canvas.remove();
+    // });
     onDestroy(() => {
         renderer.dispose();
+        canvas.remove();
     });
 </script>
