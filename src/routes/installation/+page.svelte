@@ -2,6 +2,7 @@
     import { marked } from "marked";
     import ScrollView from "$lib/scroll-view.svelte";
     import mdContent from "$lib/texts/install.md?raw";
+    import "@appnest/masonry-layout";
     const images = import.meta.glob("$lib/images/install/*.webp", {
         query: { enhanced: true },
     });
@@ -12,22 +13,16 @@
 <div class="texts">
     {@html marked.parse(mdContent)}
 </div>
+
 <div class="container">
-    <!-- <Install /> -->
     <ScrollView modelName="mesh-one-anim-24.glb" />
 </div>
-<div id="gallery">
 
+<masonry-layout id="gallery" gap="12">
     {#each imagesArray as image, i}
         <img src={image.name} alt={`image-${i}`} />
     {/each}
-</div>
-
-<!-- <Grid {imageSources} let:props gap="10px"> -->
-    <!-- <div class="grid-item" style={props.style}> -->
-    <!--     <img src={props.item} alt="Installation" /> -->
-    <!-- </div> -->
-<!-- </Grid> -->
+</masonry-layout>
 
 <style>
     .container {
@@ -53,20 +48,7 @@
     /*     opacity: 1; */
     /*     transform: scale(1.04); */
     /* } */
-    #gallery {
-        display: grid;
-        grid-gap: 10px;
-        /* ; */
-        grid-padding: 10px;
-        grid-auto-flow: row dense;
-
-    }
     #gallery img {
-        max-width: 50%;
-        height: auto;
-        grid-auto-flow: column dense;
         border-radius: 16px;
-        object-fit: contain;
-        place-self: center;
     }
 </style>
