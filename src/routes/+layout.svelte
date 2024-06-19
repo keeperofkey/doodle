@@ -7,6 +7,7 @@
     <a href="/joya">Joya: AiR</a>
     <a href="/nomenclature">Nomenclature</a>
     <a href="/interior">Interior</a>
+    <a href="/about">About</a>
 </nav>
 
 <slot />

@@ -32,7 +32,7 @@
         position: absolute;
         top: 4rem;
         margin: 1rem;
-        padding: 1rem;
+        padding: 0.3rem 1rem;
         background-color: #ffffffcc;
         border-radius: 1rem;
         max-width: 25%;

@@ -1,6 +1,8 @@
-# Nomenclature: Seeing Is Forgetting the Name
+# Nomenclature
 
-## Senior Thesis Show
+## Seeing Is Forgetting the Name
+
+### Senior Thesis Show
 
 ### 2018
 
@@ -33,3 +35,9 @@ beauty and complexity of the ineffable.
 
 Step into "Nomenclature" and embark on a journey that will forever alter your
 relationship with the words that shape your reality.
+
+<style>
+    h1 {
+        margin: 0;
+    }
+</style>

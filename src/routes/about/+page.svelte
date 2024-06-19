@@ -1,30 +1,20 @@
 <script lang="ts">
-    import ScrollView from "$lib/scroll-view.svelte";
     import { marked } from "marked";
-    import mdContent from "$lib/texts/senior.md?raw";
+    import mdContent from "$lib/texts/about.md?raw";
 </script>
 
 <div class="texts">
     {@html marked.parse(mdContent)}
 </div>
 
-<div id="stage">
-    <ScrollView modelName="senior-anim-24.glb" />
-</div>
-
 <style>
-    #stage {
-        height: 600dvh;
-    }
     .texts {
         position: absolute;
         top: 4rem;
-        right: 0;
         margin: 1rem;
         padding: 0.3rem 1rem;
         background-color: #ffffffcc;
         border-radius: 1rem;
-        max-width: 30%;
         box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     }
 </style>
