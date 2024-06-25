@@ -11,6 +11,11 @@
     // const imageSources = imagesArray.map((image) => image.name);
 </script>
 
+<svelte:head>
+    <title>Liam Dodd - Mind Your Head</title>
+    <meta name="description" content="Art and code installation" />
+</svelte:head>
+
 <div class="texts">
     {@html marked.parse(mdContent)}
 </div>

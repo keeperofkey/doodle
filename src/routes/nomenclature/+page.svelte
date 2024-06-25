@@ -10,6 +10,13 @@
     });
 </script>
 
+<svelte:head>
+    <title>Liam Dodd - Nomenclature</title>
+    <meta
+        name="description"
+        content="Thesis Installation reconstructed with Houdini and Light Fields"
+    />
+</svelte:head>
 <div class="texts">
     {@html marked.parse(mdContent)}
 </div>

@@ -9,6 +9,11 @@
     });
 </script>
 
+<svelte:head>
+    <title>Liam Dodd - Interior</title>
+    <meta name="description" content="Gaussian Splatting" />
+</svelte:head>
+
 <div class="container">
     <Gsplat
         modelUrl="models/splat.splat"
@@ -16,6 +21,7 @@
         camTarget={new Vector3(0, 0, -1)}
     />
 </div>
+
 <Gallery {images} />
 
 <style>

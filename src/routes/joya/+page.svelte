@@ -16,6 +16,10 @@
     ];
 </script>
 
+<svelte:head>
+    <title>Liam Dodd - Joya: Artist in Residence</title>
+    <meta name="description" content="Images and model from Joya:AiR" />
+</svelte:head>
 <Gsplat
     modelUrl="models/cans.splat"
     camStart={new Vector3(0, 0, 15)}
