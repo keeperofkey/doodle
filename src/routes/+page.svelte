@@ -14,7 +14,12 @@
 <style>
     .container {
         display: grid;
-        place-items: center;
         height: 100dvh;
+        justify-content: center;
+        margin: 0 1rem;
+    }
+    .container object {
+        align-self: center;
+        width: 100%;
     }
 </style>
