@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let images: Object;
+    export let images;
 
     import "@appnest/masonry-layout";
 
@@ -10,17 +10,14 @@
         expandedImage = expandedImage === target.src ? null : target.src;
     }
 
-    const imagesArray = Object.values(images);
+    // const imagesArray = Object.values(images);
+    const imagesArray = images.data;
 </script>
 
-<masonry-layout id="gallery" gap="5rem">
+<masonry-layout id="gallery" gap="5rem" maxcolwidth="1024">
     {#each imagesArray as image, i}
         <button type="button" on:click={toggleExpand}>
-            <enhanced:img
-                class="images"
-                src={image.default}
-                alt={`image-${i}`}
-            />
+            <img class="images" src={image.url} alt={image.description} />
         </button>
     {/each}
     {#if expandedImage}

@@ -3,11 +3,14 @@
     import { marked } from "marked";
     import mdContent from "$lib/texts/senior.md?raw";
     import Gallery from "$lib/gallery.svelte";
+    import blob from "$lib/images/blob.json";
 
-    const images = import.meta.glob("$lib/images/senior/*.webp", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    const images = blob.senior;
+
+    // const images = import.meta.glob("$lib/images/senior/*.webp", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
 </script>
 
 <svelte:head>

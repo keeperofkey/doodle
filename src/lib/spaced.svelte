@@ -1,0 +1,117 @@
+<script lang="ts">
+    export let images;
+    export let text;
+
+    import "@appnest/masonry-layout";
+
+    let expandedImage: string | null = null;
+
+    function toggleExpand(event: MouseEvent) {
+        const target = event.target as HTMLImageElement;
+        expandedImage = expandedImage === target.src ? null : target.src;
+    }
+
+    // const imagesArray = Object.values(images);
+    const imagesArray = images.data;
+</script>
+
+<div id="gallery">
+    <!-- <masonry-layout id="gallery" gap="5rem"> -->
+    <!-- {#each imagesArray as image, i} -->
+    <!--     <button type="button" on:click={toggleExpand}> -->
+    <!--         <img class="images" src={image.url} alt={image.description} /> -->
+    <!--     </button> -->
+    <!-- {/each} -->
+    {#each imagesArray as image, i}
+        {#if i % 2 === 0 && text[i]}
+            <button type="button" on:click={toggleExpand}>
+                <img src={image.url} alt={image.description} />
+            </button>
+            <div class="space"></div>
+            <div class="text">{text[i]}</div>
+        {:else if i % 2 !== 0 && text[i]}
+            <div class="text">{text[i]}</div>
+            <div class="space"></div>
+            <button type="button" on:click={toggleExpand}>
+                <img src={image.url} alt={image.description} />
+            </button>
+        {/if}
+    {/each}
+    {#if expandedImage}
+        <div
+            class="expanded-overlay"
+            role="button"
+            tabindex="0"
+            on:click={() => (expandedImage = null)}
+            on:keydown={() => (expandedImage = null)}
+        >
+            <img src={expandedImage} alt="expanded" />
+        </div>
+    {/if}
+    <!-- </masonry-layout> -->
+</div>
+
+<style>
+    @media screen and (max-width: 768px) {
+        #gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        /* .space { */
+        /*     display: none; */
+        /* } */
+        .text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 1rem;
+        }
+    }
+    #gallery {
+        display: grid;
+        grid-template-columns: 1fr 0.5fr 1fr;
+        z-index: 1;
+        position: relative;
+        top: 5rem;
+        pointer-events: none;
+        padding: 0.5rem;
+    }
+    img {
+        border-radius: 0.5rem;
+        max-width: 100%;
+        height: auto;
+    }
+    button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        pointer-events: auto;
+    }
+    .text {
+        font-size: 1rem;
+        font-weight: 600;
+        background-color: #ffffffcc;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        align-self: center;
+        text-align: center;
+    }
+    .expanded-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        cursor: pointer;
+    }
+    .expanded-overlay img {
+        max-width: 90vw;
+        max-height: 90vh;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+        border-radius: 0.5rem;
+    }
+</style>

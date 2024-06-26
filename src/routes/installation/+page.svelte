@@ -3,11 +3,14 @@
     import ScrollView from "$lib/scroll-view.svelte";
     import mdContent from "$lib/texts/install.md?raw";
     import Gallery from "$lib/gallery.svelte";
+    import blob from "$lib/images/blob.json";
 
-    const images = import.meta.glob("$lib/images/install/*.webp", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    const images = blob.install;
+
+    // const images = import.meta.glob("$lib/images/install/*.webp", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
     // const imageSources = imagesArray.map((image) => image.name);
 </script>
 

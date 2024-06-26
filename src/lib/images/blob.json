@@ -1,0 +1,228 @@
+{
+    "interior": {
+    "data": [
+      {
+        "name": "interior-01",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-01.webp",
+        "description": "Interior image 1"
+      },
+      {
+        "name": "interior-02",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-02.webp",
+        "description": "Interior image 2"
+      },
+      {
+        "name": "interior-03",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-03.webp",
+        "description": "Interior image 3"
+      },
+      {
+        "name": "interior-04",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-04.webp",
+        "description": "Interior image 4"
+      },
+      {
+        "name": "interior-05",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-05.webp",
+        "description": "Interior image 5"
+      },
+      {
+        "name": "interior-06",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-06.webp",
+        "description": "Interior image 6"
+      },
+      {
+        "name": "interior-07",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-07.webp",
+        "description": "Interior image 7"
+      },
+      {
+        "name": "interior-08",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-08.webp",
+        "description": "Interior image 8"
+      },
+      {
+        "name": "interior-09",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/interior/interior-09.webp",
+        "description": "Interior image 9"
+      }
+    ]
+  },
+    "joya": {
+    "data": [
+      {
+        "name": "Cans 1",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/joya/cans-1-UZQSU28Rbz61ThwSBLVX6l9UupVxLh.webp",
+        "description": "A collection of cans arranged in an artistic manner."
+      },
+      {
+        "name": "Cans 2",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/joya/cans-2-wWjA2q7rsiLJEacevw0cK8D5Y91fBq.webp",
+        "description": "A unique arrangement of cans, showcasing their shapes and colors."
+      },
+      {
+        "name": "Cans 3",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/joya/cans-3-itcvzcPvBKCYXD4WGBO9uthYKvn6Jm.webp",
+        "description": "A creative display of cans, highlighting their textures and patterns."
+      },
+      {
+        "name": "Cans 5",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/joya/cans-5-Z0ryMZsTEuc3zy7pD2yuDefdxrDdXV.webp",
+        "description": "An artistic composition of cans, showcasing their vibrant colors and shapes."
+      },
+      {
+        "name": "Cans 7",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/joya/cans-7-mARP7oTvf3pt9osNMKSbnLSy8R6Qib.webp",
+        "description": "A unique arrangement of cans, highlighting their diverse forms and textures."
+      }
+    ]
+  },
+    "senior": {
+    "data": [
+      {
+        "name": "senior-01-8wUd4ir9aLPRlHtleEK8bB19QAHZun.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-01-8wUd4ir9aLPRlHtleEK8bB19QAHZun.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-02-oeyx5Npyac0ZNM6Zb7H5pAJjE52M23.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-02-oeyx5Npyac0ZNM6Zb7H5pAJjE52M23.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-03-Ue1fNp0L3Yvel2A3VPGegpHTs7RSUS.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-03-Ue1fNp0L3Yvel2A3VPGegpHTs7RSUS.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-04-M14AoX3MxZ0drsC6jWul2Q7K7Gkb7F.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-04-M14AoX3MxZ0drsC6jWul2Q7K7Gkb7F.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-05-EQM1tDoowJd3IgcDivfNjMQPdCutTE.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-05-EQM1tDoowJd3IgcDivfNjMQPdCutTE.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-06-YoGSe3rkIdB9pdzKzyo65yzfHOjwEg.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-06-YoGSe3rkIdB9pdzKzyo65yzfHOjwEg.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-07-5doKRblJHxMOZCjm35gF2yjYoSkWxT.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-07-5doKRblJHxMOZCjm35gF2yjYoSkWxT.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-08-eZbRVBlLblpnzdjXN0Q064a8nkKoR7.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-08-eZbRVBlLblpnzdjXN0Q064a8nkKoR7.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-09-jS5eykuJCaZB0IbtcqjjMiYIOstN83.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-09-jS5eykuJCaZB0IbtcqjjMiYIOstN83.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-10-Eyo36DNZzidUSOHsZXoxLV5Rym2bsQ.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-10-Eyo36DNZzidUSOHsZXoxLV5Rym2bsQ.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-11-i6b9Nc7d3tq5IgrqLa78iDrdMrV5Mj.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-11-i6b9Nc7d3tq5IgrqLa78iDrdMrV5Mj.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-12-BbOjyHFCvxM4COzFzkvP5d0IVHw249.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-12-BbOjyHFCvxM4COzFzkvP5d0IVHw249.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-13-bgQFKVyTuv1Y2kcvt4i8yBABmVWA0o.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-13-bgQFKVyTuv1Y2kcvt4i8yBABmVWA0o.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      },
+      {
+        "name": "senior-14-1270DLPQyGUVCKl1zHCKfPR69wBGfb.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/senior/senior-14-1270DLPQyGUVCKl1zHCKfPR69wBGfb.webp",
+        "description": "Thesis installation images used to train gaussian splats 00"
+      }
+    ]
+  },
+    "install": {
+    "data": [
+      {
+        "name": "install-01",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-01-9EZuvS57CC2lUGtm0v65BxjWolZTbc.webp",
+        "description": "Mind Your Head installation image 1"
+      },
+      {
+        "name": "install-02",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-02-2ZyF4nSnxYGLFCDS1aNmEb3OYkfbsW.webp",
+        "description": "Mind Your Head installation image 2"
+      },
+      {
+        "name": "install-03",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-03-lBZggOl0mSiN1AlHYHE6Mu3nKHwEvU.webp",
+        "description": "Mind Your Head installation image 3"
+      },
+      {
+        "name": "install-04",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-04-FiwytF9HFP3AqDEkgU3oWoswic2zdf.webp",
+        "description": "Mind Your Head installation image 4"
+      },
+      {
+        "name": "install-05",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-05-mmGz4HWosMOx5xLDSLX0CBqCUUb9iW.webp",
+        "description": "Mind Your Head installation image 5"
+      },
+      {
+        "name": "install-06",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-06-8gMaT8RRc9iAhEI0nG807lg6bJYSjF.webp",
+        "description": "Mind Your Head installation image 6"
+      },
+      {
+        "name": "install-07",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-07-6umgEsfS725J1USpOo1wau73x7t4iK.webp",
+        "description": "Mind Your Head installation image 7"
+      },
+      {
+        "name": "install-08",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-08-2S5nz5FCSTeRfeyxwNYKC5gq1Jyhha.webp",
+        "description": "Mind Your Head installation image 8"
+      },
+      {
+        "name": "install-09",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-09-UWdDaclcxUb41XuWNYUvj5VQMUaZt2.webp",
+        "description": "Mind Your Head installation image 9"
+      },
+      {
+        "name": "install-10",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-10-HD6maR4HkY7inWvbJBFoNxOM1m8TDp.webp",
+        "description": "Mind Your Head installation image 10"
+      },
+      {
+        "name": "install-11",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-11-t7bqPKCPZUwq0xQqPRTtdNxYkgyH9h.webp",
+        "description": "Mind Your Head installation image 11"
+      },
+      {
+        "name": "install-12",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-12-Obv53FxH1ONcAjkmPJY83EUdewuea8.webp",
+        "description": "Mind Your Head installation image 12"
+      },
+      {
+        "name": "install-13",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-13-4MZe2qvv3cC2w2kAmF4AglP7hgq0fY.webp",
+        "description": "Mind Your Head installation image 13"
+      },
+      {
+        "name": "install-14",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-14-b7A5Y5U9IjwOCW1pTgszIARpk3WA90.webp",
+        "description": "Mind Your Head installation image 14"
+      }
+    ]
+  }
+}
