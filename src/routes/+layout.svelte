@@ -21,6 +21,7 @@
         <a href="/nomenclature">Nomenclature</a>
         <a href="/interior">Interior</a>
         <a href="/about">About</a>
+        <a href="/mkultra">mkultra</a>
     {/if}
 </nav>
 
