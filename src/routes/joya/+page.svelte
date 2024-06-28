@@ -1,10 +1,10 @@
 <script lang="ts">
     import Gsplat from "$lib/gsplat.svelte";
     import { Vector3 } from "gsplat";
-    import Overlay from "$lib/overlay.svelte";
+    // import Overlay from "$lib/overlay.svelte";
     import blob from "$lib/images/blob.json";
     // import Gallery from "$lib/gallery.svelte";
-    // import Spaced from "$lib/spaced.svelte";
+    import Spaced from "$lib/spaced.svelte";
 
     const images = blob.joya;
 
@@ -30,12 +30,12 @@
     camStart={new Vector3(0, 0, 15)}
     camTarget={new Vector3(0, 0, 0)}
 />
-<!-- <Spaced {images} {text} /> -->
+<Spaced {images} {text} />
 <div class="stage"></div>
 
 <!-- <Gallery {images} /> -->
 
-<Overlay {images} {text} />
+<!-- <Overlay {images} {text} /> -->
 
 <style>
     .stage {
