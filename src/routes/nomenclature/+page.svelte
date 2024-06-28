@@ -25,7 +25,7 @@
 </div>
 
 <div id="stage">
-    <WireScrollView modelName="senior-tetra.glb" />
+    <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
 </div>
 
 <Gallery {images} />

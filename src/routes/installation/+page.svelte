@@ -1,6 +1,6 @@
 <script lang="ts">
     // import { marked } from "marked";
-    import ScrollView from "$lib/scroll-view.svelte";
+    import WireScrollView from "$lib/wire-scroll-view.svelte";
     // import mdContent from "$lib/texts/install.md?raw";
     import Gallery from "$lib/gallery.svelte";
     import blob from "$lib/images/blob.json";
@@ -66,7 +66,7 @@
     </p>
 </main>
 <div id="stage">
-    <ScrollView modelName="mesh-one-anim-24.glb" />
+    <WireScrollView modelName="install-tetra.glb" splatName="install.splat" />
 </div>
 
 <Gallery {images} />

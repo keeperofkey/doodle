@@ -17,7 +17,7 @@
 
 <div class="container"></div>
 <Gsplat
-    modelUrl="models/splat.splat"
+    modelUrl="models/interior.splat"
     camStart={new Vector3(-8, 0, -2)}
     camTarget={new Vector3(0, 0, -1)}
 />

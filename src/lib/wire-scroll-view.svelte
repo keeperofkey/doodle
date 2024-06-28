@@ -7,15 +7,17 @@
     import { onDestroy } from "svelte";
 
     export let modelName: string;
-    let action: THREE.AnimationAction;
-    let mixer: THREE.AnimationMixer;
+    export let splatName: string;
+    const scene = new THREE.Scene();
     let camera: THREE.PerspectiveCamera;
-    let renderer: THREE.WebGLRenderer;
-    let scene = new THREE.Scene();
+    let mixer: THREE.AnimationMixer;
+    let action: THREE.AnimationAction;
+
+    const splatUrl = "models/" + splatName;
 
     // Initialize the renderer
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    let canvas = renderer.domElement;
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const canvas = renderer.domElement;
 
     // Set canvas styles
     canvas.style.display = "block";
@@ -86,7 +88,7 @@
         scene.environment = pmremGenerator.fromScene(scene).texture;
 
         // Add Gaussian Splats scene
-        viewer.addSplatScene("models/hou_splat_Senior.splat").then(() => {
+        viewer.addSplatScene(splatUrl).then(() => {
             requestAnimationFrame(animate);
         });
     }
