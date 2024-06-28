@@ -18,11 +18,12 @@
 <masonry-layout id="gallery" gap="5rem" maxcolwidth="1024">
     {#each imagesArray as image, i}
         <button type="button" on:click={toggleExpand}>
-            <enhanced:img
-                src={image.default}
-                alt={"image" + i}
-                class="images"
-            />
+            <img src={image.url} alt={image.description} class="images" />
+            <!-- <enhanced:img -->
+            <!--     src={image.default} -->
+            <!--     alt={"image" + i} -->
+            <!--     class="images" -->
+            <!-- /> -->
         </button>
     {/each}
     {#if expandedImage}
