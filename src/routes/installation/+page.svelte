@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { marked } from "marked";
+    // import { marked } from "marked";
     import ScrollView from "$lib/scroll-view.svelte";
-    import mdContent from "$lib/texts/install.md?raw";
+    // import mdContent from "$lib/texts/install.md?raw";
     import Gallery from "$lib/gallery.svelte";
     import blob from "$lib/images/blob.json";
 

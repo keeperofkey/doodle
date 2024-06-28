@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let images: Object;
+    export let images;
 
     import "@appnest/masonry-layout";
     // import { Image } from "@unpic/svelte";
@@ -11,8 +11,8 @@
         expandedImage = expandedImage === target.src ? null : target.src;
     }
 
-    const imagesArray = Object.values(images);
-    // const imagesArray = images.data;
+    // const imagesArray = Object.values(images);
+    const imagesArray = images.data;
 </script>
 
 <masonry-layout id="gallery" gap="5rem" maxcolwidth="1024">
