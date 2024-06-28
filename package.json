@@ -23,6 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"@appnest/masonry-layout": "^2.2.3",
+		"@mkkellogg/gaussian-splats-3d": "^0.4.2",
 		"@sveltejs/adapter-vercel": "^5.2.0",
 		"@types/node": "^20.12.13",
 		"@types/three": "^0.164.1",

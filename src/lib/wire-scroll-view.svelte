@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as THREE from "three";
     import { onMount } from "svelte";
-
+    import * as GaussianSplats3D from "@mkkellogg/gaussian-splats-3d";
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
     import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
     import { onDestroy } from "svelte";
@@ -13,9 +13,11 @@
     let renderer: THREE.WebGLRenderer;
     let scene = new THREE.Scene();
 
+    // Initialize the renderer
     renderer = new THREE.WebGLRenderer({ antialias: true });
     let canvas = renderer.domElement;
 
+    // Set canvas styles
     canvas.style.display = "block";
     canvas.style.width = "100%";
     canvas.style.height = "100%";
@@ -31,16 +33,25 @@
         wireframeLinewidth: 1,
     });
 
-    function init(this: any) {
-        // model
+    // Initialize the Gaussian Splats viewer
+    const viewer = new GaussianSplats3D.Viewer({
+        renderer: renderer,
+        threeScene: scene,
+        selfDrivenMode: true,
+        sharedMemoryForWorkers: false,
+    });
+
+    function init() {
+        // Load the GLTF model
         new GLTFLoader()
             .setPath("models/")
             .setMeshoptDecoder(MeshoptDecoder)
-            .load(modelName, function (gltf: any) {
+            .load(modelName, (gltf: any) => {
                 // gltf.scene.up.set(0, 1, 0);
 
                 const anim = gltf.animations;
                 camera = gltf.cameras[0];
+                viewer.camera = camera;
                 mixer = new THREE.AnimationMixer(gltf);
                 action = mixer.clipAction(anim[0], camera);
                 const model = gltf.scene.children[0];
@@ -50,18 +61,22 @@
 
                 action.play();
                 action.paused = true;
-                document.addEventListener("scroll", onScroll);
-                window.addEventListener("resize", onWindowResize);
                 scene.add(gltf.scene);
                 animate();
             });
 
+        // Add event listeners for scroll and window resize
+        document.addEventListener("scroll", onScroll);
+        window.addEventListener("resize", onWindowResize);
+
+        // Set renderer properties
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
         document.body.appendChild(canvas);
 
+        // Set up lighting and environment
         const pmremGenerator = new THREE.PMREMGenerator(renderer);
         const light = new THREE.AmbientLight();
         light.position.set(0, 0, 0);
@@ -69,6 +84,11 @@
 
         scene.background = new THREE.Color(0xf5f5f5f5);
         scene.environment = pmremGenerator.fromScene(scene).texture;
+
+        // Add Gaussian Splats scene
+        viewer.addSplatScene("models/hou_splat_Senior.splat").then(() => {
+            requestAnimationFrame(animate);
+        });
     }
 
     function onScroll() {
@@ -78,7 +98,7 @@
             let scroll =
                 window.scrollY /
                 (stageElement.scrollHeight - window.innerHeight);
-            // Clamp scroll position (0-1) insures you dont go out of animation bounds
+            // Clamp scroll position (0-1) insures you don't go out of animation bounds
             const clamp = (num: number, min: number, max: number) =>
                 Math.min(Math.max(num, min), max);
             scroll = clamp(scroll, 0, 0.99);
@@ -86,24 +106,6 @@
             action.time = scroll * action.getClip().duration;
         }
     }
-    // let internalId: number;
-    //
-    // function onMouseDown() {
-    //     // console.log('mouse down')
-    //     internalId = setInterval(() => {
-    //         if (scene.environment) {
-    //         }
-    //     }, 25);
-    // }
-    //
-    // function onMouseUp() {
-    //     // console.log('mouse up')
-    //     model.rotation.set(0, 0, 0);
-    //     clearInterval(internalId);
-    // }
-    //
-    // window.addEventListener("mousedown", onMouseDown);
-    // window.addEventListener("mouseup", onMouseUp);
 
     function onWindowResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -111,8 +113,6 @@
 
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
-
-    //
 
     function animate() {
         requestAnimationFrame(animate);
@@ -128,10 +128,14 @@
 
     function render() {
         renderer.render(scene, camera);
+        viewer.update();
+        viewer.render();
     }
+
     onMount(() => {
         init();
     });
+
     onDestroy(() => {
         renderer.dispose();
         canvas.remove();
