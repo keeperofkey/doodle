@@ -26,6 +26,7 @@
 		"@sveltejs/adapter-vercel": "^5.2.0",
 		"@types/node": "^20.12.13",
 		"@types/three": "^0.164.1",
+		"@unpic/svelte": "^0.0.53",
 		"@vercel/blob": "^0.23.3",
 		"all-the-package-names": "^2.0.1561",
 		"bigger-picture": "^1.1.17",

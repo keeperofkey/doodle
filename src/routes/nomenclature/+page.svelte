@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ScrollView from "$lib/scroll-view.svelte";
+    import WireScrollView from "$lib/wire-scroll-view.svelte";
     import { marked } from "marked";
     import mdContent from "$lib/texts/senior.md?raw";
     import Gallery from "$lib/gallery.svelte";
@@ -25,7 +25,7 @@
 </div>
 
 <div id="stage">
-    <ScrollView modelName="senior-anim-24.glb" />
+    <WireScrollView modelName="senior-tetra.glb" />
 </div>
 
 <Gallery {images} />
