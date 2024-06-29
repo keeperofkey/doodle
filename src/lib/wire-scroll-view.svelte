@@ -97,7 +97,7 @@
         scene.environment = pmremGenerator.fromScene(scene).texture;
 
         // Add Gaussian Splats scene
-        viewer.addSplatScene(splatUrl).then(() => {
+        viewer.addSplatScene(splatUrl, { showLoadingUI: false }).then(() => {
             requestAnimationFrame(animate);
         });
     }
