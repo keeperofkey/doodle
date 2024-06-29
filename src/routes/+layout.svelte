@@ -1,11 +1,11 @@
 <script lang="ts">
     let isOpen = false;
     let icon = "\u{1d303}";
-    let moreIcon = "";
+    let moreIcon = "\u{1F783}";
     let more = false;
     function toggleMore() {
         more = !more;
-        moreIcon = more ? "" : "";
+        moreIcon = more ? "\u{1F781}" : "\u{1F783}";
     }
 
     function toggleMenu() {
@@ -51,36 +51,39 @@
     .dropdown {
         position: relative;
         display: inline-block;
-        border-radius: 0.5rem;
+        white-space: nowrap;
     }
 
     .dropdown-content {
-        display: none;
+        display: flex;
         position: absolute;
         background-color: #f9f9f9;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        right: 0;
+        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
         z-index: 1;
         border-radius: 0.5rem;
     }
 
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        border-radius: 0.5rem;
-    }
-
-    .dropdown-content a:hover {
-        background-color: #f1f1f1;
-        border-radius: 0.5rem;
-    }
-
-    .dropdown:hover .dropdown-content {
-        display: block;
-        border-radius: 0.5rem;
-    }
+    /* .dropdown-content a { */
+    /*     color: #333333; */
+    /*     display: block; */
+    /*     text-decoration: none; */
+    /*     font-family: monospace; */
+    /*     font-size: 1rem; */
+    /*     font-weight: bold; */
+    /*     text-align: center; */
+    /*     padding: 0.5rem; */
+    /*     margin: 0.5rem; */
+    /* } */
+    /**/
+    /* .dropdown-content a:hover { */
+    /*     background-color: #f1f1f1; */
+    /* } */
+    /**/
+    /* .dropdown:hover .dropdown-content { */
+    /*     display: flex; */
+    /*     border-radius: 0rem 0rem 0.5rem 0.5rem; */
+    /* } */
 
     nav {
         background: #ffffff;

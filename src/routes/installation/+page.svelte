@@ -3,6 +3,7 @@
     import WireScrollView from "$lib/wire-scroll-view.svelte";
     // import mdContent from "$lib/texts/install.md?raw";
     import Gallery from "$lib/gallery.svelte";
+    import Return from "$lib/return.svelte";
     import blob from "$lib/images/blob.json";
 
     const images = blob.install;
@@ -104,6 +105,7 @@
 </div>
 
 <Gallery {images} />
+<Return />
 
 <style>
     #stage {

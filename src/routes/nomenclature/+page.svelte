@@ -3,6 +3,7 @@
     import { marked } from "marked";
     import mdContent from "$lib/texts/senior.md?raw";
     import Gallery from "$lib/gallery.svelte";
+    import Return from "$lib/return.svelte";
     import blob from "$lib/images/blob.json";
 
     const images = blob.senior;
@@ -20,6 +21,11 @@
         content="Thesis Installation reconstructed with Houdini and Light Fields"
     />
 </svelte:head>
+
+<div id="stage">
+    <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
+</div>
+
 <div class="texts">
     <!-- {@html marked.parse(mdContent)} -->
 
@@ -59,23 +65,15 @@
         Scroll through Nomenclature, a digital adaptation, and change your
         relationship with the words that shape your reality.
     </p>
-    <p style="text-align: center;"></p>
 </div>
-
-<div id="stage">
-    <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
-</div>
-
 <Gallery {images} />
+<Return />
 
 <style>
     #stage {
         height: 600dvh;
     }
     .texts {
-        position: absolute;
-        top: 4rem;
-        right: 0;
         margin: 1rem;
         padding: 0.3rem 1rem;
         background-color: #ffffffcc;
