@@ -141,5 +141,6 @@
     onDestroy(() => {
         renderer.dispose();
         canvas.remove();
+        viewer.dispose();
     });
 </script>

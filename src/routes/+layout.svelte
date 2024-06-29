@@ -1,15 +1,23 @@
 <script lang="ts">
     let isOpen = false;
+    let icon = "\u{1d303}";
+    let moreIcon = "";
+    let more = false;
+    function toggleMore() {
+        more = !more;
+        moreIcon = more ? "" : "";
+    }
 
     function toggleMenu() {
         isOpen = !isOpen;
-        if (isOpen) {
-            icon = "\u{1D301}";
-        } else {
-            icon = "\u{1d303}";
-        }
+        icon = isOpen ? "\u{1D301}" : "\u{1d303}";
     }
-    let icon = "\u{2630}";
+    // function handlePageChange(event: any) {
+    //     const selectedPage = event.target.value;
+    //     if (selectedPage) {
+    //         document.location.href = selectedPage;
+    //     }
+    // }
 </script>
 
 <nav>
@@ -17,16 +25,63 @@
     {#if isOpen}
         <a href="/">Home</a>
         <a href="/installation">Mind your head</a>
-        <a href="/joya">Joya: AiR</a>
+        <!-- <a href="/joya">Joya: AiR</a> -->
         <a href="/nomenclature">Nomenclature</a>
         <a href="/interior">Interior</a>
-        <a href="/about">About</a>
+        <!-- <a href="/about">About</a> -->
+        <div class="dropdown">
+            <button on:click={toggleMore}>{moreIcon}</button>
+            {#if more}
+                <div class="dropdown-content">
+                    <!-- <a href="/">Home</a> -->
+                    <!-- <a href="/installation">Mind your head</a> -->
+                    <!-- <a href="/joya">Joya: AiR</a> -->
+                    <!-- <a href="/nomenclature">Nomenclature</a> -->
+                    <!-- <a href="/interior">Interior</a> -->
+                    <a href="/about">About</a>
+                </div>
+            {/if}
+        </div>
     {/if}
 </nav>
 
 <slot />
 
 <style>
+    .dropdown {
+        position: relative;
+        display: inline-block;
+        border-radius: 0.5rem;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 0.5rem;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        border-radius: 0.5rem;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        border-radius: 0.5rem;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        border-radius: 0.5rem;
+    }
+
     nav {
         background: #ffffff;
         border-radius: 0.5rem;
@@ -45,8 +100,6 @@
         cursor: pointer;
         border: none;
         background: none;
-        /* justify-self: center; */
-        /* align-self: center; */
         padding: 1rem;
     }
 
@@ -73,7 +126,6 @@
         nav {
             flex-direction: row;
             align-items: center;
-            /* height: 3rem; */
         }
     }
 </style>

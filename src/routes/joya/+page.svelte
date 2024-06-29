@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Gsplat from "$lib/gsplat.svelte";
+    // import Gsplat from "$lib/gsplat.svelte";
     import { Vector3 } from "gsplat";
     // import Overlay from "$lib/overlay.svelte";
     import blob from "$lib/images/blob.json";
@@ -25,11 +25,11 @@
     <title>Liam Dodd - Joya: Artist in Residence</title>
     <meta name="description" content="Images and model from Joya:AiR" />
 </svelte:head>
-<Gsplat
-    modelUrl="models/cans.splat"
-    camStart={new Vector3(0, 0, 15)}
-    camTarget={new Vector3(0, 0, 0)}
-/>
+<!-- <Gsplat -->
+<!--     modelUrl="models/cans.splat" -->
+<!--     camStart={new Vector3(0, 0, 15)} -->
+<!--     camTarget={new Vector3(0, 0, 0)} -->
+<!-- /> -->
 <Spaced {images} {text} />
 <div class="stage"></div>
 

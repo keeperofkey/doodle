@@ -1,6 +1,7 @@
 <script lang="ts">
-    import Gsplat from "$lib/gsplat.svelte";
-    import { Vector3 } from "gsplat";
+    // import Gsplat from "$lib/gsplat.svelte";
+    // import { Vector3 } from "gsplat";
+    import WireScrollView from "$lib/wire-scroll-view.svelte";
     import Gallery from "$lib/gallery.svelte";
     import blob from "$lib/images/blob.json";
     const images = blob.interior;
@@ -15,21 +16,24 @@
     <meta name="description" content="Gaussian Splatting" />
 </svelte:head>
 
-<div class="container"></div>
-<Gsplat
-    modelUrl="models/interior.splat"
-    camStart={new Vector3(-8, 0, -2)}
-    camTarget={new Vector3(0, 0, -1)}
-/>
+<div id="stage">
+    <WireScrollView
+        modelName="interior-tera-pack.glb"
+        splatName="interior.splat"
+    />
+</div>
+<!-- <Gsplat -->
+<!--     modelUrl="models/interior.splat" -->
+<!--     camStart={new Vector3(-8, 0, -2)} -->
+<!--     camTarget={new Vector3(0, 0, -1)} -->
+<!-- /> -->
 
 <Gallery {images} />
-<div class="stage"></div>
+
+<!-- <div class="stage"></div> -->
 
 <style>
-    .container {
-        height: 80vh;
-    }
-    .stage {
-        height: 100vh;
+    #stage {
+        height: 600vh;
     }
 </style>

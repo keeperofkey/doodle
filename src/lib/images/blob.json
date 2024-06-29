@@ -155,73 +155,53 @@
     "data": [
       {
         "name": "install-01",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-01-9EZuvS57CC2lUGtm0v65BxjWolZTbc.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-001.webp",
         "description": "Mind Your Head installation image 1"
       },
       {
         "name": "install-02",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-02-2ZyF4nSnxYGLFCDS1aNmEb3OYkfbsW.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-002.webp",
         "description": "Mind Your Head installation image 2"
       },
       {
         "name": "install-03",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-03-lBZggOl0mSiN1AlHYHE6Mu3nKHwEvU.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-003.webp",
         "description": "Mind Your Head installation image 3"
       },
       {
         "name": "install-04",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-04-FiwytF9HFP3AqDEkgU3oWoswic2zdf.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-004.webp",
         "description": "Mind Your Head installation image 4"
       },
       {
         "name": "install-05",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-05-mmGz4HWosMOx5xLDSLX0CBqCUUb9iW.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-005.webp",
         "description": "Mind Your Head installation image 5"
       },
       {
         "name": "install-06",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-06-8gMaT8RRc9iAhEI0nG807lg6bJYSjF.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-006.webp",
         "description": "Mind Your Head installation image 6"
       },
       {
         "name": "install-07",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-07-6umgEsfS725J1USpOo1wau73x7t4iK.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-007.webp",
         "description": "Mind Your Head installation image 7"
       },
       {
         "name": "install-08",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-08-2S5nz5FCSTeRfeyxwNYKC5gq1Jyhha.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-008.webp",
         "description": "Mind Your Head installation image 8"
       },
       {
         "name": "install-09",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-09-UWdDaclcxUb41XuWNYUvj5VQMUaZt2.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-009.webp",
         "description": "Mind Your Head installation image 9"
       },
       {
         "name": "install-10",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-10-HD6maR4HkY7inWvbJBFoNxOM1m8TDp.webp",
+        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install-010.webp",
         "description": "Mind Your Head installation image 10"
-      },
-      {
-        "name": "install-11",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-11-t7bqPKCPZUwq0xQqPRTtdNxYkgyH9h.webp",
-        "description": "Mind Your Head installation image 11"
-      },
-      {
-        "name": "install-12",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-12-Obv53FxH1ONcAjkmPJY83EUdewuea8.webp",
-        "description": "Mind Your Head installation image 12"
-      },
-      {
-        "name": "install-13",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-13-4MZe2qvv3cC2w2kAmF4AglP7hgq0fY.webp",
-        "description": "Mind Your Head installation image 13"
-      },
-      {
-        "name": "install-14",
-        "url": "https://ldbzzhbnngpreksj.public.blob.vercel-storage.com/install/install-14-b7A5Y5U9IjwOCW1pTgszIARpk3WA90.webp",
-        "description": "Mind Your Head installation image 14"
       }
     ]
   }
