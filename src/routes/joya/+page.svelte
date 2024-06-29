@@ -1,15 +1,15 @@
 <script lang="ts">
-    // import blob from "$lib/images/blob.json";
+    import blob from "$lib/images/blob.json";
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import Gallery from "$lib/gallery.svelte";
+    import GalleryBlob from "$lib/gallery-blob.svelte";
     import Return from "$lib/return.svelte";
 
-    // const images = blob.joya;
+    const images = blob.joya;
 
-    const images = import.meta.glob("$lib/images/cans/*.webp", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    // const images = import.meta.glob("$lib/images/cans/*.webp", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
 </script>
 
 <svelte:head>
@@ -49,7 +49,7 @@
     </p>
 </main>
 
-<Gallery {images} />
+<GalleryBlob {images} />
 <Return />
 
 <!-- <Overlay {images} {text} /> -->

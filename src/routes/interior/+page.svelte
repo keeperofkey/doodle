@@ -1,13 +1,13 @@
 <script lang="ts">
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import Gallery from "$lib/gallery.svelte";
+    import GalleryBlob from "$lib/gallery-blob.svelte";
     import Return from "$lib/return.svelte";
-    // import blob from "$lib/images/blob.json";
-    // const images = blob.interior;
-    const images = import.meta.glob("$lib/images/interior/*.webp", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    import blob from "$lib/images/blob.json";
+    const images = blob.interior;
+    // const images = import.meta.glob("$lib/images/interior/*.webp", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
 </script>
 
 <svelte:head>
@@ -22,7 +22,7 @@
     />
 </div>
 
-<Gallery {images} />
+<GalleryBlob {images} />
 <Return />
 
 <style>

@@ -1,15 +1,14 @@
 <script lang="ts">
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import Gallery from "$lib/gallery.svelte";
+    import GalleryBlob from "$lib/gallery-blob.svelte";
     import Return from "$lib/return.svelte";
-    // import blob from "$lib/images/blob.json";
+    import blob from "$lib/images/blob.json";
+    const images = blob.senior;
 
-    // const images = blob.senior;
-
-    const images = import.meta.glob("$lib/images/senior/*.webp", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    // const images = import.meta.glob("$lib/images/senior/*.webp", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
 </script>
 
 <svelte:head>
@@ -61,7 +60,7 @@
         relationship with the words that shape your reality.
     </p>
 </main>
-<Gallery {images} />
+<GalleryBlob {images} />
 <Return />
 
 <style>
