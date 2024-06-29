@@ -2,7 +2,6 @@
     export let images;
 
     import "@appnest/masonry-layout";
-    // import { Image } from "@unpic/svelte";
 
     let expandedImage: string | null = null;
 
@@ -12,6 +11,7 @@
     }
 
     // const imagesArray = Object.values(images);
+
     const imagesArray = images.data;
 </script>
 
@@ -19,11 +19,6 @@
     {#each imagesArray as image, i}
         <button type="button" on:click={toggleExpand}>
             <img src={image.url} alt={image.description} class="images" />
-            <!-- <enhanced:img -->
-            <!--     src={image.default} -->
-            <!--     alt={"image" + i} -->
-            <!--     class="images" -->
-            <!-- /> -->
         </button>
     {/each}
     {#if expandedImage}
