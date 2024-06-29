@@ -35,7 +35,7 @@
                 <div class="dropdown-content">
                     <!-- <a href="/">Home</a> -->
                     <!-- <a href="/installation">Mind your head</a> -->
-                    <!-- <a href="/joya">Joya: AiR</a> -->
+                    <a href="/joya">Joya: AiR</a>
                     <!-- <a href="/nomenclature">Nomenclature</a> -->
                     <!-- <a href="/interior">Interior</a> -->
                     <a href="/about">About</a>

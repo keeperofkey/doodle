@@ -32,7 +32,7 @@
 <!--     camTarget={new Vector3(0, 0, 0)} -->
 <!-- /> -->
 <!-- <Spaced {images} {text} /> -->
-<div class="stage">
+<div id="stage">
     <WireScrollView modelName="joya.glb" splatName="joya.splat" />
 </div>
 
@@ -41,10 +41,7 @@
 <!-- <Overlay {images} {text} /> -->
 
 <style>
-    .stage {
-        width: 100%;
-        height: 100dvh;
-        top: 0;
-        left: 0;
+    #stage {
+        height: 600dvh;
     }
 </style>
