@@ -1,5 +1,5 @@
 <script lang="ts">
-    let isOpen = false;
+    let isOpen = true;
     let icon = "\u{1d303}";
     let moreIcon = "\u{1F783}";
     let more = false;
@@ -10,7 +10,7 @@
 
     function toggleMenu() {
         isOpen = !isOpen;
-        icon = isOpen ? "\u{1D301}" : "\u{1d303}";
+        icon = isOpen ? "\u{1d303}" : "\u{1D301}";
     }
     // function handlePageChange(event: any) {
     //     const selectedPage = event.target.value;
