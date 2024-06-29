@@ -4,6 +4,7 @@
     import mdContent from "$lib/texts/senior.md?raw";
     import Gallery from "$lib/gallery.svelte";
     import Return from "$lib/return.svelte";
+    import Start from "$lib/start.svelte";
     import blob from "$lib/images/blob.json";
 
     const images = blob.senior;
@@ -21,7 +22,7 @@
         content="Thesis Installation reconstructed with Houdini and Light Fields"
     />
 </svelte:head>
-
+<Start />
 <div id="stage">
     <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
 </div>
