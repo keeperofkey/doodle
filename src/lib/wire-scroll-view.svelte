@@ -5,6 +5,9 @@
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
     import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
     import { onDestroy } from "svelte";
+    import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+    let controls: any;
 
     export let modelName: string;
     export let splatName: string;
@@ -95,6 +98,12 @@
         scene.background = new THREE.Color(0xf5f5f5f5);
         scene.environment = pmremGenerator.fromScene(scene).texture;
 
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enabled = false; // Disable controls initially
+
+        canvas.addEventListener("click", () => {
+            controls.enabled = !controls.enabled; // Toggle controls on click
+        });
         // Add Gaussian Splats scene
         viewer.addSplatScene(splatUrl).then(() => {
             requestAnimationFrame(animate);
@@ -132,6 +141,9 @@
         const delta = Clock.getDelta();
 
         mixer.update(delta);
+        if (controls.enabled) {
+            controls.update(); // Update controls if enabled
+        }
 
         // controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
 
