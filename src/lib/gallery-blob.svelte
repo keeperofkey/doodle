@@ -1,7 +1,8 @@
 <script lang="ts">
-    export let images: Object;
+    export let images;
 
     import "@appnest/masonry-layout";
+    // import { Image } from "@unpic/svelte";
 
     let expandedImage: string | null = null;
 
@@ -10,17 +11,19 @@
         expandedImage = expandedImage === target.src ? null : target.src;
     }
 
-    const imagesArray = Object.values(images);
+    // const imagesArray = Object.values(images);
+    const imagesArray = images.data;
 </script>
 
 <masonry-layout id="gallery" gap="5rem" maxcolwidth="1024">
     {#each imagesArray as image, i}
         <button type="button" on:click={toggleExpand}>
-            <enhanced:img
-                src={image.default}
-                alt={"image" + i}
-                class="images"
-            />
+            <img src={image.url} alt={image.description} class="images" />
+            <!-- <enhanced:img -->
+            <!--     src={image.default} -->
+            <!--     alt={"image" + i} -->
+            <!--     class="images" -->
+            <!-- /> -->
         </button>
     {/each}
     {#if expandedImage}

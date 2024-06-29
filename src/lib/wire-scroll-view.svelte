@@ -8,10 +8,18 @@
 
     export let modelName: string;
     export let splatName: string;
+    let shouldRender = false;
     const scene = new THREE.Scene();
     let camera: THREE.PerspectiveCamera;
-    let mixer: THREE.AnimationMixer;
-    let action: THREE.AnimationAction;
+    let mixer: any;
+    let anim: any;
+
+    let action: any;
+    $: if (action) {
+        // Add event listeners when action is assigned
+        document.addEventListener("scroll", onScroll);
+        window.addEventListener("resize", onWindowResize);
+    }
 
     const splatUrl = "models/" + splatName;
 
@@ -51,7 +59,7 @@
             .load(modelName, (gltf: any) => {
                 // gltf.scene.up.set(0, 1, 0);
 
-                const anim = gltf.animations;
+                anim = gltf.animations;
                 camera = gltf.cameras[0];
                 viewer.camera = camera;
                 mixer = new THREE.AnimationMixer(gltf);
@@ -68,8 +76,8 @@
             });
 
         // Add event listeners for scroll and window resize
-        document.addEventListener("scroll", onScroll);
-        window.addEventListener("resize", onWindowResize);
+        // document.addEventListener("scroll", onScroll);
+        // window.addEventListener("resize", onWindowResize);
 
         // Set renderer properties
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -106,6 +114,7 @@
             scroll = clamp(scroll, 0, 0.99);
             // Set the animation time to the scroll position mapped to the animation duration
             action.time = scroll * action.getClip().duration;
+            shouldRender = true;
         }
     }
 
@@ -114,6 +123,7 @@
         camera.updateProjectionMatrix();
 
         renderer.setSize(window.innerWidth, window.innerHeight);
+        shouldRender = true;
     }
 
     function animate() {
@@ -125,7 +135,11 @@
 
         // controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
 
-        render();
+        if (shouldRender) {
+            render();
+            shouldRender = false;
+        }
+        // render();
     }
 
     function render() {
@@ -136,6 +150,7 @@
 
     onMount(() => {
         init();
+        shouldRender = true;
     });
 
     onDestroy(() => {

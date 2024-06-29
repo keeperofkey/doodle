@@ -1,4 +1,5 @@
 <script lang="ts">
+    import "../app.css";
     let isOpen = true;
     let icon = "\u{1d303}";
     let moreIcon = "\u{1F783}";
@@ -36,78 +37,3 @@
 </nav>
 
 <slot />
-
-<style>
-    .dropdown {
-        display: grid;
-        white-space: nowrap;
-        grid-auto-flow: row;
-    }
-    .dropdown button {
-        font-size: 1rem;
-        cursor: pointer;
-        border: none;
-        margin: 0.5rem;
-        padding: 0.5rem;
-    }
-
-    .dropdown-content {
-        display: grid;
-        background-color: #ffffff;
-        z-index: 1;
-        border-radius: 0.5rem;
-        grid-auto-flow: row;
-    }
-
-    nav {
-        background: #ffffff;
-        border-radius: 0.5rem;
-        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-        position: fixed;
-        pointer-events: auto;
-        z-index: 999;
-        display: grid;
-        grid-auto-flow: row;
-        /* flex-direction: column; */
-        align-items: center;
-        margin: 1rem;
-    }
-
-    nav button {
-        font-size: 1rem;
-        cursor: pointer;
-        border: none;
-        background: none;
-        padding: 1rem;
-    }
-
-    nav a {
-        color: #333333;
-        text-decoration: none;
-        font-family: monospace;
-        font-size: 1rem;
-        font-weight: bold;
-        padding: 0.5rem;
-        margin: 0.5rem;
-    }
-
-    nav a:hover {
-        background: #eeeeee;
-        border-radius: 0.25rem;
-    }
-    nav button:hover {
-        background: #eeeeee;
-        border-radius: 0.25rem;
-    }
-    @media screen and (min-width: 769px) {
-        nav {
-            grid-auto-flow: column;
-        }
-        .dropdown-content {
-            grid-auto-flow: column;
-        }
-        .dropdown {
-            grid-auto-flow: column;
-        }
-    }
-</style>

@@ -1,17 +1,15 @@
 <script lang="ts">
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import { marked } from "marked";
-    import mdContent from "$lib/texts/senior.md?raw";
     import Gallery from "$lib/gallery.svelte";
     import Return from "$lib/return.svelte";
-    import blob from "$lib/images/blob.json";
+    // import blob from "$lib/images/blob.json";
 
-    const images = blob.senior;
+    // const images = blob.senior;
 
-    // const images = import.meta.glob("$lib/images/senior/*.webp", {
-    //     eager: true,
-    //     query: { enhanced: true },
-    // });
+    const images = import.meta.glob("$lib/images/senior/*.webp", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <svelte:head>
@@ -25,9 +23,7 @@
     <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
 </div>
 
-<div class="texts">
-    <!-- {@html marked.parse(mdContent)} -->
-
+<main class="texts">
     <h1>Nomenclature</h1>
 
     <h2>Seeing Is Forgetting the Name</h2>
@@ -64,7 +60,7 @@
         Scroll through Nomenclature, a digital adaptation, and change your
         relationship with the words that shape your reality.
     </p>
-</div>
+</main>
 <Gallery {images} />
 <Return />
 
