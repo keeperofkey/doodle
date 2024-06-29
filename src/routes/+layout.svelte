@@ -109,8 +109,8 @@
         font-family: monospace;
         font-size: 1rem;
         font-weight: bold;
-        justify-self: center;
-        padding: 1rem;
+        padding: 0.5rem;
+        margin: 0.5rem;
         align-self: center;
     }
 
