@@ -45,6 +45,7 @@
 
     // Initialize the Gaussian Splats viewer
     const viewer = new GaussianSplats3D.Viewer({
+        useBuiltInControls: false,
         renderer: renderer,
         threeScene: scene,
         selfDrivenMode: true,
