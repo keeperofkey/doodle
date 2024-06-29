@@ -5,6 +5,7 @@
     import Gallery from "$lib/gallery.svelte";
     import Return from "$lib/return.svelte";
     import blob from "$lib/images/blob.json";
+    import Start from "$lib/start.svelte";
 
     const images = blob.install;
 
@@ -23,7 +24,11 @@
 <!-- <div class="texts"> -->
 <!--     {@html marked.parse(mdContent)} -->
 <!-- </div> -->
+<Start />
 
+<div id="stage">
+    <WireScrollView modelName="install-tetra.glb" splatName="install.splat" />
+</div>
 <main class="texts">
     <h1>Mind Your Head</h1>
 
@@ -98,11 +103,7 @@
         offers a sanctuary for introspection and a reminder to be mindful of the
         present moment, to embrace the beauty that surrounds us.
     </p>
-    <p style="text-align: center;"></p>
 </main>
-<div id="stage">
-    <WireScrollView modelName="install-tetra.glb" splatName="install.splat" />
-</div>
 
 <Gallery {images} />
 <Return />
@@ -115,8 +116,6 @@
         pointer-events: auto;
     }
     .texts {
-        position: absolute;
-        top: 4rem;
         margin: 1rem;
         padding: 1rem;
         background-color: #ffffffcc;

@@ -6,6 +6,7 @@
     import WireScrollView from "$lib/wire-scroll-view.svelte";
     import Gallery from "$lib/gallery.svelte";
     import Return from "$lib/return.svelte";
+    import Start from "$lib/start.svelte";
     // import Spaced from "$lib/spaced.svelte";
 
     const images = blob.joya;
@@ -27,6 +28,7 @@
     <title>Liam Dodd - Joya: Artist in Residence</title>
     <meta name="description" content="Images and model from Joya:AiR" />
 </svelte:head>
+<Start />
 <!-- <Gsplat -->
 <!--     modelUrl="models/cans.splat" -->
 <!--     camStart={new Vector3(0, 0, 15)} -->
