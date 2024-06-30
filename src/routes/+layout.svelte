@@ -1,12 +1,27 @@
 <script lang="ts">
     import "../app.css";
-    let isOpen = true;
+    import { onMount } from "svelte";
+
+    let isOpen: Boolean;
+
+    onMount(() => {
+        const handleResize = () => {
+            isOpen = window.innerWidth >= 768; // Adjust the breakpoint as needed
+        };
+
+        handleResize(); // Set initial value
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    });
     let icon = "\u{1d303}";
     let moreIcon = "\u{2BC6}";
     let more = false;
     function toggleMore() {
         more = !more;
-        moreIcon = more ? "\u{2BC6}" : "\u{2BC5}";
+        moreIcon = more ? "\u{2BC8}" : "\u{2BC6}";
     }
 
     function toggleMenu() {
