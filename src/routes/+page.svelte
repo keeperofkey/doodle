@@ -7,19 +7,11 @@
     <meta name="description" content="Welcome to my website!" />
 </svelte:head>
 
-<div class="container">
-    <object title="Welcome" type="image/svg+xml" data={welcome} />
+<div class="flex flex-col items-center justify-center h-screen">
+    <object
+        class="p-5 w-dvw h-dvw"
+        title="Welcome"
+        type="image/svg+xml"
+        data={welcome}
+    />
 </div>
-
-<style>
-    .container {
-        display: grid;
-        height: 100dvh;
-        justify-content: center;
-        margin: 0 1rem;
-    }
-    .container object {
-        align-self: center;
-        width: 100%;
-    }
-</style>
