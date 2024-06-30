@@ -25,7 +25,7 @@
         <a href="/interior">Interior</a>
         <!-- <a href="/about">About</a> -->
         <button on:click={toggleMore}>{moreIcon}</button>
-        <div class="{more ? '' : 'hidden'} grid grid-flow-row sm:grid-flow-row">
+        <div class="{more ? '' : 'hidden'} grid grid-flow-row sm:grid-flow-col">
             <a href="/joya">Joya: AiR</a>
             <a href="/about">About</a>
         </div>
