@@ -41,9 +41,10 @@
         position: relative;
     }
     .images {
-        border-radius: 0.5rem;
+        border-radius: 1rem;
         max-width: 100%;
         height: auto;
+        padding: 0.5rem;
     }
     button {
         background: none;
