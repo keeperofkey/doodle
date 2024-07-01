@@ -1,7 +1,7 @@
 <script lang="ts">
     import "../app.css";
     import { onMount } from "svelte";
-    // import { page } from "$app/stores";
+    import { page } from "$app/stores";
     import Return from "$lib/return.svelte";
     import { dev } from "$app/environment";
     import { inject } from "@vercel/analytics";
@@ -9,6 +9,10 @@
     inject({ mode: dev ? "development" : "production" });
 
     let isOpen: Boolean;
+    // let home = false;
+    const home = $page;
+
+    console.log(home);
 
     onMount(() => {
         const handleResize = () => {
@@ -40,7 +44,7 @@
 <!--     <title>{$page.data.title}</title> -->
 <!-- </svelte:head> -->
 <nav
-    class="bg-white rounded-lg shadow-md fixed pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
+    class="bg-white rounded-lg shadow-md fixed max-w-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
     <button
         class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
@@ -85,4 +89,6 @@
 </nav>
 
 <slot />
-<Return />
+{#if $page.route.id !== "/"}
+    <Return />
+{/if}

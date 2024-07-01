@@ -7,9 +7,9 @@
     <meta name="description" content="Welcome to my website!" />
 </svelte:head>
 
-<div class="flex flex-col items-center justify-center h-screen">
+<div class="grid grid-cols-1 justify-items-center items-center h-dvh">
     <object
-        class="p-5 w-dvw h-dvw"
+        class="p-5 w-dvw"
         title="Welcome"
         type="image/svg+xml"
         data={welcome}
