@@ -21,7 +21,7 @@
     <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
 </div>
 
-<main class="texts">
+<main class="px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl">
     <h1>Nomenclature</h1>
 
     <h2>Seeing Is Forgetting the Name</h2>
@@ -64,13 +64,5 @@
 <style>
     #stage {
         height: 600dvh;
-    }
-    .texts {
-        margin: 1rem;
-        padding: 0.3rem 1rem;
-        background-color: #ffffffcc;
-        border-radius: 1rem;
-        /* max-width: 30%; */
-        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     }
 </style>
