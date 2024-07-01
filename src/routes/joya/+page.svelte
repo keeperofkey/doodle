@@ -1,14 +1,14 @@
 <script lang="ts">
-    import blob from "$lib/images/blob.json";
     import WireScrollView from "$lib/wire-scroll-view.svelte";
     import Gallery from "$lib/gallery.svelte";
 
-    const images = blob.joya;
+    // import blob from "$lib/images/blob.json";
+    // const images = blob.joya;
 
-    // const images = import.meta.glob("$lib/images/cans/*.webp", {
-    //     eager: true,
-    //     query: { enhanced: true },
-    // });
+    const images = import.meta.glob("$lib/images/cans/*.webp", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <svelte:head>

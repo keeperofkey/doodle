@@ -3,7 +3,6 @@
     import Gallery from "$lib/gallery.svelte";
 
     // import blob from "$lib/images/blob.json";
-
     // const images = blob.install;
 
     const images = import.meta.glob("$lib/images/install/*.avif", {
