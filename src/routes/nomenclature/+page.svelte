@@ -1,7 +1,6 @@
 <script lang="ts">
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import GalleryBlob from "$lib/gallery-blob.svelte";
-    import Return from "$lib/return.svelte";
+    import Gallery from "$lib/gallery.svelte";
     import blob from "$lib/images/blob.json";
     const images = blob.senior;
 
@@ -60,8 +59,7 @@
         relationship with the words that shape your reality.
     </p>
 </main>
-<GalleryBlob {images} />
-<Return />
+<Gallery {images} />
 
 <style>
     #stage {

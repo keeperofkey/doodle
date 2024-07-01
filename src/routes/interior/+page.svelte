@@ -1,7 +1,6 @@
 <script lang="ts">
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import GalleryBlob from "$lib/gallery-blob.svelte";
-    import Return from "$lib/return.svelte";
+    import Gallery from "$lib/gallery.svelte";
     import blob from "$lib/images/blob.json";
     const images = blob.interior;
     // const images = import.meta.glob("$lib/images/interior/*.webp", {
@@ -22,8 +21,7 @@
     />
 </div>
 
-<GalleryBlob {images} />
-<Return />
+<Gallery {images} />
 
 <style>
     #stage {

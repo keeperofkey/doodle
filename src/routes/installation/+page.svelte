@@ -1,17 +1,15 @@
 <script lang="ts">
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import GalleryBlob from "$lib/gallery-blob.svelte";
-    import Return from "$lib/return.svelte";
+    import Gallery from "$lib/gallery.svelte";
 
-    import blob from "$lib/images/blob.json";
+    // import blob from "$lib/images/blob.json";
 
-    const images = blob.install;
+    // const images = blob.install;
 
-    // const images = import.meta.glob("$lib/images/install/*.avif", {
-    //     eager: true,
-    //     query: { enhanced: true },
-    // });
-    // const imageSources = imagesArray.map((image) => image.name);
+    const images = import.meta.glob("$lib/images/install/*.avif", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <svelte:head>
@@ -59,8 +57,7 @@
     </p>
 </main>
 
-<GalleryBlob {images} />
-<Return />
+<Gallery {images} />
 
 <style>
     #stage {

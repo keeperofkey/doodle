@@ -1,8 +1,7 @@
 <script lang="ts">
     import blob from "$lib/images/blob.json";
     import WireScrollView from "$lib/wire-scroll-view.svelte";
-    import GalleryBlob from "$lib/gallery-blob.svelte";
-    import Return from "$lib/return.svelte";
+    import Gallery from "$lib/gallery.svelte";
 
     const images = blob.joya;
 
@@ -49,8 +48,7 @@
     </p>
 </main>
 
-<GalleryBlob {images} />
-<Return />
+<Gallery {images} />
 
 <!-- <Overlay {images} {text} /> -->
 

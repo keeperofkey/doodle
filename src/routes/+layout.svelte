@@ -2,6 +2,7 @@
     import "../app.css";
     import { onMount } from "svelte";
     import { page } from "$app/stores";
+    import Return from "$lib/return.svelte";
 
     let isOpen: Boolean;
 
@@ -31,9 +32,9 @@
     }
 </script>
 
-<svelte:head>
-    <title>{page.data.title}</title>
-</svelte:head>
+<!-- <svelte:head> -->
+<!--     <title>{$page.data.title}</title> -->
+<!-- </svelte:head> -->
 <nav class="grid grid-flow-row sm:grid-flow-col">
     <button on:click={toggleMenu}>{icon}</button>
     <div class="{isOpen ? '' : 'hidden'} grid grid-flow-row sm:grid-flow-col">
@@ -52,3 +53,4 @@
 </nav>
 
 <slot />
+<Return />
