@@ -43,7 +43,7 @@
     class="bg-white rounded-lg shadow-md fixed pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
     <button
-        class="font-semibold bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
+        class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
         on:click={toggleMenu}>{icon}</button
     >
     <div
@@ -68,7 +68,7 @@
             href="/interior">Interior</a
         >
         <button
-            class="font-bold bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
+            class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
             on:click={toggleMore}>{moreIcon}</button
         >
         <div class="{more ? '' : 'hidden'} grid grid-flow-row sm:grid-flow-col">
