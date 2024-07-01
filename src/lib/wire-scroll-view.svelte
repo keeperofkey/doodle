@@ -18,7 +18,6 @@
     $: if (action) {
         // Add event listeners when action is assigned
         document.addEventListener("scroll", onScroll);
-        window.addEventListener("resize", onWindowResize);
     }
 
     const splatUrl = "models/" + splatName;
@@ -79,6 +78,7 @@
         // Add event listeners for scroll and window resize
         // document.addEventListener("scroll", onScroll);
         // window.addEventListener("resize", onWindowResize);
+        window.addEventListener("resize", onWindowResize);
 
         // Set renderer properties
         renderer.setPixelRatio(window.devicePixelRatio);
