@@ -89,6 +89,6 @@
 </nav>
 
 <slot />
-{#if $page.route.id !== "/"}
+{#if $page.route.id !== "/" && $page.route.id !== "/installation" && $page.route.id !== "/about"}
     <Return />
 {/if}
