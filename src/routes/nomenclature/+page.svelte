@@ -1,12 +1,12 @@
 <script lang="ts">
-    import WireScrollView from "$lib/wire-scroll-view.svelte";
+    import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
     // import blob from "$lib/images/blob.json";
     // const images = blob.senior;
 
     const images = import.meta.glob("$lib/images/senior/*.webp", {
-        // eager: true,
-        // query: { enhanced: true },
+        eager: false,
+        query: { enhanced: true },
     });
 </script>
 
@@ -17,9 +17,7 @@
         content="Thesis Installation reconstructed with Houdini and Light Fields"
     />
 </svelte:head>
-<div id="stage">
-    <WireScrollView modelName="senior-tetra.glb" splatName="senior.splat" />
-</div>
+<OrbitScroll modelName="senior-tetra.glb" splatName="senior.splat" />
 
 <main class="px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl">
     <h1>Nomenclature</h1>
@@ -60,9 +58,3 @@
     </p>
 </main>
 <Gallery {images} />
-
-<style>
-    #stage {
-        height: 600dvh;
-    }
-</style>

@@ -1,13 +1,14 @@
 <script lang="ts">
-    import WireScrollView from "$lib/wire-scroll-view.svelte";
+    import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
+    import OrbitScrollView from "$lib/orbit-scroll-view.svelte";
 
     // import blob from "$lib/images/blob.json";
     // const images = blob.joya;
 
     const images = import.meta.glob("$lib/images/cans/*.webp", {
-        // eager: true,
-        // query: { enhanced: true },
+        eager: false,
+        query: { enhanced: true },
     });
 </script>
 
@@ -15,15 +16,7 @@
     <title>Liam Dodd - Joya: Artist in Residence</title>
     <meta name="description" content="Images and model from Joya:AiR" />
 </svelte:head>
-<!-- <Gsplat -->
-<!--     modelUrl="models/cans.splat" -->
-<!--     camStart={new Vector3(0, 0, 15)} -->
-<!--     camTarget={new Vector3(0, 0, 0)} -->
-<!-- /> -->
-<!-- <Spaced {images} {text} /> -->
-<div id="stage">
-    <WireScrollView modelName="joya.glb" splatName="joya.splat" />
-</div>
+<OrbitScroll modelName="joya.glb" splatName="joya.splat" />
 <main class="texts">
     <h1>Joya: Artist in Residence</h1>
     <p>
@@ -49,19 +42,3 @@
 </main>
 
 <Gallery {images} />
-
-<!-- <Overlay {images} {text} /> -->
-
-<style>
-    #stage {
-        height: 600dvh;
-    }
-    .texts {
-        margin: 1rem;
-        padding: 0.3rem 1rem;
-        background-color: #ffffffcc;
-        border-radius: 1rem;
-        /* max-width: 30%; */
-        box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    }
-</style>

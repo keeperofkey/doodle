@@ -1,10 +1,10 @@
 <script lang="ts">
-    import WireScrollView from "$lib/wire-scroll-view.svelte";
+    import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
     // import blob from "$lib/images/blob.json";
     // const images = blob.interior;
+
     const images = import.meta.glob("$lib/images/interior/*.avif", {
-        // const images = import.meta.glob("$lib/images/interior/*.avif");
         eager: false,
         query: { enhanced: true },
     });
@@ -15,14 +15,6 @@
     <meta name="description" content="Gaussian Splatting" />
 </svelte:head>
 
-<div id="stage">
-    <WireScrollView modelName="interior.glb" splatName="interior.splat" />
-</div>
+<OrbitScroll modelName="interior.glb" splatName="interior.splat" />
 
 <Gallery {images} />
-
-<style>
-    #stage {
-        height: 600vh;
-    }
-</style>

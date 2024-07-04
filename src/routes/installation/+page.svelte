@@ -1,15 +1,15 @@
 <script lang="ts">
-    import WireScrollView from "$lib/wire-scroll-view.svelte";
+    import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
 
     // import blob from "$lib/images/blob.json";
     // const images = blob.install;
 
-    // const images = import.meta.glob("$lib/images/install/*.avif", {
-    //     eager: true,
-    //     query: { enhanced: true },
-    // });
-    const images = import.meta.glob("$lib/images/install/*.avif");
+    const images = import.meta.glob("$lib/images/install/*.avif", {
+        eager: false,
+        query: { enhanced: true },
+    });
+    // const images = import.meta.glob("$lib/images/install/*.avif");
 </script>
 
 <svelte:head>
@@ -17,9 +17,7 @@
     <meta name="description" content="Art and code installation" />
 </svelte:head>
 
-<div id="stage">
-    <WireScrollView modelName="install-tetra.glb" splatName="install.splat" />
-</div>
+<OrbitScroll modelName="install-tetra.glb" splatName="install.splat" />
 <main class="px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl">
     <h1>Mind Your Head</h1>
     <p>
@@ -58,12 +56,3 @@
 </main>
 
 <Gallery {images} />
-
-<style>
-    #stage {
-        height: 600dvh;
-        scroll-behavior: smooth;
-        scroll-snap-type: y mandatory;
-        pointer-events: auto;
-    }
-</style>
