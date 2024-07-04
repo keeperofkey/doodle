@@ -11,7 +11,6 @@
     }
 
     const imagesArray = Object.values(images);
-    // console.log(imagesArray);
 </script>
 
 <masonry-layout class="m-4 z-10 relative" gap="1rem" maxcolwidth="1024">
@@ -21,8 +20,8 @@
             type="button"
             on:click={toggleExpand}
         >
-            <img
-                src={image.name}
+            <enhanced:img
+                src={image.default}
                 alt={"image" + i}
                 class="rounded-3xl max-h-full max-w-full h-auto p-2"
             />

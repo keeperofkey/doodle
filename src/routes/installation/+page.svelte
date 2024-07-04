@@ -5,11 +5,11 @@
     // import blob from "$lib/images/blob.json";
     // const images = blob.install;
 
-    // const images = import.meta.glob("$lib/images/install/*.avif", {
-    //     eager: false,
-    //     query: { enhanced: true },
-    // });
-    const images = import.meta.glob("$lib/images/install/*.avif");
+    const images = import.meta.glob("$lib/images/install/*.avif", {
+        eager: true,
+        query: { enhanced: true },
+    });
+    // const images = import.meta.glob("$lib/images/install/*.avif");
 </script>
 
 <svelte:head>

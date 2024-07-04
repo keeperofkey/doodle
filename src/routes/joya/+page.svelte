@@ -5,12 +5,12 @@
 
     // import blob from "$lib/images/blob.json";
     // const images = blob.joya;
-
-    const images = import.meta.glob("$lib/images/cans/*.webp");
-    // const images = import.meta.glob("$lib/images/cans/*.webp", {
-    //     eager: false,
-    //     query: { enhanced: true },
-    // });
+    //
+    // const images = import.meta.glob("$lib/images/cans/*.webp");
+    const images = import.meta.glob("$lib/images/cans/*.webp", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <svelte:head>

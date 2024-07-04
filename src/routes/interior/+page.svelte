@@ -4,11 +4,11 @@
     // import blob from "$lib/images/blob.json";
     // const images = blob.interior;
 
-    const images = import.meta.glob("$lib/images/interior/*.avif");
-    // const images = import.meta.glob("$lib/images/interior/*.avif", {
-    //     eager: false,
-    //     query: { enhanced: true },
-    // });
+    // const images = import.meta.glob("$lib/images/interior/*.avif");
+    const images = import.meta.glob("$lib/images/interior/*.avif", {
+        eager: true,
+        query: { enhanced: true },
+    });
 </script>
 
 <svelte:head>
