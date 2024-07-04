@@ -4,7 +4,8 @@
     // import blob from "$lib/images/blob.json";
     // const images = blob.interior;
     const images = import.meta.glob("$lib/images/interior/*.avif", {
-        eager: true,
+        // const images = import.meta.glob("$lib/images/interior/*.avif");
+        eager: false,
         query: { enhanced: true },
     });
 </script>
@@ -15,10 +16,7 @@
 </svelte:head>
 
 <div id="stage">
-    <WireScrollView
-        modelName="interior-tera-pack.glb"
-        splatName="interior.splat"
-    />
+    <WireScrollView modelName="interior.glb" splatName="interior.splat" />
 </div>
 
 <Gallery {images} />

@@ -6,8 +6,8 @@
     // const images = blob.joya;
 
     const images = import.meta.glob("$lib/images/cans/*.webp", {
-        eager: true,
-        query: { enhanced: true },
+        // eager: true,
+        // query: { enhanced: true },
     });
 </script>
 

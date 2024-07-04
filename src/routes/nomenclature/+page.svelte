@@ -5,8 +5,8 @@
     // const images = blob.senior;
 
     const images = import.meta.glob("$lib/images/senior/*.webp", {
-        eager: true,
-        query: { enhanced: true },
+        // eager: true,
+        // query: { enhanced: true },
     });
 </script>
 

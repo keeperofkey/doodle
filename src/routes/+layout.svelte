@@ -10,9 +10,9 @@
 
     let isOpen: Boolean;
     // let home = false;
-    const home = $page;
+    // const home = $page;
 
-    console.log(home);
+    // console.log(home);
 
     onMount(() => {
         const handleResize = () => {
