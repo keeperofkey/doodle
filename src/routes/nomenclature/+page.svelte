@@ -20,7 +20,9 @@
 </svelte:head>
 <OrbitScroll modelName="senior-tetra.glb" splatName="senior.splat" />
 
-<main class="px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl">
+<main
+    class="relative bottom-0 z-10 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"
+>
     <h1>Nomenclature</h1>
 
     <h2>Seeing Is Forgetting the Name</h2>

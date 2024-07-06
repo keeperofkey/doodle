@@ -1,7 +1,6 @@
 <script lang="ts">
     import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
-    import OrbitScrollView from "$lib/orbit-scroll-view.svelte";
 
     // import blob from "$lib/images/blob.json";
     // const images = blob.joya;
@@ -18,7 +17,9 @@
     <meta name="description" content="Images and model from Joya:AiR" />
 </svelte:head>
 <OrbitScroll modelName="joya.glb" splatName="joya.splat" />
-<main class="texts">
+<main
+    class="relative bottom-0 z-10 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"
+>
     <h1>Joya: Artist in Residence</h1>
     <p>
         In Vélez-Blanco, a region known for its fertile soil and historical

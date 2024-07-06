@@ -18,7 +18,9 @@
 </svelte:head>
 
 <OrbitScroll modelName="install-tetra.glb" splatName="install.splat" />
-<main class="px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl">
+<main
+    class="relative z-10 bottom-0 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"
+>
     <h1>Mind Your Head</h1>
     <p>
         "Mind Your Head" is an art installation that invites you to explore the
