@@ -26,6 +26,7 @@
         renderer: renderer,
         selfDrivenMode: false,
         sharedMemoryForWorkers: false,
+        renderMode: GaussianSplats3D.RenderMode.OnChange,
     });
     $: if (camera) {
         orbitControls = new GaussianSplats3D.OrbitControls(
@@ -33,6 +34,7 @@
             renderer.domElement,
         );
         orbitControls.enabled = false;
+        orbitControls.domElement.style.touchAction = "auto";
     }
     // Set temp camera probably important
     orbitCamera = viewer.camera;
@@ -113,6 +115,7 @@
         renderer.domElement.style.height = "100%";
         renderer.domElement.style.position = "fixed";
         renderer.domElement.style.top = "0";
+        renderer.domElement.style.touchAction = "auto";
         // renderer.domElement.style.zIndex = "";
         document.body.appendChild(renderer.domElement);
 
@@ -182,7 +185,6 @@
             renderer.render(scene, camera);
             shouldRender = false;
         }
-
         viewer.update();
         viewer.render();
     }
