@@ -17,63 +17,32 @@
 
 <masonry-layout id="gallery" gap="5rem" maxcolwidth="1024">
     {#each imagesArray as image, i}
-        <button type="button" on:click={toggleExpand}>
+        <button
+            class="bg-transparent border-none cursor-pointer pointer-events-auto"
+            type="button"
+            on:click={toggleExpand}
+        >
             <img
                 src={image.url}
                 alt={image.description}
-                class="images"
+                class="rounded-3xl max-h-full max-w-full h-auto p-2"
                 crossorigin="anonymous"
             />
         </button>
     {/each}
     {#if expandedImage}
         <div
-            class="expanded-overlay"
+            class="fixed h-full top-0 left-0 bg-black bg-opacity-50 z-50 flex items-center justify-center cursor-pointer"
             role="button"
             tabindex="0"
             on:click={() => (expandedImage = null)}
             on:keydown={() => (expandedImage = null)}
         >
-            <img src={expandedImage} alt="expanded" />
+            <img
+                class="rounded-xl max-h-[80dvh] p-2 mt-16 border-none"
+                src={expandedImage}
+                alt="expanded"
+            />
         </div>
     {/if}
 </masonry-layout>
-
-<style>
-    #gallery {
-        margin: 1rem;
-        z-index: 1;
-        position: relative;
-    }
-    .images {
-        border-radius: 1rem;
-        max-width: 100%;
-        height: auto;
-        padding: 0.5rem;
-    }
-    button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        pointer-events: auto;
-    }
-    .expanded-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 999;
-        cursor: pointer;
-    }
-    .expanded-overlay img {
-        max-width: 90vw;
-        max-height: 90vh;
-        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-        border-radius: 0.5rem;
-    }
-</style>

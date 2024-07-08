@@ -14,32 +14,42 @@
     let mixer: THREE.AnimationMixer;
     let action: any;
     let orbitControls: any;
-    let renderer = new THREE.WebGLRenderer({ antialias: true });
-    let viewer: any;
     let controlsActive = false;
     let clock = new THREE.Clock();
     let stageElement: HTMLElement;
     let shouldRender = false;
+    let lookAt: THREE.Vector3;
+    let loaded = false;
 
-    viewer = new GaussianSplats3D.Viewer({
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const delta = clock.getDelta();
+    const mat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        wireframe: true,
+        vertexColors: true,
+        wireframeLinewidth: 1,
+    });
+    const viewer = new GaussianSplats3D.Viewer({
         useBuiltInControls: false,
         renderer: renderer,
         selfDrivenMode: false,
-        sharedMemoryForWorkers: false,
+        sharedMemoryForWorkers: true,
         renderMode: GaussianSplats3D.RenderMode.OnChange,
     });
-    $: if (camera) {
+
+    $: if (loaded) {
         orbitControls = new GaussianSplats3D.OrbitControls(
             camera,
             renderer.domElement,
         );
+        orbitControls.target = lookAt;
         orbitControls.enabled = false;
         if (!controlsActive) {
             orbitControls.domElement.style.touchAction = "auto";
         }
     }
-    // Set temp camera probably important
-    orbitCamera = viewer.camera;
+    // // Set temp camera probably important
+    // orbitCamera = viewer.camera;
 
     /**
      * Interpolates the position and rotation of the `from` camera towards the `to` camera.
@@ -48,11 +58,10 @@
      * @param t The interpolation factor between 0 and 1.
      */
 
-    // function lerpCameras(from: THREE.Camera, to: THREE.Camera, t: number) {
-    //     from.position.lerp(to.position, t);
-    //     from.rotation.slerp(to.rotation, t);
-    //
-    // }
+    function lerpCameras(from: THREE.Camera, to: THREE.Camera, t: number) {
+        from.position.lerp(to.position, t);
+        from.quaternion.slerp(to.quaternion, t);
+    }
     /**
      * Normalizes the scroll position to a value between 0 and 1.
      * @param scrollY The current scroll position.
@@ -89,18 +98,24 @@
             .setPath("models/")
             .setMeshoptDecoder(MeshoptDecoder)
             .load(modelName, (gltf: any) => {
+                console.log(gltf);
                 const anim = gltf.animations;
                 camera = gltf.cameras[0];
                 mixer = new THREE.AnimationMixer(gltf);
-                action = mixer.clipAction(anim[0], camera);
-                const model = gltf.scene.children[0];
-                const mat = new THREE.MeshBasicMaterial({
-                    color: 0xffffff,
-                    wireframe: true,
-                    vertexColors: true,
-                    wireframeLinewidth: 1,
+                // const model = gltf.scene.children[0];
+                gltf.scene.traverse((child: any) => {
+                    if (child.isMesh) {
+                        child.material = mat;
+                    }
+                    if (child.name === "Look_At") {
+                        lookAt = child.position;
+                    }
+                    // if (child.isCamera) {
+                    //     camera = child;
+                    // }
                 });
-                model.material = mat;
+                // model.material = mat;
+                action = mixer.clipAction(anim[0], camera);
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
 
@@ -109,7 +124,9 @@
                 scene.add(gltf.scene);
                 viewer.camera = camera;
                 viewer.threeScene = scene;
+                loaded = true;
             });
+        console.log(scene);
 
         // Initialize the renderer
         renderer.domElement.style.display = "block";
@@ -117,7 +134,6 @@
         renderer.domElement.style.height = "100%";
         renderer.domElement.style.position = "fixed";
         renderer.domElement.style.top = "0";
-        // renderer.domElement.style.zIndex = "";
         document.body.appendChild(renderer.domElement);
 
         // Set up lighting and environment
@@ -148,9 +164,13 @@
         controlsActive = !controlsActive;
         if (controlsActive) {
             orbitControls.enabled = true;
+            renderer.domElement.style.zIndex = "0";
         } else {
             orbitControls.enabled = false;
+            renderer.domElement.style.zIndex = "-1";
+            window.scrollBy(0, 1);
         }
+        console.log(camera);
         shouldRender = true;
     }
 
@@ -178,11 +198,12 @@
 
         if (controlsActive) {
             orbitControls.update();
-            renderer.render(scene, orbitCamera);
-            shouldRender = false;
+            // renderer.render(scene, orbitCamera);
+            // shouldRender = false;
         } else {
-            const delta = clock.getDelta();
             mixer.update(delta);
+        }
+        if (shouldRender) {
             renderer.render(scene, camera);
             shouldRender = false;
         }
