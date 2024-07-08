@@ -1,6 +1,7 @@
 <script lang="ts">
     import "../app.css";
     import { onMount } from "svelte";
+    import { onNavigate } from "$app/navigation";
     import { page } from "$app/stores";
     import Return from "$lib/return.svelte";
     import { dev } from "$app/environment";
@@ -26,12 +27,15 @@
             window.removeEventListener("resize", handleResize);
         };
     });
+    onNavigate(() => {
+        isOpen = false;
+    });
     let icon = "\u{1d303}";
-    let moreIcon = "\u{2BC6}";
+    let moreIcon = "\u{25BC}";
     let more = false;
     function toggleMore() {
         more = !more;
-        moreIcon = more ? "\u{2BC8}" : "\u{2BC6}";
+        moreIcon = more ? "\u{25B6}" : "\u{25BC}";
     }
 
     function toggleMenu() {

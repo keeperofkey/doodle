@@ -18,7 +18,7 @@
         content="Thesis Installation reconstructed with Houdini and Light Fields"
     />
 </svelte:head>
-<OrbitScroll modelName="senior-clean.glb" splatName="senior-03.splat" />
+<OrbitScroll modelName="senior.glb" splatName="senior.splat" />
 
 <main
     class="relative bottom-0 z-10 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"

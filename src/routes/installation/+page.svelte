@@ -17,7 +17,7 @@
     <meta name="description" content="Art and code installation" />
 </svelte:head>
 
-<OrbitScroll modelName="install-tetra.glb" splatName="install.splat" />
+<OrbitScroll modelName="install.glb" splatName="install.splat" />
 <main
     class="relative z-10 bottom-0 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"
 >

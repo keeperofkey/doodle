@@ -13,12 +13,13 @@
     let camera: THREE.PerspectiveCamera;
     let mixer: THREE.AnimationMixer;
     let action: any;
+    let lookAction: any;
     let orbitControls: any;
     let controlsActive = false;
     let clock = new THREE.Clock();
     let stageElement: HTMLElement;
     let shouldRender = false;
-    let lookAt: THREE.Vector3;
+    let lookAt = new THREE.Object3D();
     let loaded = false;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -42,7 +43,7 @@
             camera,
             renderer.domElement,
         );
-        orbitControls.target = lookAt;
+        orbitControls.target = lookAt.position;
         orbitControls.enabled = false;
         if (!controlsActive) {
             orbitControls.domElement.style.touchAction = "auto";
@@ -98,7 +99,6 @@
             .setPath("models/")
             .setMeshoptDecoder(MeshoptDecoder)
             .load(modelName, (gltf: any) => {
-                console.log(gltf);
                 const anim = gltf.animations;
                 camera = gltf.cameras[0];
                 mixer = new THREE.AnimationMixer(gltf);
@@ -108,7 +108,7 @@
                         child.material = mat;
                     }
                     if (child.name === "Look_At") {
-                        lookAt = child.position;
+                        lookAt = child;
                     }
                     // if (child.isCamera) {
                     //     camera = child;
@@ -116,17 +116,19 @@
                 });
                 // model.material = mat;
                 action = mixer.clipAction(anim[0], camera);
+                lookAction = mixer.clipAction(anim[0], lookAt);
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
 
                 action.play();
+                lookAction.play();
+                lookAction.paused = true;
                 action.paused = true;
                 scene.add(gltf.scene);
                 viewer.camera = camera;
                 viewer.threeScene = scene;
                 loaded = true;
             });
-        console.log(scene);
 
         // Initialize the renderer
         renderer.domElement.style.display = "block";
@@ -170,7 +172,6 @@
             renderer.domElement.style.zIndex = "-1";
             window.scrollBy(0, 1);
         }
-        console.log(camera);
         shouldRender = true;
     }
 
@@ -182,6 +183,7 @@
                 window.outerHeight,
             );
             action.time = scroll * action._clip.duration;
+            lookAction.time = scroll * action._clip.duration;
             shouldRender = true;
         }
     }
@@ -189,7 +191,7 @@
     function handleResize() {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.outerWidth, window.outerHeight);
+        renderer.setSize(window.innerWidth, window.outerHeight);
         shouldRender = true;
     }
 
