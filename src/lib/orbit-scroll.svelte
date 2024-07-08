@@ -34,7 +34,7 @@
         useBuiltInControls: false,
         renderer: renderer,
         selfDrivenMode: false,
-        sharedMemoryForWorkers: true,
+        sharedMemoryForWorkers: false,
         renderMode: GaussianSplats3D.RenderMode.OnChange,
     });
 
