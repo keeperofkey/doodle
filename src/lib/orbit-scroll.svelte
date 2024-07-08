@@ -34,7 +34,9 @@
             renderer.domElement,
         );
         orbitControls.enabled = false;
-        orbitControls.domElement.style.touchAction = "auto";
+        if (!controlsActive) {
+            orbitControls.domElement.style.touchAction = "auto";
+        }
     }
     // Set temp camera probably important
     orbitCamera = viewer.camera;
@@ -115,7 +117,6 @@
         renderer.domElement.style.height = "100%";
         renderer.domElement.style.position = "fixed";
         renderer.domElement.style.top = "0";
-        renderer.domElement.style.touchAction = "auto";
         // renderer.domElement.style.zIndex = "";
         document.body.appendChild(renderer.domElement);
 
