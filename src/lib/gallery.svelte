@@ -1,5 +1,6 @@
 <script lang="ts">
     export let images: Object;
+    // export let altTexts: any;
 
     import "@appnest/masonry-layout";
 
