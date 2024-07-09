@@ -2,7 +2,7 @@
     import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
 
-    // import blob from "$lib/images/blob.json";
+    // import blob from "$lib/blob.json";
     // const images = blob.install;
 
     const images = import.meta.glob("$lib/images/install/*.avif", {
