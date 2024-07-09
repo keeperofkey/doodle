@@ -9,7 +9,6 @@
     export let splatName: string;
 
     let scene: THREE.Scene;
-    let orbitCamera: THREE.PerspectiveCamera;
     let camera: THREE.PerspectiveCamera;
     let mixer: THREE.AnimationMixer;
     let action: any;
@@ -34,7 +33,7 @@
         useBuiltInControls: false,
         renderer: renderer,
         selfDrivenMode: false,
-        sharedMemoryForWorkers: false,
+        sharedMemoryForWorkers: true,
         renderMode: GaussianSplats3D.RenderMode.OnChange,
     });
 
@@ -59,10 +58,10 @@
      * @param t The interpolation factor between 0 and 1.
      */
 
-    function lerpCameras(from: THREE.Camera, to: THREE.Camera, t: number) {
-        from.position.lerp(to.position, t);
-        from.quaternion.slerp(to.quaternion, t);
-    }
+    // function lerpCameras(from: THREE.Camera, to: THREE.Camera, t: number) {
+    //     from.position.lerp(to.position, t);
+    //     from.quaternion.slerp(to.quaternion, t);
+    // }
     /**
      * Normalizes the scroll position to a value between 0 and 1.
      * @param scrollY The current scroll position.
@@ -121,9 +120,9 @@
                 camera.updateProjectionMatrix();
 
                 action.play();
+                action.paused = true;
                 lookAction.play();
                 lookAction.paused = true;
-                action.paused = true;
                 scene.add(gltf.scene);
                 viewer.camera = camera;
                 viewer.threeScene = scene;
@@ -200,8 +199,6 @@
 
         if (controlsActive) {
             orbitControls.update();
-            // renderer.render(scene, orbitCamera);
-            // shouldRender = false;
         } else {
             mixer.update(delta);
         }
