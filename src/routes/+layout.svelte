@@ -2,8 +2,8 @@
     import "../app.css";
     import { onMount } from "svelte";
     import { onNavigate } from "$app/navigation";
-    import { page } from "$app/stores";
-    import Return from "$lib/return.svelte";
+    // import { page } from "$app/stores";
+    // import Return from "$lib/return.svelte";
     import { dev } from "$app/environment";
     import { inject } from "@vercel/analytics";
 
@@ -44,9 +44,6 @@
     }
 </script>
 
-<!-- <svelte:head> -->
-<!--     <title>{$page.data.title}</title> -->
-<!-- </svelte:head> -->
 <nav
     class="bg-white rounded-lg shadow-md fixed max-w-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
@@ -93,6 +90,3 @@
 </nav>
 
 <slot />
-{#if $page.route.id !== "/" && $page.route.id !== "/installation" && $page.route.id !== "/about"}
-    <Return />
-{/if}

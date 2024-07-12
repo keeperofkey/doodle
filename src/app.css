@@ -2,6 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: MartianMonoNF;
+  src:
+    url("/fonts/MartianMonoNerdFont-Regular.woff2") format("woff2"),
+    url("/fonts/MartianMonoNerdFont-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: MartianMonoNF;
+  src:
+    url("/fonts/MartianMonoNerdFont-Bold.woff2") format("woff2"),
+    url("/fonts/MartianMonoNerdFont-Bold.woff") format("woff");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: MartianMonoNF;
+  src:
+    url("/fonts/MartianMonoNerdFont-Regular.woff2") format("woff2"),
+    url("/fonts/MartianMonoNerdFont-Regular.woff") format("woff");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: MartianMonoNF;
+  src:
+    url("/fonts/MartianMonoNerdFont-Bold.woff2") format("woff2"),
+    url("/fonts/MartianMonoNerdFont-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
+
 h1 {
   font-size: 2rem;
   font-weight: 600;
