@@ -1,123 +1,220 @@
-import { Scene, AnimationMixer, AnimationClip, MeshBasicMaterial, Object3D, PerspectiveCamera, AmbientLight, WebGLRenderer } from 'three';
-import { OrbitControls, Viewer } from "@mkkellogg/gaussian-splats-3d"
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
-export { loadModel, setupScene, normalizeScroll, setupViewer };
+export { setScene, loadGLTF };
 
-async function loadModel(modelName: string) {
+import { normalizeScroll } from "./maths";
+import * as THREE from "three";
+import * as GSPLAT from "@mkkellogg/gaussian-splats-3d";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+
+//
+// GLTF
+//
+
+let clock = new THREE.Clock();
+let controlsActive = false;
+
+async function loadGLTF(modelName: string) {
         const loader = new GLTFLoader();
-        loader.setPath('models/');
-        loader.setMeshoptDecoder(MeshoptDecoder);
+        let cameras: any[] = [];
+        let lookAt = new THREE.Object3D();
+        let scene = new THREE.Scene();
+        let mesh = new THREE.Mesh();
+        let camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000,
+        );
 
-        return new Promise((resolve, reject) => {
-                loader.load(modelName, resolve, undefined, reject);
-        });
+        await loader
+                .setPath("models/")
+                .setMeshoptDecoder(MeshoptDecoder)
+                .loadAsync(modelName)
+                .then((gltf) => {
+                        cameras = gltf.cameras;
+                        scene.animations = gltf.animations;
+                        gltf.scene.traverse((child: any) => {
+                                if (child.isMesh) {
+                                        const mat = new THREE.MeshBasicMaterial({
+                                                color: 0xffffff,
+                                                wireframe: true,
+                                                vertexColors: true,
+                                                wireframeLinewidth: 1,
+                                        });
+                                        child.material = mat;
+                                        mesh = child;
+                                }
+                                if (child.name === "Look_At") {
+                                        lookAt = child;
+                                }
+                                if (child.isCamera) {
+                                        camera = child;
+                                }
+                        });
+                })
+                .catch((error) => {
+                        console.error(error);
+                });
+        scene.add(lookAt);
+        scene.add(camera);
+        scene.add(mesh);
+        return { scene, cameras, lookAt };
 }
 
-function setupScene(gltf: any) {
-        const scene = new Scene();
-        // const camera = gltf.cameras[0];
-        const mixer = new AnimationMixer(gltf.scene);
-        let lookAt = new Object3D()
-        let camera = new PerspectiveCamera()
-        const mat = new MeshBasicMaterial({
-                color: 0xffffff,
-                wireframe: true,
-                vertexColors: true,
-                wireframeLinewidth: 1,
-        });
-        // console.log(gltf.scene);
-        gltf.scene.traverse((child: any) => {
-                if (child.isMesh) {
-                        child.material = mat;
-                }
-                if (child.isCamera) {
-                        camera = child;
-                }
-                if (child.name === 'Look_At') {
-                        lookAt = child;
-                }
-        });
+//
+//
+// RENDERING
+//
+//
 
-        const animations = gltf.animations;
-        const animationClips = animations.map((anim: any) => new AnimationClip(anim.name, anim.duration, anim.tracks));
-        const action = mixer.clipAction(animationClips[0]);
-        action.play();
-        action.paused = true;
-
-        scene.add(gltf.scene);
-        const light = new AmbientLight();
-        light.position.set(0, 0, 0);
-        scene.add(light);
-
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-
-        return { scene, camera, mixer, action, lookAt };
-}
-function setupViewer(scene: Scene, renderer: WebGLRenderer, camera: PerspectiveCamera, lookAt: Object3D, canvas: HTMLCanvasElement) {
-
-        const viewer = new Viewer({
+async function setViewer(
+        scene: THREE.Scene,
+        renderer: THREE.WebGLRenderer,
+        camera: THREE.PerspectiveCamera,
+) {
+        let viewer = new GSPLAT.Viewer({
                 useBuiltInControls: false,
                 camera: camera,
                 threeScene: scene,
                 renderer: renderer,
                 selfDrivenMode: false,
                 sharedMemoryForWorkers: false,
-                // renderMode: GaussianSplats3D.RenderMode.OnChange,
+                // logLevel: GSPLAT.LogLevel.Debug,
+                renderMode: GSPLAT.RenderMode.OnChange,
         });
-
-        const orbitControls = new OrbitControls(
-                camera,
-                canvas
-        );
-        orbitControls.target = lookAt.position;
-        orbitControls.enabled = false;
-        return { viewer, orbitControls };
-
-}
-/**
- * Normalizes the scroll position to a value between 0 and 1.
- * @param scrollY The current scroll position.
- * @param scrollHeight The total scrollable height.
- * @param outerHeight The viewport height.
- * @returns The normalized scroll position between 0 and 1.
- */
-function normalizeScroll(
-        scrollY: number,
-        scrollHeight: number,
-        outerHeight: number,
-): number {
-        const scroll = scrollY / (scrollHeight - outerHeight);
-        return clamp(scroll, 0, 0.99);
+        return viewer;
 }
 
-/**
- * Clamps a value between a minimum and maximum value.
- * @param num The value to clamp.
- * @param min The minimum value.
- * @param max The maximum value.
- * @returns The clamped value.
- */
-function clamp(num: number, min: number, max: number): number {
-        return Math.min(Math.max(num, min), max);
+
+function setRender(renderer: THREE.WebGLRenderer) {
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1;
+        renderer.domElement.style.position = "fixed";
+        renderer.domElement.style.top = "0";
+        renderer.domElement.style.width = "100%";
+        renderer.domElement.style.height = "100%";
+        renderer.domElement.style.zIndex = "-1";
+        document.body.appendChild(renderer.domElement);
 }
 
-// async function main() {
-//         const gltf = await loadModel(modelName);
-//         const { scene, camera, mixer, action } = setupScene(gltf);
 //
-//         // Set up your renderer and animation loop here
-//         // ...
 //
-//         function animate() {
-//                 requestAnimationFrame(animate);
-//                 const clock = new Clock();
-//                 mixer.update(clock.getDelta());
-//                 // Render your scene
-//         }
+// Set up orbitControls and camera animations
 //
-//         animate();
-// }
 //
-// main();
+
+async function setCtrl(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer, lookAt: THREE.Object3D) {
+        let controls = new GSPLAT.OrbitControls(camera, renderer.domElement);
+        controls.enabled = true;
+        controls.target = lookAt.position;
+        return controls;
+
+}
+
+async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera) {
+        const mixer = new THREE.AnimationMixer(scene);
+        const action = mixer.clipAction(scene.animations[0], camera);
+        action.play();
+        action.paused = true;
+        return { mixer, action };
+}
+
+//
+//
+// set up scroll and resize handlers
+//
+//
+
+function handleScroll(
+        action: THREE.AnimationAction,
+        stageElement: HTMLElement,
+) {
+        if (stageElement) {
+                const scroll = normalizeScroll(
+                        window.scrollY,
+                        stageElement.scrollHeight,
+                        window.outerHeight,
+                );
+                action.time = scroll * action.getClip().duration;
+        }
+}
+
+function handleResize(
+        camera: THREE.PerspectiveCamera,
+        renderer: THREE.WebGLRenderer,
+) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+//
+//
+// Setup the scene main entry point
+//
+//
+
+async function setScene(
+        modelName: string,
+        splatName: string,
+        renderer: THREE.WebGLRenderer,
+        stageElement: HTMLElement,
+) {
+        // Initialize the scene
+        let { scene, cameras, lookAt } = await loadGLTF(modelName);
+        // Add lights and set camera
+        let light = new THREE.AmbientLight(0xffffff);
+        scene.add(light);
+        scene.background = new THREE.Color(0xf0f0f0);
+        let camera = cameras[0];
+        if (cameras.length > 1) {
+                console.log("Multiple cameras found, using the first one.");
+        }
+
+
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        setRender(renderer);
+        let controls = await setCtrl(camera, renderer, lookAt);
+
+        let { mixer, action } = await setAnim(scene, camera);
+
+        let viewer = await setViewer(scene, renderer, camera);
+        viewer
+                .addSplatScene(`models/${splatName}`, {
+                        showLoadingUI: true,
+                        progressiveLoading: true,
+                })
+                .then(() => {
+                        requestAnimationFrame(() => {
+                                animate(viewer, mixer);
+                        });
+                });
+        console.log(scene, mixer, action);
+
+        window.addEventListener("scroll", () => {
+                handleScroll(action, stageElement);
+        });
+        window.addEventListener("resize", () => { handleResize(camera, renderer); });
+        // window.addEventListener("mousedown", () => { toggleCamera(controlsActive, controls, renderer); });
+        // window.addEventListener("mouseup", () => { toggleCamera(controlsActive, controls, renderer); });
+        console.log(controls);
+        return { scene, camera, mixer, action, lookAt, viewer, controls, renderer };
+}
+
+//
+//
+// Animation loop
+//
+//
+
+function animate(viewer: GSPLAT.Viewer, mixer: THREE.AnimationMixer) {
+        requestAnimationFrame(() => animate(viewer, mixer));
+        mixer.update(clock.getDelta());
+        viewer.update();
+        viewer.render();
+}
+

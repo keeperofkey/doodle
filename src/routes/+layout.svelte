@@ -30,7 +30,7 @@
     onNavigate(() => {
         isOpen = false;
     });
-    let icon = "\u{1d303}";
+    let icon = "";
     let moreIcon = "\u{25BC}";
     let more = false;
     function toggleMore() {
@@ -51,6 +51,7 @@
         class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
         on:click={toggleMenu}>{icon}</button
     >
+    <i class="fa-solid fa-mountain"></i>
     <div
         class="{isOpen
             ? ''
