@@ -30,7 +30,7 @@
     onNavigate(() => {
         isOpen = false;
     });
-    let icon = "\u{1d303}";
+    let icon = "";
     let moreIcon = "\u{25BC}";
     let more = false;
     function toggleMore() {
@@ -44,9 +44,6 @@
     }
 </script>
 
-<!-- <svelte:head> -->
-<!--     <title>{$page.data.title}</title> -->
-<!-- </svelte:head> -->
 <nav
     class="bg-white rounded-lg shadow-md fixed max-w-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
@@ -54,6 +51,7 @@
         class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
         on:click={toggleMenu}>{icon}</button
     >
+    <i class="fa-solid fa-mountain"></i>
     <div
         class="{isOpen
             ? ''

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Modular from "$lib/modular.svelte";
+    import Simple from "$lib/simple.svelte";
 </script>
 
-<Modular modelName="senior.glb" splatName="senior.splat" />
+<Simple modelName="senior.glb" splatName="senior.splat" />
