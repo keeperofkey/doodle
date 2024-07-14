@@ -1,5 +1,12 @@
 <script lang="ts">
-    import OrbitScroll from "$lib/orbit-scroll.svelte";
+    import ScrollOrbit from "$lib/scroll-orbit.svelte";
+    import info from "$lib/images";
+
+    const details = info.install.data;
+    let desc: string[] = [];
+    details.forEach((element) => {
+        desc.push(element.description);
+    });
     import Gallery from "$lib/gallery.svelte";
     // import blob from "$lib/images/blob.json";
     // const images = blob.senior;
@@ -18,46 +25,43 @@
         content="Thesis Installation reconstructed with Houdini and Light Fields"
     />
 </svelte:head>
-<OrbitScroll modelName="senior.glb" splatName="senior.splat" />
+<ScrollOrbit modelName="senior.glb" splatName="senior.splat" />
 
 <main
-    class="relative bottom-0 z-10 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"
+    class="grid items-center place-self-center grid-cols-1 md:grid-cols-2 md:grid-rows-3 grid-flow-row z-10 bottom-0 p-6 w-auto m-4 bg-slate-100 bg-opacity-85 rounded-2xl"
 >
-    <h1>Nomenclature</h1>
+    <h1 class="text-center">Nomenclature</h1>
 
-    <h2>Seeing Is Forgetting the Name</h2>
+    <h2 class="text-center">Seeing Is Forgetting the Name</h2>
 
-    <h3>Senior Thesis Show</h3>
-
-    <h3>2018</h3>
-    <p>
+    <p class="max-w-prose p-2">
         Language shapes how we see the world. The words we use to describe
         things affect our understanding of them. Robert Irwin's work "Seeing Is
         Forgetting the Name of the Thing One Sees" explored this connection
         between language and visual perception.
     </p>
-    <p>
+    <p class="max-w-prose p-2">
         "Nomenclature" is an installation that confronts the relationship
         between seeing and naming. As you move through the space, you encounter
         sights, sounds, and words that challenge how you use language.
     </p>
-    <p>
+    <p class="max-w-prose p-2">
         Sometimes, the installation shows familiar objects and environments, but
         removes their labels. Other times, you see abstract forms and textures
         that test the limits of your vocabulary.
     </p>
-    <p>
+    <p class="max-w-prose p-2">
         This disorienting experience encourages you to question assumptions and
         biases in language. It prompts you to consider how words can both
         clarify and obscure your understanding of the world.
     </p>
-    <p>
+    <p class="max-w-prose p-2">
         Embrace the fluidity of perception and the flexibility of language. Let
         go of rigid definitions and appreciate the beauty of the indescribable.
     </p>
-    <p>
+    <p class="max-w-prose p-2">
         Scroll through Nomenclature, a digital adaptation, and change your
         relationship with the words that shape your reality.
     </p>
 </main>
-<Gallery {images} />
+<Gallery {images} {desc} />

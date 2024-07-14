@@ -1,6 +1,7 @@
 <script lang="ts">
     export let images: Object;
     // export let altTexts: any;
+    export let desc: string[];
 
     import "@appnest/masonry-layout";
 
@@ -23,8 +24,9 @@
         >
             <enhanced:img
                 src={image.default}
-                alt={"image" + i}
+                alt={desc[i]}
                 class="rounded-3xl max-h-full max-w-full h-auto p-2"
+                loading="lazy"
             />
         </button>
     {/each}

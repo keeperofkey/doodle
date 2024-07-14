@@ -1,5 +1,9 @@
 <script lang="ts">
-    import Simple from "$lib/simple.svelte";
+    import ScrollOrbit from "$lib/scroll-orbit.svelte";
+    import Gall from "$lib/gall.svelte";
+    import images from "$lib/images";
+    let data = images.senior.data;
 </script>
 
-<Simple modelName="senior.glb" splatName="senior.splat" />
+<Gall images={data} />
+<ScrollOrbit modelName="senior.glb" splatName="senior.splat" />

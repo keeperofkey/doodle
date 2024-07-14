@@ -18,17 +18,17 @@
         } else {
             renderer.domElement.style.touchAction = "auto";
             renderer.domElement.style.zIndex = "-1";
-            window.scrollBy(0, 1);
         }
+        console.log(window.scrollY, document.body.scrollTop);
+        window.scrollBy(0, 1);
     }
 
     onMount(() => {
-        console.log("Mounted");
         setScene(modelName, splatName, renderer, stageElement);
     });
 </script>
 
-<div bind:this={stageElement} style="height: 600dvh;">
+<div bind:this={stageElement}>
     <button
         class="fixed top-4 right-4 font-bold text-xl p-2 w-24 h-12 z-10 self-center bg-slate-100 border-2 rounded-lg hover:bg-slate-100 hover:shadow-inner shadow-lg"
         class:border-black={!controlsActive}

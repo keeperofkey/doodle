@@ -1,7 +1,13 @@
 <script lang="ts">
-    import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
+    import ScrollOrbit from "$lib/scroll-orbit.svelte";
+    import info from "$lib/images";
 
+    const details = info.install.data;
+    let desc: string[] = [];
+    details.forEach((element) => {
+        desc.push(element.description);
+    });
     // import blob from "$lib/blob.json";
     // const images = blob.install;
 
@@ -17,19 +23,19 @@
     <meta name="description" content="Art and code installation" />
 </svelte:head>
 
-<OrbitScroll modelName="install.glb" splatName="install.splat" />
+<ScrollOrbit modelName="install.glb" splatName="install.splat" />
 <main
-    class="relative z-10 bottom-0 px-2 max-w-prose m-6 bg-slate-100 bg-opacity-75 rounded-2xl"
+    class="grid items-center place-self-center grid-cols-1 md:grid-cols-2 md:grid-rows-3 grid-flow-row z-10 bottom-0 p-6 w-auto m-4 bg-slate-100 bg-opacity-85 rounded-2xl"
 >
-    <h1>Mind Your Head</h1>
-    <p>
+    <h1 class="text-center">Mind Your Head</h1>
+    <p class="max-w-prose p-2">
         "Mind Your Head" is an art installation that invites you to explore the
         interplay of natural forms and architecture. Made from rough-cut pine,
         it starts as planks against the wall, gradually evolving into an organic
         structure filling the space.
     </p>
 
-    <p>
+    <p class="max-w-prose p-2">
         At first, it seems like a simple arrangement of wooden planks. But as
         you move through, you're enveloped by a wave-like form that undulates
         and branches out, reminiscent of patterns in nature. The rough texture
@@ -37,24 +43,24 @@
         of the material.
     </p>
 
-    <p>
+    <p class="max-w-prose p-2">
         As it expands, it takes on a tree-like quality, with branches reaching
         upwards and outwards, creating a canopy that filters the surrounding
         light.
     </p>
 
-    <p>
+    <p class="max-w-prose p-2">
         "Mind Your Head" encourages you to slow down, breathe deeply, and
         immerse yourself in the meditative space. The undulating forms and
         organic shapes invite contemplation, prompting you to reflect on your
         connection to the natural world and the rhythms that govern our lives.
     </p>
 
-    <p>
+    <p class="max-w-prose p-2">
         Through this fusion of art, architecture, and nature, "Mind Your Head"
         offers a sanctuary for introspection and a reminder to be mindful of the
         present moment, to embrace the beauty that surrounds us.
     </p>
 </main>
 
-<Gallery {images} />
+<Gallery {images} {desc} />
