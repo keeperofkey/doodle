@@ -6,12 +6,12 @@ import * as GSPLAT from "@mkkellogg/gaussian-splats-3d";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
+// clock from animation scrubbing
+let clock = new THREE.Clock();
+
 //
 // GLTF
 //
-
-let clock = new THREE.Clock();
-let controlsActive = false;
 
 async function loadGLTF(modelName: string) {
         const loader = new GLTFLoader();
@@ -125,7 +125,7 @@ async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera) {
 //
 // set up scroll and resize handlers
 //
-//
+// adjusts animation time to match scroll position
 
 function handleScroll(
         action: THREE.AnimationAction,
@@ -140,15 +140,52 @@ function handleScroll(
                 action.time = scroll * action.getClip().duration;
         }
 }
-
 function handleResize(
         camera: THREE.PerspectiveCamera,
-        renderer: THREE.WebGLRenderer,
+        renderer: THREE.WebGLRenderer
 ) {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        const isDesktop = window.innerWidth > 768;
+        let width, height;
+
+        if (isDesktop) {
+                width = window.innerWidth;
+                height = window.innerHeight;
+        } else {
+                const visualViewport = window.visualViewport;
+                width = visualViewport ? visualViewport.width : window.innerWidth;
+                height = visualViewport ? visualViewport.height : window.innerHeight;
+        }
+
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+// function handleResize(
+//         camera: THREE.PerspectiveCamera,
+//         renderer: THREE.WebGLRenderer,
+// ) {
+//         // TODO: find better way of resizing on mobile
+//         // on mobile the browser hides the bottom browser ui
+//         // on scroll down and shows on scroll up
+//         // this causes the camera to jump when the browser ui is shown
+//         // with the main interaction being scroll we need to find a better way
+//
+//         if (window.innerWidth > 768) {
+//                 renderer.setSize(window.innerWidth, window.innerHeight);
+//                 camera.aspect = window.innerWidth / window.innerHeight;
+//                 camera.updateProjectionMatrix();
+//         } else {
+//                 renderer.setSize(window.innerWidth, window.outerHeight);
+//                 camera.aspect = window.innerWidth / window.outerHeight;
+//                 camera.updateProjectionMatrix();
+//
+//         }
+//
+//         // camera.aspect = window.innerWidth / window.innerHeight;
+//         // camera.updateProjectionMatrix();
+//         // renderer.setSize(window.innerWidth, window.innerHeight);
+// }
 
 //
 //
@@ -168,6 +205,9 @@ async function setScene(
         let light = new THREE.AmbientLight(0xffffff);
         scene.add(light);
         scene.background = new THREE.Color(0xf0f0f0);
+
+        // TODO: handle multiple cameras, possibly a drop down
+
         let camera = cameras[0];
         if (cameras.length > 1) {
                 console.log("Multiple cameras found, using the first one.");
@@ -181,6 +221,8 @@ async function setScene(
         let controls = await setCtrl(camera, renderer, lookAt);
 
         let { mixer, action } = await setAnim(scene, camera);
+        const stageHeight = action.getClip().duration * 400;
+        stageElement.style.height = `${stageHeight}px`;
 
         let viewer = await setViewer(scene, renderer, camera);
         viewer
@@ -193,15 +235,11 @@ async function setScene(
                                 animate(viewer, mixer);
                         });
                 });
-        console.log(scene, mixer, action);
 
         window.addEventListener("scroll", () => {
                 handleScroll(action, stageElement);
         });
         window.addEventListener("resize", () => { handleResize(camera, renderer); });
-        // window.addEventListener("mousedown", () => { toggleCamera(controlsActive, controls, renderer); });
-        // window.addEventListener("mouseup", () => { toggleCamera(controlsActive, controls, renderer); });
-        console.log(controls);
         return { scene, camera, mixer, action, lookAt, viewer, controls, renderer };
 }
 

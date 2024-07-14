@@ -2,12 +2,12 @@
     import "../app.css";
     import { onMount } from "svelte";
     import { onNavigate } from "$app/navigation";
-    import { page } from "$app/stores";
+    // import { page } from "$app/stores";
     import Return from "$lib/return.svelte";
-    import { dev } from "$app/environment";
-    import { inject } from "@vercel/analytics";
-
-    inject({ mode: dev ? "development" : "production" });
+    // import { dev } from "$app/environment";
+    // import { inject } from "@vercel/analytics";
+    //
+    // inject({ mode: dev ? "development" : "production" });
 
     let isOpen: Boolean;
     // let home = false;
@@ -91,6 +91,6 @@
 </nav>
 
 <slot />
-{#if $page.route.id !== "/" && $page.route.id !== "/installation" && $page.route.id !== "/about"}
-    <Return />
-{/if}
+<!-- {#if $page.route.id !== "/" && $page.route.id !== "/installation" && $page.route.id !== "/about"} -->
+<!--     <Return /> -->
+<!-- {/if} -->

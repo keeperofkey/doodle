@@ -1,6 +1,13 @@
 <script lang="ts">
-    import OrbitScroll from "$lib/orbit-scroll.svelte";
     import Gallery from "$lib/gallery.svelte";
+    import ScrollOrbit from "$lib/scroll-orbit.svelte";
+    import info from "$lib/images";
+
+    const details = info.install.data;
+    let desc: string[] = [];
+    details.forEach((element) => {
+        desc.push(element.description);
+    });
     // import blob from "$lib/images/blob.json";
     // const images = blob.interior;
 
@@ -16,6 +23,6 @@
     <meta name="description" content="Gaussian Splatting" />
 </svelte:head>
 
-<OrbitScroll modelName="interior.glb" splatName="interior.splat" />
+<ScrollOrbit modelName="interior.glb" splatName="interior.splat" />
 
-<Gallery {images} />
+<Gallery {images} {desc} />
