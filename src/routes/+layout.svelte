@@ -30,7 +30,7 @@
     onNavigate(() => {
         isOpen = false;
     });
-    let icon = "";
+    let icon = "\u{1D301}";
     let moreIcon = "\u{25BC}";
     let more = false;
     function toggleMore() {
