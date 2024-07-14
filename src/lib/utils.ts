@@ -161,31 +161,6 @@ function handleResize(
         camera.updateProjectionMatrix();
 }
 
-// function handleResize(
-//         camera: THREE.PerspectiveCamera,
-//         renderer: THREE.WebGLRenderer,
-// ) {
-//         // TODO: find better way of resizing on mobile
-//         // on mobile the browser hides the bottom browser ui
-//         // on scroll down and shows on scroll up
-//         // this causes the camera to jump when the browser ui is shown
-//         // with the main interaction being scroll we need to find a better way
-//
-//         if (window.innerWidth > 768) {
-//                 renderer.setSize(window.innerWidth, window.innerHeight);
-//                 camera.aspect = window.innerWidth / window.innerHeight;
-//                 camera.updateProjectionMatrix();
-//         } else {
-//                 renderer.setSize(window.innerWidth, window.outerHeight);
-//                 camera.aspect = window.innerWidth / window.outerHeight;
-//                 camera.updateProjectionMatrix();
-//
-//         }
-//
-//         // camera.aspect = window.innerWidth / window.innerHeight;
-//         // camera.updateProjectionMatrix();
-//         // renderer.setSize(window.innerWidth, window.innerHeight);
-// }
 
 //
 //

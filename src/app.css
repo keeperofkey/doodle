@@ -6,14 +6,16 @@
   font-family: MartianMonoNF;
   src:
     url("/fonts/MartianMonoNerdFont-Regular.woff2") format("woff2"),
-    url("/fonts/MartianMonoNerdFont-Regular.woff") format("woff");
+    url("/fonts/MartianMonoNerdFont-Regular.woff") format("woff"),
+    url("/fonts/MartianMonoNerdFont-Regular.ttf") format("ttf");
 }
 
 @font-face {
   font-family: MartianMonoNF;
   src:
     url("/fonts/MartianMonoNerdFont-Bold.woff2") format("woff2"),
-    url("/fonts/MartianMonoNerdFont-Bold.woff") format("woff");
+    url("/fonts/MartianMonoNerdFont-Bold.woff") format("woff"),
+    url("/fonts/MartianMonoNerdFont-Bold.ttf") format("ttf");
   font-weight: 700;
 }
 
@@ -21,7 +23,8 @@
   font-family: MartianMonoNF;
   src:
     url("/fonts/MartianMonoNerdFont-Regular.woff2") format("woff2"),
-    url("/fonts/MartianMonoNerdFont-Regular.woff") format("woff");
+    url("/fonts/MartianMonoNerdFont-Regular.woff") format("woff"),
+    url("/fonts/MartianMonoNerdFont-Regular.ttf") format("ttf");
   font-style: italic;
 }
 
@@ -29,7 +32,8 @@
   font-family: MartianMonoNF;
   src:
     url("/fonts/MartianMonoNerdFont-Bold.woff2") format("woff2"),
-    url("/fonts/MartianMonoNerdFont-Bold.woff") format("woff");
+    url("/fonts/MartianMonoNerdFont-Bold.woff") format("woff"),
+    url("/fonts/MartianMonoNerdFont-Bold.ttf") format("ttf");
   font-weight: 700;
   font-style: italic;
 }

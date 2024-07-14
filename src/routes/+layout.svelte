@@ -2,6 +2,8 @@
     import "../app.css";
     import { onMount } from "svelte";
     import { onNavigate } from "$app/navigation";
+    import { slide, fly, draw } from "svelte/transition";
+
     // import { page } from "$app/stores";
     // import Return from "$lib/return.svelte";
     import { dev } from "$app/environment";
@@ -35,59 +37,66 @@
     let more = false;
     function toggleMore() {
         more = !more;
-        moreIcon = more ? "\u{25B6}" : "\u{25BC}";
     }
 
     function toggleMenu() {
         isOpen = !isOpen;
-        icon = isOpen ? "\u{1d303}" : "\u{1D301}";
     }
 </script>
 
 <nav
-    class="bg-white rounded-lg shadow-md fixed max-w-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
+    class="whitespace-nowrap bg-slate-100 hover:bg-opacity-100 bg-opacity-90 rounded-lg shadow-xl fixed max-w-fit max-h-12 pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
     <button
-        class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
-        on:click={toggleMenu}>{icon}</button
-    >
-    <i class="fa-solid fa-mountain"></i>
-    <div
         class="{isOpen
             ? ''
-            : 'hidden'} grid grid-flow-row sm:grid-flow-col items-center"
+            : 'rotate-180'} font-medium bg-transparent border-none p-2 hover:shadow-inner rounded"
+        on:click={toggleMenu}>{icon}</button
     >
-        <a
-            class="no-underline p-2 font-bold hover:shadow-inner hover:bg-slate-100 rounded"
-            href="/">Home</a
+    {#if isOpen}
+        <div
+            transition:slide={{ duration: 200, axis: "x" }}
+            class="overflow-hidden grid grid-flow-row sm:grid-flow-col items-center max-h-10"
         >
-        <a
-            class="no-underline p-2 font-bold hover:shadow-inner hover:bg-slate-100 rounded"
-            href="/installation">Mind your head</a
-        >
-        <a
-            class="no-underline p-2 font-bold hover:shadow-inner hover:bg-slate-100 rounded"
-            href="/nomenclature">Nomenclature</a
-        >
-        <a
-            class="no-underline p-2 font-bold hover:shadow-inner hover:bg-slate-100 rounded"
-            href="/interior">Interior</a
-        >
-        <button
-            class="font-medium bg-transparent border-none p-2 hover:shadow-inner hover:bg-slate-100 rounded"
-            on:click={toggleMore}>{moreIcon}</button
-        >
-        <div class="{more ? '' : 'hidden'} grid grid-flow-row sm:grid-flow-col">
             <a
-                class="no-underline p-2 font-bold hover:shadow-inner hover:bg-slate-100 rounded"
-                href="/joya">Joya: AiR</a
+                class="no-underline p-2 font-bold hover:shadow-inner rounded"
+                href="/">Home</a
             >
             <a
-                class="no-underline p-2 font-bold hover:shadow-inner hover:bg-slate-100 rounded"
-                href="/about">About</a
+                class="no-underline p-2 font-bold hover:shadow-inner rounded"
+                href="/installation">Mind your head</a
             >
+            <a
+                class="no-underline p-2 font-bold hover:shadow-inner rounded"
+                href="/nomenclature">Nomenclature</a
+            >
+            <a
+                class="no-underline p-2 font-bold hover:shadow-inner rounded"
+                href="/interior">Interior</a
+            >
+            <button
+                class="{more
+                    ? ''
+                    : 'rotate-90'}focus-within:-rotate-90 font-medium bg-transparent border-none p-2 hover:shadow-inner rounded"
+                on:click={toggleMore}>{moreIcon}</button
+            >
+            {#if more}
+                <div
+                    transition:slide={{ duration: 200, axis: "x" }}
+                    class="grid grid-flow-row sm:grid-flow-col"
+                >
+                    <a
+                        class="no-underline p-2 font-bold hover:shadow-inner rounded"
+                        href="/joya">Joya: AiR</a
+                    >
+                    <a
+                        class="no-underline p-2 font-bold hover:shadow-inner rounded"
+                        href="/about">About</a
+                    >
+                </div>
+            {/if}
         </div>
-    </div>
+    {/if}
 </nav>
 
 <slot />

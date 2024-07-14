@@ -1,7 +1,7 @@
 <script lang="ts">
     import { WebGLRenderer } from "three";
     import { setScene } from "./utils";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
 
     export let modelName: string;
     export let splatName: string;
@@ -26,11 +26,15 @@
     onMount(() => {
         setScene(modelName, splatName, renderer, stageElement);
     });
+    onDestroy(() => {
+        renderer.dispose();
+        renderer.domElement.remove();
+    });
 </script>
 
 <div bind:this={stageElement}>
     <button
-        class="fixed top-4 right-4 font-bold text-xl p-2 w-24 h-12 z-10 self-center bg-slate-100 border-2 rounded-lg hover:bg-slate-100 hover:shadow-inner shadow-lg"
+        class="bg-opacity-90 fixed top-4 right-4 font-bold text-xl p-2 w-24 h-12 z-10 self-center bg-slate-200 border-2 rounded-lg hover:bg-slate-100 hover:shadow-inner shadow-lg"
         class:border-black={!controlsActive}
         class:border-dashed={controlsActive}
         on:click={toggle}
