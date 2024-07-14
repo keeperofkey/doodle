@@ -1,13 +1,19 @@
-export { setScene, loadGLTF };
+export { setScene };
 
 import { normalizeScroll } from "./maths";
 import * as THREE from "three";
 import * as GSPLAT from "@mkkellogg/gaussian-splats-3d";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
+import { ctrlStore } from "./store";
 
 // clock from animation scrubbing
 let clock = new THREE.Clock();
+let shouldRender = false;
+let ctrlActive: Boolean = false;
+ctrlStore.subscribe((value) => {
+        ctrlActive = value;
+})
 
 //
 // GLTF
@@ -91,11 +97,11 @@ function setRender(renderer: THREE.WebGLRenderer) {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
-        renderer.domElement.style.position = "fixed";
-        renderer.domElement.style.top = "0";
-        renderer.domElement.style.width = "100%";
-        renderer.domElement.style.height = "100%";
-        renderer.domElement.style.zIndex = "-1";
+        // renderer.domElement.style.position = "fixed";
+        // renderer.domElement.style.top = "0";
+        // renderer.domElement.style.width = "100%";
+        // renderer.domElement.style.height = "100%";
+        // renderer.domElement.style.zIndex = "-1";
         document.body.appendChild(renderer.domElement);
 }
 
@@ -113,13 +119,40 @@ async function setCtrl(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRen
 
 }
 
-async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera) {
+async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera, lookAt: THREE.Object3D) {
         const mixer = new THREE.AnimationMixer(scene);
-        const action = mixer.clipAction(scene.animations[0], camera);
-        action.play();
-        action.paused = true;
-        return { mixer, action };
+        let lookTracks: THREE.KeyframeTrack[] = [];
+        let camTracks: THREE.KeyframeTrack[] = [];
+        const tracks = scene.animations[0].tracks;
+        tracks.forEach((track) => {
+                if (track.name.includes("Look_At")) {
+                        lookTracks.push(track);
+                } else if (track.name.includes("cam1")) {
+                        camTracks.push(track);
+                } else {
+                        console.log("track not detected cause im lazy try naming it better");
+                }
+        })
+
+        const lookClip = new THREE.AnimationClip("lookAt", -1, lookTracks);
+        const lookAction = mixer.clipAction(lookClip, lookAt);
+        const camClip = new THREE.AnimationClip("cam1", -1, camTracks);
+        const camAction = mixer.clipAction(camClip, camera);
+
+
+        lookAction.play();
+        lookAction.paused = true;
+        camAction.play();
+        camAction.paused = true;
+        return { mixer, camAction, lookAction };
 }
+
+// it works ok
+//
+// function setTrack(mixer: THREE.AnimationMixer, scene: THREE.Scene) {
+//
+//
+// }
 
 //
 //
@@ -128,8 +161,9 @@ async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera) {
 // adjusts animation time to match scroll position
 
 function handleScroll(
-        action: THREE.AnimationAction,
+        camAction: THREE.AnimationAction,
         stageElement: HTMLElement,
+        lookAction: THREE.AnimationAction,
 ) {
         if (stageElement) {
                 const scroll = normalizeScroll(
@@ -137,8 +171,10 @@ function handleScroll(
                         stageElement.scrollHeight,
                         window.outerHeight,
                 );
-                action.time = scroll * action.getClip().duration;
+                camAction.time = scroll * camAction.getClip().duration;
+                lookAction.time = scroll * lookAction.getClip().duration;
         }
+        shouldRender = true;
 }
 function handleResize(
         camera: THREE.PerspectiveCamera,
@@ -159,6 +195,7 @@ function handleResize(
         renderer.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
+        shouldRender = true;
 }
 
 
@@ -195,8 +232,8 @@ async function setScene(
         setRender(renderer);
         let controls = await setCtrl(camera, renderer, lookAt);
 
-        let { mixer, action } = await setAnim(scene, camera);
-        const stageHeight = action.getClip().duration * 400;
+        let { mixer, camAction, lookAction } = await setAnim(scene, camera, lookAt);
+        const stageHeight = 24 * 400;
         stageElement.style.height = `${stageHeight}px`;
 
         let viewer = await setViewer(scene, renderer, camera);
@@ -210,12 +247,14 @@ async function setScene(
                                 animate(viewer, mixer);
                         });
                 });
+        console.log(viewer)
 
         window.addEventListener("scroll", () => {
-                handleScroll(action, stageElement);
+                handleScroll(camAction, stageElement, lookAction);
         });
         window.addEventListener("resize", () => { handleResize(camera, renderer); });
-        return { scene, camera, mixer, action, lookAt, viewer, controls, renderer };
+        shouldRender = true;
+        return { scene, camera, mixer, camAction, lookAt, viewer, controls, renderer };
 }
 
 //
@@ -226,8 +265,16 @@ async function setScene(
 
 function animate(viewer: GSPLAT.Viewer, mixer: THREE.AnimationMixer) {
         requestAnimationFrame(() => animate(viewer, mixer));
-        mixer.update(clock.getDelta());
-        viewer.update();
-        viewer.render();
+        if (ctrlActive) {
+                viewer.update();
+                viewer.render();
+
+        } else if (shouldRender) {
+                mixer.update(clock.getDelta());
+                viewer.update();
+                viewer.render();
+                shouldRender = false;
+
+        }
 }
 

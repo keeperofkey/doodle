@@ -2,16 +2,19 @@
     import { WebGLRenderer } from "three";
     import { setScene } from "./utils";
     import { onDestroy, onMount } from "svelte";
+    import { ctrlStore } from "./store";
 
     export let modelName: string;
     export let splatName: string;
+
     let stageElement: HTMLElement;
     let controlsActive = false;
-    let renderer = new WebGLRenderer({
-        antialias: true,
-    });
+    ctrlStore.subscribe((value: boolean) => (controlsActive = value));
+    let renderer: WebGLRenderer;
+    let canvas: HTMLCanvasElement;
+    let viewer: any;
     function toggle() {
-        controlsActive = !controlsActive;
+        ctrlStore.update((value: boolean) => !value);
         if (controlsActive) {
             renderer.domElement.style.touchAction = "none";
             renderer.domElement.style.zIndex = "0";
@@ -19,18 +22,29 @@
             renderer.domElement.style.touchAction = "auto";
             renderer.domElement.style.zIndex = "-1";
         }
-        console.log(window.scrollY, document.body.scrollTop);
         window.scrollBy(0, 1);
     }
 
     onMount(() => {
-        setScene(modelName, splatName, renderer, stageElement);
+        renderer = new WebGLRenderer({
+            antialias: true,
+            canvas: canvas,
+        });
+        setScene(modelName, splatName, renderer, stageElement).then(
+            (sceneData) => {
+                viewer = sceneData.viewer;
+            },
+        );
     });
     onDestroy(() => {
         renderer.dispose();
-        renderer.domElement.remove();
+        renderer.clear();
+        // renderer.domElement.remove();
+        viewer.dispose();
     });
 </script>
+
+<canvas bind:this={canvas} class="fixed -z-10 top-0 w-full h-full" />
 
 <div bind:this={stageElement}>
     <button
