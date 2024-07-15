@@ -3,26 +3,30 @@
     import { setScene } from "./utils";
     import { onDestroy, onMount } from "svelte";
     import { ctrlStore } from "./store";
+    import { onNavigate } from "$app/navigation";
 
     export let modelName: string;
     export let splatName: string;
 
     let stageElement: HTMLElement;
     let controlsActive = false;
-    ctrlStore.subscribe((value: boolean) => (controlsActive = value));
+    // ctrlStore.subscribe((value: boolean) => (controlsActive = value));
     let renderer: WebGLRenderer;
     let canvas: HTMLCanvasElement;
     let viewer: any;
+    let controls: any;
+
     function toggle() {
-        ctrlStore.update((value: boolean) => !value);
+        controlsActive = !controlsActive;
+        // ctrlStore.set(controlsActive);
         if (controlsActive) {
+            controls.enabled = true;
             renderer.domElement.style.touchAction = "none";
-            renderer.domElement.style.zIndex = "0";
         } else {
+            controls.enabled = false;
             renderer.domElement.style.touchAction = "auto";
-            renderer.domElement.style.zIndex = "-1";
+            window.scrollBy(0, 1);
         }
-        window.scrollBy(0, 1);
     }
 
     onMount(() => {
@@ -33,26 +37,32 @@
         setScene(modelName, splatName, renderer, stageElement).then(
             (sceneData) => {
                 viewer = sceneData.viewer;
+                controls = sceneData.controls;
             },
         );
     });
     onDestroy(() => {
         renderer.dispose();
-        renderer.clear();
-        // renderer.domElement.remove();
+        // renderer.clear();
+        renderer.domElement.remove();
         viewer.dispose();
     });
 </script>
 
-<canvas bind:this={canvas} class="fixed -z-10 top-0 w-full h-full" />
+<canvas bind:this={canvas} class="fixed top-0 w-full h-full" />
 
 <div bind:this={stageElement}>
     <button
-        class="bg-opacity-90 fixed top-4 right-4 font-bold text-xl p-2 w-24 h-12 z-10 self-center bg-slate-200 border-2 rounded-lg hover:bg-slate-100 hover:shadow-inner shadow-lg"
-        class:border-black={!controlsActive}
+        class="grid grid-col-2 place-items-center grid-flow-col bg-opacity-50 fixed top-4 right-4 font-bold text-xl p-2 w-24 h-12 z-10 self-center bg-slate-100 border-2 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
+        class:border-neutral-500={!controlsActive}
         class:border-dashed={controlsActive}
         on:click={toggle}
     >
-        {controlsActive ? "\u{1F4F9} \u{1F513}" : "\u{1F4F9}  \u{1F512}"}
+        <span>&#x1F4F9;</span>
+        {#if controlsActive}
+            <span class="fa-solid fa-unlock"></span>
+        {:else}
+            <span class="fa-solid fa-lock"></span>
+        {/if}
     </button>
 </div>

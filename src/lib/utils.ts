@@ -10,10 +10,10 @@ import { ctrlStore } from "./store";
 // clock from animation scrubbing
 let clock = new THREE.Clock();
 let shouldRender = false;
-let ctrlActive: Boolean = false;
-ctrlStore.subscribe((value) => {
-        ctrlActive = value;
-})
+let ctrlActive: boolean;
+// ctrlStore.subscribe((value) => {
+//         ctrlActive = value;
+// })
 
 //
 // GLTF
@@ -113,7 +113,7 @@ function setRender(renderer: THREE.WebGLRenderer) {
 
 async function setCtrl(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer, lookAt: THREE.Object3D) {
         let controls = new GSPLAT.OrbitControls(camera, renderer.domElement);
-        controls.enabled = true;
+        controls.enabled = false;
         controls.target = lookAt.position;
         return controls;
 
@@ -239,7 +239,7 @@ async function setScene(
         let viewer = await setViewer(scene, renderer, camera);
         viewer
                 .addSplatScene(`models/${splatName}`, {
-                        showLoadingUI: true,
+                        showLoadingUI: false,
                         progressiveLoading: true,
                 })
                 .then(() => {
@@ -253,7 +253,6 @@ async function setScene(
                 handleScroll(camAction, stageElement, lookAction);
         });
         window.addEventListener("resize", () => { handleResize(camera, renderer); });
-        shouldRender = true;
         return { scene, camera, mixer, camAction, lookAt, viewer, controls, renderer };
 }
 
@@ -263,18 +262,11 @@ async function setScene(
 //
 //
 
-function animate(viewer: GSPLAT.Viewer, mixer: THREE.AnimationMixer) {
+function animate(viewer: any, mixer: THREE.AnimationMixer) {
         requestAnimationFrame(() => animate(viewer, mixer));
-        if (ctrlActive) {
-                viewer.update();
-                viewer.render();
-
-        } else if (shouldRender) {
-                mixer.update(clock.getDelta());
-                viewer.update();
-                viewer.render();
-                shouldRender = false;
-
-        }
+        mixer.update(clock.getDelta());
+        viewer.update();
+        viewer.render();
+        shouldRender = false;
 }
 

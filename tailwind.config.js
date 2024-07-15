@@ -3,6 +3,10 @@ export default {
         content: ['./src/**/*.{html,svelte,js,ts}'],
         theme: {
                 extend: {},
+                fontFamily: {
+                        'mono': ['Source Code Pro', 'monospace'],
+
+                },
         },
         plugins: [],
 }
