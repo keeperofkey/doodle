@@ -33,7 +33,6 @@
         isOpen = false;
     });
     let icon = "\u{1D301}";
-    let moreIcon = "\u{25BC}";
     let more = false;
     function toggleMore() {
         more = !more;
@@ -45,7 +44,7 @@
 </script>
 
 <nav
-    class="font-mono font-bold subpixel-antialiased text-md whitespace-nowrap bg-slate-200 hover:bg-opacity-100 bg-opacity-90 rounded-lg shadow-xl fixed max-w-fit max-h-12 pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
+    class="font-mono font-bold subpixel-antialiased text-md whitespace-nowrap bg-slate-200 hover:bg-opacity-100 bg-opacity-90 rounded-lg shadow-xl fixed max-w-fit h-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
     <button
         class="{isOpen
@@ -56,7 +55,7 @@
     {#if isOpen}
         <div
             transition:slide={{ duration: 200, axis: "x" }}
-            class="overflow-hidden grid grid-flow-row sm:grid-flow-col items-center max-h-10"
+            class="grid grid-flow-row sm:grid-flow-col items-center"
         >
             <a
                 class="no-underline p-2 font-bold hover:shadow-inner rounded-lg"
@@ -75,7 +74,7 @@
                 href="/interior">Interior</a
             >
             <button
-                class="font-medium bg-transparent border-none p-2 hover:shadow-inner rounded-lg"
+                class="font-medium border-none p-2 hover:shadow-inner rounded-lg"
                 on:click={toggleMore}
             >
                 <span
