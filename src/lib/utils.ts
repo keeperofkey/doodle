@@ -1,31 +1,32 @@
 export { setScene };
 
 import { normalizeScroll } from "./maths";
-import * as THREE from "three";
-import * as GSPLAT from "@mkkellogg/gaussian-splats-3d";
+import {
+        Scene, ACESFilmicToneMapping, WebGLRenderer, PerspectiveCamera, Object3D,
+        Mesh, AnimationClip, AnimationMixer, KeyframeTrack, AnimationAction, Color,
+        AmbientLight, MeshBasicMaterial, Clock
+} from "three";
+import { Viewer, RenderMode } from "@mkkellogg/gaussian-splats-3d";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
-import { ctrlStore } from "./store";
+import { OrbitControls } from "three/examples/jsm/Addons.js";
 
 // clock from animation scrubbing
-let clock = new THREE.Clock();
-let shouldRender = false;
-let ctrlActive: boolean;
-// ctrlStore.subscribe((value) => {
-//         ctrlActive = value;
-// })
+let clock = new Clock();
 
+/////////
 //
 // GLTF
 //
+/////////
 
 async function loadGLTF(modelName: string) {
         const loader = new GLTFLoader();
         let cameras: any[] = [];
-        let lookAt = new THREE.Object3D();
-        let scene = new THREE.Scene();
-        let mesh = new THREE.Mesh();
-        let camera = new THREE.PerspectiveCamera(
+        let lookAt = new Object3D();
+        let scene = new Scene();
+        let mesh = new Mesh();
+        let camera = new PerspectiveCamera(
                 75,
                 window.innerWidth / window.innerHeight,
                 0.1,
@@ -41,7 +42,7 @@ async function loadGLTF(modelName: string) {
                         scene.animations = gltf.animations;
                         gltf.scene.traverse((child: any) => {
                                 if (child.isMesh) {
-                                        const mat = new THREE.MeshBasicMaterial({
+                                        const mat = new MeshBasicMaterial({
                                                 color: 0xffffff,
                                                 wireframe: true,
                                                 vertexColors: true,
@@ -67,18 +68,18 @@ async function loadGLTF(modelName: string) {
         return { scene, cameras, lookAt };
 }
 
-//
+//////////////
 //
 // RENDERING
 //
-//
+//////////////
 
 async function setViewer(
-        scene: THREE.Scene,
-        renderer: THREE.WebGLRenderer,
-        camera: THREE.PerspectiveCamera,
+        scene: Scene,
+        renderer: WebGLRenderer,
+        camera: PerspectiveCamera,
 ) {
-        let viewer = new GSPLAT.Viewer({
+        let viewer = new Viewer({
                 useBuiltInControls: false,
                 camera: camera,
                 threeScene: scene,
@@ -86,43 +87,43 @@ async function setViewer(
                 selfDrivenMode: false,
                 sharedMemoryForWorkers: false,
                 // logLevel: GSPLAT.LogLevel.Debug,
-                renderMode: GSPLAT.RenderMode.OnChange,
+                renderMode: RenderMode.OnChange,
         });
         return viewer;
 }
 
 
-function setRender(renderer: THREE.WebGLRenderer) {
+function setRender(renderer: WebGLRenderer) {
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMapping = ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
-        // renderer.domElement.style.position = "fixed";
-        // renderer.domElement.style.top = "0";
-        // renderer.domElement.style.width = "100%";
-        // renderer.domElement.style.height = "100%";
-        // renderer.domElement.style.zIndex = "-1";
+
+        // TODO: this is required for splats to render into scene
+        // canvas is not getting splat updates for somereason otherwise
         document.body.appendChild(renderer.domElement);
 }
 
-//
+/////////////////////////////////////////////////
 //
 // Set up orbitControls and camera animations
 //
-//
+////////////////////////////////////////////////
 
-async function setCtrl(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer, lookAt: THREE.Object3D) {
-        let controls = new GSPLAT.OrbitControls(camera, renderer.domElement);
+async function setCtrl(camera: PerspectiveCamera, renderer: WebGLRenderer, lookAt: Object3D) {
+        let controls = new OrbitControls(camera, renderer.domElement);
         controls.enabled = false;
         controls.target = lookAt.position;
         return controls;
 
 }
 
-async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera, lookAt: THREE.Object3D) {
-        const mixer = new THREE.AnimationMixer(scene);
-        let lookTracks: THREE.KeyframeTrack[] = [];
-        let camTracks: THREE.KeyframeTrack[] = [];
+// TODO: it works ok. but its not very elegent
+
+async function setAnim(scene: Scene, camera: PerspectiveCamera, lookAt: Object3D) {
+        const mixer = new AnimationMixer(scene);
+        let lookTracks: KeyframeTrack[] = [];
+        let camTracks: KeyframeTrack[] = [];
         const tracks = scene.animations[0].tracks;
         tracks.forEach((track) => {
                 if (track.name.includes("Look_At")) {
@@ -134,9 +135,9 @@ async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera, look
                 }
         })
 
-        const lookClip = new THREE.AnimationClip("lookAt", -1, lookTracks);
+        const lookClip = new AnimationClip("lookAt", -1, lookTracks);
         const lookAction = mixer.clipAction(lookClip, lookAt);
-        const camClip = new THREE.AnimationClip("cam1", -1, camTracks);
+        const camClip = new AnimationClip("cam1", -1, camTracks);
         const camAction = mixer.clipAction(camClip, camera);
 
 
@@ -147,23 +148,22 @@ async function setAnim(scene: THREE.Scene, camera: THREE.PerspectiveCamera, look
         return { mixer, camAction, lookAction };
 }
 
-// it works ok
-//
-// function setTrack(mixer: THREE.AnimationMixer, scene: THREE.Scene) {
-//
-//
-// }
 
+///////////////
 //
-//
-// set up scroll and resize handlers
+// HANDLERS
 //
 // adjusts animation time to match scroll position
 
 function handleScroll(
-        camAction: THREE.AnimationAction,
+        camAction: AnimationAction,
         stageElement: HTMLElement,
-        lookAction: THREE.AnimationAction,
+        lookAction: AnimationAction,
+        renderer: WebGLRenderer,
+        camera: PerspectiveCamera,
+        mixer: AnimationMixer,
+        viewer: any,
+        scene: Scene,
 ) {
         if (stageElement) {
                 const scroll = normalizeScroll(
@@ -174,11 +174,14 @@ function handleScroll(
                 camAction.time = scroll * camAction.getClip().duration;
                 lookAction.time = scroll * lookAction.getClip().duration;
         }
-        shouldRender = true;
+        animate(scene, camera, viewer, mixer, renderer);
 }
 function handleResize(
-        camera: THREE.PerspectiveCamera,
-        renderer: THREE.WebGLRenderer
+        camera: PerspectiveCamera,
+        renderer: WebGLRenderer,
+        mixer: AnimationMixer,
+        viewer: any,
+        scene: Scene,
 ) {
         const isDesktop = window.innerWidth > 768;
         let width, height;
@@ -195,28 +198,28 @@ function handleResize(
         renderer.setSize(width, height);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        shouldRender = true;
+        animate(scene, camera, viewer, mixer, renderer);
 }
 
 
-//
+////////////////////////////////////
 //
 // Setup the scene main entry point
 //
-//
+////////////////////////////////////
 
 async function setScene(
         modelName: string,
         splatName: string,
-        renderer: THREE.WebGLRenderer,
+        renderer: WebGLRenderer,
         stageElement: HTMLElement,
 ) {
         // Initialize the scene
         let { scene, cameras, lookAt } = await loadGLTF(modelName);
         // Add lights and set camera
-        let light = new THREE.AmbientLight(0xffffff);
+        let light = new AmbientLight(0xffffff);
         scene.add(light);
-        scene.background = new THREE.Color(0xf0f0f0);
+        scene.background = new Color(0xe8edee);
 
         // TODO: handle multiple cameras, possibly a drop down
 
@@ -230,7 +233,9 @@ async function setScene(
         camera.updateProjectionMatrix();
 
         setRender(renderer);
+
         let controls = await setCtrl(camera, renderer, lookAt);
+        controls.addEventListener("change", () => { animate(scene, camera, viewer, mixer, renderer) });
 
         let { mixer, camAction, lookAction } = await setAnim(scene, camera, lookAt);
         const stageHeight = 24 * 400;
@@ -243,30 +248,27 @@ async function setScene(
                         progressiveLoading: true,
                 })
                 .then(() => {
-                        requestAnimationFrame(() => {
-                                animate(viewer, mixer);
-                        });
+                        animate(scene, camera, viewer, mixer, renderer);
                 });
         console.log(viewer)
 
         window.addEventListener("scroll", () => {
-                handleScroll(camAction, stageElement, lookAction);
+                handleScroll(camAction, stageElement, lookAction, renderer, camera, mixer, viewer, scene);
         });
-        window.addEventListener("resize", () => { handleResize(camera, renderer); });
+        window.addEventListener("resize", () => { handleResize(camera, renderer, mixer, viewer, scene); });
         return { scene, camera, mixer, camAction, lookAt, viewer, controls, renderer };
 }
 
-//
+//////////////////
 //
 // Animation loop
 //
-//
+//////////////////
 
-function animate(viewer: any, mixer: THREE.AnimationMixer) {
-        requestAnimationFrame(() => animate(viewer, mixer));
+function animate(scene: Scene, camera: PerspectiveCamera, viewer: any, mixer: AnimationMixer, renderer: WebGLRenderer) {
+        renderer.render(scene, camera);
         mixer.update(clock.getDelta());
         viewer.update();
         viewer.render();
-        shouldRender = false;
 }
 

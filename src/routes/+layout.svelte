@@ -2,7 +2,7 @@
     import "../app.css";
     import { onMount } from "svelte";
     import { onNavigate } from "$app/navigation";
-    import { slide, fly, draw } from "svelte/transition";
+    import { slide } from "svelte/transition";
 
     // import { page } from "$app/stores";
     // import Return from "$lib/return.svelte";
@@ -45,7 +45,7 @@
 </script>
 
 <nav
-    class="font-mono font-bold subpixel-antialiased text-md whitespace-nowrap bg-slate-100 hover:bg-opacity-100 bg-opacity-90 rounded-lg shadow-xl fixed max-w-fit max-h-12 pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
+    class="font-mono font-bold subpixel-antialiased text-md whitespace-nowrap bg-slate-200 hover:bg-opacity-100 bg-opacity-90 rounded-lg shadow-xl fixed max-w-fit max-h-12 pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
 >
     <button
         class="{isOpen

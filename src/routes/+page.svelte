@@ -9,7 +9,7 @@
 
 <div class="grid grid-cols-1 justify-items-center items-center h-dvh">
     <object
-        class="p-5 w-dvw"
+        class="p-5 w-dvw dark:stroke-white"
         title="Welcome"
         type="image/svg+xml"
         data={welcome}
