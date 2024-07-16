@@ -2,8 +2,6 @@
     import { WebGLRenderer } from "three";
     import { setScene } from "./utils";
     import { onDestroy, onMount } from "svelte";
-    import { ctrlStore } from "./store";
-    import { onNavigate } from "$app/navigation";
 
     export let modelName: string;
     export let splatName: string;
@@ -22,9 +20,11 @@
         if (controlsActive) {
             controls.enabled = true;
             renderer.domElement.style.touchAction = "none";
+            renderer.domElement.style.zIndex = "0";
         } else {
             controls.enabled = false;
             renderer.domElement.style.touchAction = "auto";
+            renderer.domElement.style.zIndex = "-1";
             window.scrollBy(0, 1);
         }
     }
@@ -46,12 +46,13 @@
         // renderer.clear();
         renderer.domElement.remove();
         viewer.dispose();
+        controls.dispose();
     });
 </script>
 
 <canvas bind:this={canvas} class="fixed top-0 w-full h-full" />
 
-<div bind:this={stageElement}>
+<div bind:this={stageElement} class="h-dvh">
     <button
         class="grid grid-col-2 place-items-center grid-flow-col bg-opacity-50 fixed top-4 right-4 font-bold text-xl p-2 w-24 h-12 z-10 self-center bg-slate-100 border-2 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
         class:border-neutral-500={!controlsActive}

@@ -98,6 +98,7 @@ function setRender(renderer: WebGLRenderer) {
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.toneMapping = ACESFilmicToneMapping;
         renderer.toneMappingExposure = 1;
+        renderer.domElement.style.zIndex = "-1";
 
         // TODO: this is required for splats to render into scene
         // canvas is not getting splat updates for somereason otherwise
