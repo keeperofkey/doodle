@@ -1,5 +1,7 @@
 <script lang="ts">
-    export let images: { description: string; url: string; name: string }[];
+    export let images: Object;
+    // export let altTexts: any;
+    export let desc: string[];
 
     import "@appnest/masonry-layout";
 
@@ -9,21 +11,23 @@
         const target = event.target as HTMLImageElement;
         expandedImage = expandedImage === target.src ? null : target.src;
     }
+    console.log(images);
+
+    const imagesArray = Object.values(images);
 </script>
 
 <masonry-layout class="m-4 z-10 relative" gap="1rem" maxcolwidth="1024">
-    {#each images as image}
+    {#each imagesArray as image, i}
         <button
             class="bg-transparent border-none cursor-pointer pointer-events-auto"
             type="button"
             on:click={toggleExpand}
         >
             <img
-                src={image.url}
-                alt={image.description}
+                src={image.name}
+                alt={desc[i]}
                 class="rounded-3xl max-h-full max-w-full h-auto p-2"
                 loading="lazy"
-                crossorigin="anonymous"
             />
         </button>
     {/each}

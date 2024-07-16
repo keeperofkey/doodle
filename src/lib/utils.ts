@@ -235,7 +235,7 @@ async function setScene(
         setRender(renderer);
 
         let controls = await setCtrl(camera, renderer, lookAt);
-        controls.addEventListener("change", () => { animate(scene, camera, viewer, mixer, renderer) });
+        controls.addEventListener("change", () => { render(viewer) });
 
         let { mixer, camAction, lookAction } = await setAnim(scene, camera, lookAt);
         const stageHeight = 24 * 400;
@@ -250,7 +250,6 @@ async function setScene(
                 .then(() => {
                         animate(scene, camera, viewer, mixer, renderer);
                 });
-        console.log(viewer)
 
         window.addEventListener("scroll", () => {
                 handleScroll(camAction, stageElement, lookAction, renderer, camera, mixer, viewer, scene);
@@ -264,6 +263,12 @@ async function setScene(
 // Animation loop
 //
 //////////////////
+
+function render(viewer: any) {
+        requestAnimationFrame(render);
+        viewer.update();
+        viewer.render();
+}
 
 function animate(scene: Scene, camera: PerspectiveCamera, viewer: any, mixer: AnimationMixer, renderer: WebGLRenderer) {
         renderer.render(scene, camera);

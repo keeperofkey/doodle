@@ -1,22 +1,24 @@
 <script lang="ts">
     import Gallery from "$lib/gallery.svelte";
     import ScrollOrbit from "$lib/scroll-orbit.svelte";
-    import info from "$lib/images";
+    import { joya } from "$lib/images.json";
 
-    const details = info.install.data;
-    let desc: string[] = [];
-    details.forEach((element) => {
-        desc.push(element.description);
-    });
+    const images = joya.data;
 
-    // import blob from "$lib/images/blob.json";
-    // const images = blob.joya;
+    // const details = info.install.data;
+    // let desc: string[] = [];
+    // details.forEach((element) => {
+    //     desc.push(element.description);
+    // });
     //
-    // const images = import.meta.glob("$lib/images/cans/*.webp");
-    const images = import.meta.glob("$lib/images/cans/*.webp", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    // // import blob from "$lib/images/blob.json";
+    // // const images = blob.joya;
+    // //
+    // // const images = import.meta.glob("$lib/images/cans/*.webp");
+    // const images = import.meta.glob("$lib/images/cans/*.webp", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
 </script>
 
 <svelte:head>
@@ -50,4 +52,4 @@
     </p>
 </main>
 
-<Gallery {images} {desc} />
+<Gallery {images} />

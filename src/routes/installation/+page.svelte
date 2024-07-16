@@ -1,20 +1,17 @@
 <script lang="ts">
     import Gallery from "$lib/gallery.svelte";
     import ScrollOrbit from "$lib/scroll-orbit.svelte";
-    import info from "$lib/images";
+    import { install } from "$lib/images.json";
 
-    const details = info.install.data;
-    let desc: string[] = [];
-    details.forEach((element) => {
-        desc.push(element.description);
-    });
+    const images = install.data;
+
     // import blob from "$lib/blob.json";
     // const images = blob.install;
 
-    const images = import.meta.glob("$lib/images/install/*.avif", {
-        eager: true,
-        query: { enhanced: true },
-    });
+    // const images = import.meta.glob("$lib/images/install/*.avif", {
+    //     eager: true,
+    //     query: { enhanced: true },
+    // });
     // const images = import.meta.glob("$lib/images/install/*.avif");
 </script>
 
@@ -63,4 +60,4 @@
     </p>
 </main>
 
-<Gallery {images} {desc} />
+<Gallery {images} />
