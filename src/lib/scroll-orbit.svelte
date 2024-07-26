@@ -14,6 +14,10 @@
     let viewer: any;
     let controls: any;
 
+    function scroll() {
+        window.scrollBy(0, window.innerHeight * 2);
+    }
+
     function toggle() {
         controlsActive = !controlsActive;
         // ctrlStore.set(controlsActive);
@@ -66,4 +70,7 @@
             <span class="fa-solid fa-lock"></span>
         {/if}
     </button>
+    <div class="fixed bottom-0 grid place-items-center grid-cols-3 w-full">
+        <button on:click={scroll} class="hover:text-orange-500 p-2 col-start-2 fa-solid fa-angles-down" ></button>
+    </div>
 </div>
