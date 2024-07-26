@@ -17,18 +17,18 @@
 
     // console.log(home);
 
-    // onMount(() => {
-    //     const handleResize = () => {
-    //         isOpen = window.innerWidth >= 768; // Adjust the breakpoint as needed
-    //     };
-    //
-    //     handleResize(); // Set initial value
-    //     window.addEventListener("resize", handleResize);
-    //
-    //     return () => {
-    //         window.removeEventListener("resize", handleResize);
-    //     };
-    // });
+    onMount(() => {
+        const handleResize = () => {
+            isOpen = window.innerWidth >= 768; // Adjust the breakpoint as needed
+        };
+
+        handleResize(); // Set initial value
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    });
     onNavigate(() => {
         isOpen = false;
     });
