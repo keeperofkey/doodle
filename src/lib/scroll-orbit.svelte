@@ -1,57 +1,55 @@
 <script lang="ts">
-    import { WebGLRenderer } from "three";
-    import { setScene } from "./utils";
-    import { onDestroy, onMount } from "svelte";
+import { WebGLRenderer } from "three";
+import { setScene } from "./utils";
+import { onDestroy, onMount } from "svelte";
 
-    export let modelName: string;
-    export let splatName: string;
+export let modelName: string;
+export let splatName: string;
 
-    let stageElement: HTMLElement;
-    let controlsActive = false;
-    // ctrlStore.subscribe((value: boolean) => (controlsActive = value));
-    let renderer: WebGLRenderer;
-    let canvas: HTMLCanvasElement;
-    let viewer: any;
-    let controls: any;
+let stageElement: HTMLElement;
+let controlsActive = false;
+// ctrlStore.subscribe((value: boolean) => (controlsActive = value));
+let renderer: WebGLRenderer;
+let canvas: HTMLCanvasElement;
+let viewer: any;
+let controls: any;
 
-    function scroll() {
-        window.scrollBy(0, window.innerHeight * 2);
-    }
+function scroll() {
+	window.scrollBy(0, window.innerHeight * 2);
+}
 
-    function toggle() {
-        controlsActive = !controlsActive;
-        // ctrlStore.set(controlsActive);
-        if (controlsActive) {
-            controls.enabled = true;
-            renderer.domElement.style.touchAction = "none";
-            renderer.domElement.style.zIndex = "0";
-        } else {
-            controls.enabled = false;
-            renderer.domElement.style.touchAction = "auto";
-            renderer.domElement.style.zIndex = "-1";
-            window.scrollBy(0, 1);
-        }
-    }
+function toggle() {
+	controlsActive = !controlsActive;
+	// ctrlStore.set(controlsActive);
+	if (controlsActive) {
+		controls.enabled = true;
+		renderer.domElement.style.touchAction = "none";
+		renderer.domElement.style.zIndex = "0";
+	} else {
+		controls.enabled = false;
+		renderer.domElement.style.touchAction = "auto";
+		renderer.domElement.style.zIndex = "-1";
+		window.scrollBy(0, 1);
+	}
+}
 
-    onMount(() => {
-        renderer = new WebGLRenderer({
-            antialias: true,
-            canvas: canvas,
-        });
-        setScene(modelName, splatName, renderer, stageElement).then(
-            (sceneData) => {
-                viewer = sceneData.viewer;
-                controls = sceneData.controls;
-            },
-        );
-    });
-    onDestroy(() => {
-        renderer.dispose();
-        // renderer.clear();
-        renderer.domElement.remove();
-        viewer.dispose();
-        controls.dispose();
-    });
+onMount(() => {
+	renderer = new WebGLRenderer({
+		antialias: false,
+		canvas: canvas,
+	});
+	setScene(modelName, splatName, renderer, stageElement).then((sceneData) => {
+		// viewer = sceneData.viewer;
+		controls = sceneData.controls;
+	});
+});
+onDestroy(() => {
+	renderer.dispose();
+	// renderer.clear();
+	renderer.domElement.remove();
+	// viewer.dispose();
+	controls.dispose();
+});
 </script>
 
 <canvas bind:this={canvas} class="fixed top-0 w-full h-full" />
