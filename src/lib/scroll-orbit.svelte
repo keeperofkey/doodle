@@ -11,7 +11,7 @@ let controlsActive = false;
 // ctrlStore.subscribe((value: boolean) => (controlsActive = value));
 let renderer: WebGLRenderer;
 let canvas: HTMLCanvasElement;
-let viewer: any;
+// let viewer: any;
 let controls: any;
 
 function scroll() {

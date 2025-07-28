@@ -21,8 +21,8 @@ import {
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { SplatLoader, SplatMesh } from "@sparkjsdev/spark";
-
+// import { SplatFileType, SplatLoader, SplatMesh } from "@sparkjsdev/spark";
+let SPARK: typeof import('@sparkjsdev/spark');
 // clock from animation scrubbing
 let clock = new Clock();
 
@@ -86,21 +86,23 @@ async function loadGLTF(modelName: string) {
 async function loadSpark(splatName: string, scene: Scene) {
 	try {
 		// Use SplatLoader for proper async loading
-		const loader = new SplatLoader();
-
-		const packedSplats = await loader.loadAsync(
-			`models/${splatName}`,
-			(event) => {
-				if (event.type === "progress") {
-					const progress = event.lengthComputable
-						? `${((event.loaded / event.total) * 100).toFixed(2)}%`
-						: `${event.loaded} bytes`;
-					console.log(`Splat loading progress: ${progress}`);
-				}
-			},
-		);
-
-		const splatMesh = new SplatMesh({ packedSplats });
+		// const loader = new SplatLoader();
+		//
+		// const packedSplats = await loader.loadAsync(
+		// 	`/models/${splatName}`,
+		// 	(event: any) => {
+		// 		if (event.type === "progress") {
+		// 			const progress = event.lengthComputable
+		// 				? `${((event.loaded / event.total) * 100).toFixed(2)}%`
+		// 				: `${event.loaded} bytes`;
+		// 			console.log(`Splat loading progress: ${progress}`);
+		// 		}
+		// 	},
+		// );
+    if (!SPARK) {
+      SPARK = await import('https://sparkjs.dev/releases/spark/0.1.6/spark.module.js');
+    }
+		const splatMesh = new SPARK.SplatMesh({ url: `/models/${splatName}` });
 		scene.add(splatMesh);
 
 		return scene;
@@ -137,23 +139,23 @@ async function loadSpark(splatName: string, scene: Scene) {
 //
 //////////////
 
-async function setViewer(
-	scene: Scene,
-	renderer: WebGLRenderer,
-	camera: PerspectiveCamera,
-) {
-	let viewer = new Viewer({
-		useBuiltInControls: false,
-		camera: camera,
-		threeScene: scene,
-		renderer: renderer,
-		selfDrivenMode: false,
-		sharedMemoryForWorkers: false,
-		// logLevel: GSPLAT.LogLevel.Debug,
-		renderMode: RenderMode.OnChange,
-	});
-	return viewer;
-}
+// async function setViewer(
+// 	scene: Scene,
+// 	renderer: WebGLRenderer,
+// 	camera: PerspectiveCamera,
+// ) {
+// 	let viewer = new Viewer({
+// 		useBuiltInControls: false,
+// 		camera: camera,
+// 		threeScene: scene,
+// 		renderer: renderer,
+// 		selfDrivenMode: false,
+// 		sharedMemoryForWorkers: false,
+// 		// logLevel: GSPLAT.LogLevel.Debug,
+// 		renderMode: RenderMode.OnChange,
+// 	});
+// 	return viewer;
+// }
 
 function setRender(renderer: WebGLRenderer) {
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -248,7 +250,6 @@ function handleResize(
 	camera: PerspectiveCamera,
 	renderer: WebGLRenderer,
 	mixer: AnimationMixer,
-	viewer: any,
 	scene: Scene,
 ) {
 	const isDesktop = window.innerWidth > 768;
@@ -306,15 +307,34 @@ async function setScene(
 	});
 
 	let { mixer, camAction, lookAction } = await setAnim(scene, camera, lookAt);
-	const stageHeight = 24 * 400;
+	const stageHeight = 24 * 400; // fps * view height
 	stageElement.style.height = `${stageHeight}px`;
 
-	// replacing with spark
-	let splatURL = `models/${splatName}`;
-	let splat = new SplatMesh({ url: splatURL });
-	scene.add(splat);
-	animate(scene, camera, mixer, renderer);
+	// loadSpark(splatName, scene)
+	// animate(scene, camera, mixer, renderer)
+	loadSpark(splatName, scene).then(() => {
+		animate(scene, camera, mixer, renderer);
+	});
 
+	// replacing with spark
+	// let splatURL = `/models/${splatName}`;
+	// const loader = new SplatLoader();
+	// try {
+	// 	const splatData = await loader.loadAsync(splatURL);
+	// 	const splat = new SplatMesh({ packedSplats: splatData });
+	// 	scene.add(splat);
+	// 	animate(scene, camera, mixer, renderer);
+	// } catch (error) {
+	// 	console.error("err load splat:", error);
+	// }
+	// let splat = new SplatMesh({ url: splatURL, fileType: SplatFileType.SPLAT });
+	// scene.add(splat);
+	// animate(scene, camera, mixer, renderer);
+
+	// let spark = await loadSpark(splatName, scene);
+	// spark.then(() => {
+	// 	animate(scene, camera, mixer, renderer);
+	// });
 	// mkkellogg viewer setup
 	// let viewer = await setViewer(scene, renderer, camera);
 	// viewer
@@ -339,7 +359,7 @@ async function setScene(
 		);
 	});
 	window.addEventListener("resize", () => {
-		handleResize(camera, renderer, mixer, viewer, scene);
+		handleResize(camera, renderer, mixer, scene);
 	});
 	return {
 		scene,
