@@ -8,11 +8,11 @@ export let splatName: string;
 
 let stageElement: HTMLElement;
 let controlsActive = false;
-// ctrlStore.subscribe((value: boolean) => (controlsActive = value));
 let renderer: WebGLRenderer;
 let canvas: HTMLCanvasElement;
 // let viewer: any;
 let controls: any;
+let splat: any;
 
 function scroll() {
 	window.scrollBy(0, window.innerHeight * 2);
@@ -20,7 +20,6 @@ function scroll() {
 
 function toggle() {
 	controlsActive = !controlsActive;
-	// ctrlStore.set(controlsActive);
 	if (controlsActive) {
 		controls.enabled = true;
 		renderer.domElement.style.touchAction = "none";
@@ -39,20 +38,21 @@ onMount(() => {
 		canvas: canvas,
 	});
 	setScene(modelName, splatName, renderer, stageElement).then((sceneData) => {
-		// viewer = sceneData.viewer;
 		controls = sceneData.controls;
 	});
 });
 onDestroy(() => {
-	renderer.dispose();
-	// renderer.clear();
-	renderer.domElement.remove();
+	// renderer.dispose();
+	// renderer.domElement.remove();
+	renderer.clear(true, true, true);
+	renderer.resetState();
+	// canvas.remove();
 	// viewer.dispose();
-	controls.dispose();
+	// controls.dispose();
 });
 </script>
 
-<canvas bind:this={canvas} class="fixed top-0 w-full h-full" />
+<canvas bind:this={canvas} class="fixed top-0 w-full h-full"></canvas>
 
 <div bind:this={stageElement} class="h-dvh">
     <button
@@ -60,6 +60,7 @@ onDestroy(() => {
         class:border-neutral-500={!controlsActive}
         class:border-dashed={controlsActive}
         on:click={toggle}
+		aria-label="Lock and Unlock Camera"
     >
         <span>&#x1F4F9;</span>
         {#if controlsActive}
@@ -69,6 +70,6 @@ onDestroy(() => {
         {/if}
     </button>
     <div class="fixed bottom-0 grid place-items-center grid-cols-3 w-full">
-        <button on:click={scroll} class="hover:text-orange-500 p-2 col-start-2 fa-solid fa-angles-down" ></button>
+        <button on:click={scroll} class="hover:text-orange-500 p-2 col-start-2 fa-solid fa-angles-down" aria-label='Scroll Down'></button>
     </div>
 </div>
