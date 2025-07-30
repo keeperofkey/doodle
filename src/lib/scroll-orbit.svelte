@@ -10,9 +10,9 @@ let stageElement: HTMLElement;
 let controlsActive = false;
 let renderer: WebGLRenderer;
 let canvas: HTMLCanvasElement;
-// let viewer: any;
 let controls: any;
 let splat: any;
+let spark: any;
 
 function scroll() {
 	window.scrollBy(0, window.innerHeight * 2);
@@ -32,23 +32,21 @@ function toggle() {
 	}
 }
 
-onMount(() => {
+onMount(async() => {
 	renderer = new WebGLRenderer({
 		antialias: false,
 		canvas: canvas,
 	});
-	setScene(modelName, splatName, renderer, stageElement).then((sceneData) => {
-		controls = sceneData.controls;
-	});
+	const sceneData = await setScene(modelName, splatName, renderer, stageElement);
+	controls = sceneData.controls;
+	splat = sceneData.splat;
+	spark = sceneData.spark;
 });
 onDestroy(() => {
-	// renderer.dispose();
-	// renderer.domElement.remove();
-	renderer.clear(true, true, true);
-	renderer.resetState();
-	// canvas.remove();
-	// viewer.dispose();
-	// controls.dispose();
+	renderer.dispose();
+	if (splat) splat.dispose();
+	canvas.remove();
+	controls.dispose();
 });
 </script>
 
