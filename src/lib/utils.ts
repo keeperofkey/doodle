@@ -25,6 +25,15 @@ import { SplatMesh, SparkRenderer } from "@sparkjsdev/spark";
 // clock from animation scrubbing
 let clock = new Clock();
 
+// Performance optimization variables
+let animationFrameId: number | null = null;
+let isScrolling = false;
+let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+// Cached material for reuse
+let cachedWireframeMaterial: MeshBasicMaterial | null = null;
+
 /////////
 //
 // GLTF
@@ -53,13 +62,16 @@ async function loadGLTF(modelName: string) {
 			scene.animations = gltf.animations;
 			gltf.scene.traverse((child: any) => {
 				if (child.isMesh) {
-					const mat = new MeshBasicMaterial({
-						color: 0xffffff,
-						wireframe: true,
-						vertexColors: true,
-						wireframeLinewidth: 1,
-					});
-					child.material = mat;
+					// Reuse cached material for better performance
+					if (!cachedWireframeMaterial) {
+						cachedWireframeMaterial = new MeshBasicMaterial({
+							color: 0xffffff,
+							wireframe: true,
+							vertexColors: true,
+							wireframeLinewidth: 1,
+						});
+					}
+					child.material = cachedWireframeMaterial;
 					mesh = child;
 				}
 				if (child.name === "Look_At") {
@@ -178,7 +190,7 @@ async function setAnim(
 //
 // HANDLERS
 //
-// adjusts animation time to match scroll position
+// adjusts animation time to match scroll position with throttling
 
 function handleScroll(
 	camAction: AnimationAction,
@@ -187,43 +199,60 @@ function handleScroll(
 	renderer: WebGLRenderer,
 	camera: PerspectiveCamera,
 	mixer: AnimationMixer,
-	// viewer: any,
 	scene: Scene,
 ) {
-	if (stageElement) {
-		const scroll = normalizeScroll(
-			window.scrollY,
-			stageElement.scrollHeight,
-			window.outerHeight,
-		);
-		camAction.time = scroll * camAction.getClip().duration;
-		lookAction.time = scroll * lookAction.getClip().duration;
+	// Throttle scroll events using requestAnimationFrame
+	if (isScrolling) return;
+	isScrolling = true;
+	
+	if (animationFrameId) {
+		cancelAnimationFrame(animationFrameId);
 	}
-	animate(scene, camera, mixer, renderer);
+	
+	animationFrameId = requestAnimationFrame(() => {
+		if (stageElement) {
+			const scroll = normalizeScroll(
+				window.scrollY,
+				stageElement.scrollHeight,
+				window.outerHeight,
+			);
+			camAction.time = scroll * camAction.getClip().duration;
+			lookAction.time = scroll * lookAction.getClip().duration;
+		}
+		animate(scene, camera, mixer, renderer);
+		isScrolling = false;
+	});
 }
-// try to make mobile less glitchy
+// debounced resize handler to improve performance
 function handleResize(
 	camera: PerspectiveCamera,
 	renderer: WebGLRenderer,
 	mixer: AnimationMixer,
 	scene: Scene,
 ) {
-	const isDesktop = window.innerWidth > 768;
-	let width, height;
-
-	if (isDesktop) {
-		width = window.innerWidth;
-		height = window.innerHeight;
-	} else {
-		const visualViewport = window.visualViewport;
-		width = visualViewport ? visualViewport.width : window.innerWidth;
-		height = visualViewport ? visualViewport.height : window.innerHeight;
+	// Debounce resize events
+	if (resizeTimeout) {
+		clearTimeout(resizeTimeout);
 	}
+	
+	resizeTimeout = setTimeout(() => {
+		const isDesktop = window.innerWidth > 768;
+		let width, height;
 
-	renderer.setSize(width, height);
-	camera.aspect = width / height;
-	camera.updateProjectionMatrix();
-	animate(scene, camera, mixer, renderer);
+		if (isDesktop) {
+			width = window.innerWidth;
+			height = window.innerHeight;
+		} else {
+			const visualViewport = window.visualViewport;
+			width = visualViewport ? visualViewport.width : window.innerWidth;
+			height = visualViewport ? visualViewport.height : window.innerHeight;
+		}
+
+		renderer.setSize(width, height);
+		camera.aspect = width / height;
+		camera.updateProjectionMatrix();
+		animate(scene, camera, mixer, renderer);
+	}, 100); // 100ms debounce
 }
 
 ////////////////////////////////////
@@ -248,7 +277,11 @@ async function setScene(
 	let splat;
 	try {
 		splat = await loadSpark(splatName);
-		if (splat) scene.add(splat);
+		if (splat) {
+			scene.add(splat);
+			// Force immediate render after splat is added
+			renderer.render(scene, cameras[0] || new PerspectiveCamera());
+		}
 	} catch (error) {
 		console.warn("Splat loading failed, continuing without splat:", error);
 		splat = null;
@@ -280,6 +313,17 @@ async function setScene(
 	const stageHeight = 24 * 400; // fps * view height
 	stageElement.style.height = `${stageHeight}px`;
 
+	// Initialize camera and animation to starting position
+	const initialScroll = normalizeScroll(
+		window.scrollY,
+		stageElement.scrollHeight,
+		window.outerHeight,
+	);
+	camAction.time = initialScroll * camAction.getClip().duration;
+	lookAction.time = initialScroll * lookAction.getClip().duration;
+	mixer.update(0); // Apply the initial time without advancing clock
+
+	// Force initial render to show splats and correct camera position
 	animate(scene, camera, mixer, renderer);
 
 	// mkkellogg viewer setup
@@ -293,7 +337,8 @@ async function setScene(
 	// 		animate(scene, camera, viewer, mixer, renderer);
 	// 	});
 
-	window.addEventListener("scroll", () => {
+	// Store event handlers for cleanup
+	const scrollHandler = () => {
 		handleScroll(
 			camAction,
 			stageElement,
@@ -301,13 +346,16 @@ async function setScene(
 			renderer,
 			camera,
 			mixer,
-			// viewer,
 			scene,
 		);
-	});
-	window.addEventListener("resize", () => {
+	};
+	
+	const resizeHandler = () => {
 		handleResize(camera, renderer, mixer, scene);
-	});
+	};
+	
+	window.addEventListener("scroll", scrollHandler, { passive: true });
+	window.addEventListener("resize", resizeHandler);
 	return {
 		scene,
 		camera,
@@ -318,6 +366,23 @@ async function setScene(
 		renderer,
 		splat,
 		spark,
+		// Return cleanup function for event listeners
+		cleanup: () => {
+			window.removeEventListener("scroll", scrollHandler);
+			window.removeEventListener("resize", resizeHandler);
+			if (animationFrameId) {
+				cancelAnimationFrame(animationFrameId);
+				animationFrameId = null;
+			}
+			if (scrollTimeout) {
+				clearTimeout(scrollTimeout);
+				scrollTimeout = null;
+			}
+			if (resizeTimeout) {
+				clearTimeout(resizeTimeout);
+				resizeTimeout = null;
+			}
+		},
 	};
 }
 
@@ -336,12 +401,13 @@ async function setScene(
 function animate(
 	scene: Scene,
 	camera: PerspectiveCamera,
-	// viewer: any,
 	mixer: AnimationMixer,
 	renderer: WebGLRenderer,
 ) {
+	// Update mixer only if clock delta is reasonable (not paused animations)
+	const delta = clock.getDelta();
+	if (delta < 0.1) { // Prevent large jumps when tab was inactive
+		mixer.update(delta);
+	}
 	renderer.render(scene, camera);
-	mixer.update(clock.getDelta());
-	// viewer.update();
-	// viewer.render();
 }

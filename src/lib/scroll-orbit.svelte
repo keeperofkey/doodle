@@ -13,6 +13,7 @@ let canvas: HTMLCanvasElement;
 let controls: any;
 let splat: any;
 let spark: any;
+let cleanup: (() => void) | null = null;
 
 function scroll() {
 	window.scrollBy(0, window.innerHeight * 2);
@@ -41,12 +42,25 @@ onMount(async() => {
 	controls = sceneData.controls;
 	splat = sceneData.splat;
 	spark = sceneData.spark;
+	cleanup = sceneData.cleanup;
 });
 onDestroy(() => {
-	renderer.dispose();
-	if (splat) splat.dispose();
-	canvas.remove();
-	controls.dispose();
+	// Call cleanup function for event listeners and timeouts
+	if (cleanup) cleanup();
+	
+	// Dispose Three.js objects with null checks
+	if (renderer) {
+		renderer.dispose();
+	}
+	if (splat && typeof splat.dispose === 'function') {
+		splat.dispose();
+	}
+	if (canvas && canvas.parentNode) {
+		canvas.remove();
+	}
+	if (controls && typeof controls.dispose === 'function') {
+		controls.dispose();
+	}
 });
 </script>
 
