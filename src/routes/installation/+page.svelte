@@ -1,9 +1,19 @@
 <script lang="ts">
-    import Gallery from "$lib/gallery.svelte";
+    import CssOrbit from "$lib/css-orbit.svelte";
     import ScrollOrbit from "$lib/scroll-orbit.svelte";
     import { install } from "$lib/images.json";
+    import { browser } from "$app/environment";
 
     const images = install.data;
+    
+    // Mobile-friendly ellipse rotations
+    let isMobile = false;
+    if (browser) {
+        isMobile = window.innerWidth < 768;
+    }
+    
+    const rotationY = isMobile ? -30 : -60;  // Less aggressive Y rotation on mobile
+    const rotationZ = isMobile ? -30 : -60;  // Less aggressive Z rotation on mobile
 
     // import blob from "$lib/blob.json";
     // const images = blob.install;
@@ -60,4 +70,4 @@
     </p>
 </main>
 
-<Gallery {images} />
+<CssOrbit {images} {rotationY} {rotationZ} />
