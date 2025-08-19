@@ -1,5 +1,5 @@
 <script lang="ts">
-import Gallery from "$lib/gallery.svelte";
+import CssOrbit from "$lib/css-orbit.svelte";
 import ScrollOrbit from "$lib/scroll-orbit.svelte";
 import { install } from "$lib/images.json";
 
@@ -21,6 +21,7 @@ const images = install.data;
 </svelte:head>
 
 <ScrollOrbit modelName="install-web.glb" splatName="install-web.spz" />
+<CssOrbit {images} />
 <main
     class="grid items-center place-self-center grid-cols-1 md:grid-cols-2 md:grid-rows-3 grid-flow-row z-10 bottom-0 p-6 w-auto m-4 bg-slate-100 bg-opacity-85 rounded-2xl"
 >
@@ -60,4 +61,3 @@ const images = install.data;
     </p>
 </main>
 
-<Gallery {images} />

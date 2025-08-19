@@ -1,6 +1,6 @@
 <script lang="ts">
     import ScrollOrbit from "$lib/scroll-orbit.svelte";
-    import Gallery from "$lib/gallery.svelte";
+    import CssOrbit from "$lib/css-orbit.svelte";
     import { senior } from "$lib/images.json";
     const images = senior.data;
     // import info from "$lib/images";
@@ -66,4 +66,4 @@
         relationship with the words that shape your reality.
     </p>
 </main>
-<Gallery {images} />
+<CssOrbit {images} />

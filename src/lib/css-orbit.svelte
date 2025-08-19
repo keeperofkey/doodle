@@ -3,41 +3,30 @@ interface Props {
 	images?: { description: string; url: string; name: string }[];
 	radius?: number;
 	activeIndex?: number;
-	rotationY?: number;
-	rotationZ?: number;
 }
 
 let {
 	images = [],
 	radius = 6,
 	activeIndex = $bindable(0),
-	rotationY = -60,
-	rotationZ = -60,
 }: Props = $props();
 
-// Simple state using runes
-let enlargedImageIndex = $state(-1); // Track which image is enlarged (-1 = none)
-let imageDimensions = $state(new Map()); // Store loaded image dimensions
-let mouseX = $state(0);
-let mouseY = $state(0);
+// State using runes
+let enlargedImageIndex = $state(-1);
+let imageDimensions = $state(new Map());
 let isMouseNearImages = $state(false);
-let viewportWidth = $state(
-	typeof window !== "undefined" ? window.innerWidth : 1920,
-);
-let viewportHeight = $state(
-	typeof window !== "undefined" ? window.innerHeight : 1080,
-);
+let lastWheelTime = $state(0);
+let viewportWidth = $state(typeof window !== "undefined" ? window.innerWidth : 1920);
+let viewportHeight = $state(typeof window !== "undefined" ? window.innerHeight : 1080);
 
-// Reset enlarged image when active index changes (but not from user clicks)
 let lastClickedIndex = $state(-1);
 
 $effect(() => {
-	if (activeIndex !== undefined && activeIndex !== lastClickedIndex) {
+	if (activeIndex !== lastClickedIndex) {
 		enlargedImageIndex = -1;
 	}
 });
 
-// Update viewport dimensions on resize
 $effect(() => {
 	if (typeof window !== "undefined") {
 		const handleResize = () => {
@@ -50,9 +39,22 @@ $effect(() => {
 	}
 });
 
-// Ellipse parameters - in XY plane with ratio and rotation
-const ellipseA = $derived(radius * 1.0); // semi-major axis (Y direction)
-const ellipseB = $derived(radius * 0.5); // semi-minor axis (X direction) - ratio 0.5:1
+// Responsive rotation - vertical on mobile, diagonal on desktop
+const isMobile = $derived(viewportWidth <= 768);
+const rotationY = $derived(isMobile ? -90 : -60);
+const rotationZ = $derived(isMobile ? 0 : -60);
+
+// Ellipse parameters
+const ellipseA = $derived(radius);
+const ellipseB = $derived(radius * 0.5);
+
+// Cached trigonometric calculations
+const rotationCache = $derived({
+	cosY: Math.cos((rotationY * Math.PI) / 180),
+	sinY: Math.sin((rotationY * Math.PI) / 180),
+	cosZ: Math.cos((rotationZ * Math.PI) / 180),
+	sinZ: Math.sin((rotationZ * Math.PI) / 180)
+});
 
 // Calculate optimal scale for enlarged images to fit viewport
 function calculateEnlargedScale(aspectRatio: number): number {
@@ -106,20 +108,20 @@ const imageTransforms = $derived(
 
 		// Calculate position on ellipse in XY plane
 		const angle = (relativeIndex / images.length) * Math.PI * 2;
-		const ellipseX = ellipseB * Math.cos(angle);
-		const ellipseY = ellipseA * Math.sin(angle);
+		const cosAngle = Math.cos(angle);
+		const sinAngle = Math.sin(angle);
+		const ellipseX = ellipseB * cosAngle;
+		const ellipseY = ellipseA * sinAngle;
 		const ellipseZ = 0;
 
-		// Apply Y rotation (-60 degrees)
-		const radY = (rotationY * Math.PI) / 180;
-		const xAfterY = ellipseX * Math.cos(radY) + ellipseZ * Math.sin(radY);
-		const zAfterY = -ellipseX * Math.sin(radY) + ellipseZ * Math.cos(radY);
+		// Apply Y rotation using cached values
+		const xAfterY = ellipseX * rotationCache.cosY + ellipseZ * rotationCache.sinY;
+		const zAfterY = -ellipseX * rotationCache.sinY + ellipseZ * rotationCache.cosY;
 		const yAfterY = ellipseY;
 
-		// Apply Z rotation (-60 degrees)
-		const radZ = (rotationZ * Math.PI) / 180;
-		const x = xAfterY * Math.cos(radZ) - yAfterY * Math.sin(radZ);
-		const y = xAfterY * Math.sin(radZ) + yAfterY * Math.cos(radZ);
+		// Apply Z rotation using cached values
+		const x = xAfterY * rotationCache.cosZ - yAfterY * rotationCache.sinZ;
+		const y = xAfterY * rotationCache.sinZ + yAfterY * rotationCache.cosZ;
 		const z = zAfterY;
 
 		// Convert to CSS transform values (scale up for viewport)
@@ -132,10 +134,8 @@ const imageTransforms = $derived(
 		const aspectRatio = dimensions ? dimensions.width / dimensions.height : 1;
 
 		// Remove all JavaScript scaling - CSS will handle everything
-		// Just calculate depth factor for CSS custom properties
-		const depthFactor = (Math.cos(angle) + 1) / 2;
-
-		// Debug all images for better understanding
+		// Just calculate depth factor for CSS custom properties using cached cosine
+		const depthFactor = (cosAngle + 1) / 2;
 
 		// Calculate centering offset for enlarged images
 		let centerOffsetX = 0;
@@ -191,44 +191,33 @@ const imageTransforms = $derived(
 );
 
 function handleMouseMove(event: MouseEvent) {
-	mouseX = event.clientX;
-	mouseY = event.clientY;
-
-	// Check if mouse is near any image
 	const container = event.currentTarget as HTMLElement;
 	const containerRect = container.getBoundingClientRect();
 	const centerX = containerRect.width / 2;
 	const centerY = containerRect.height / 2;
+	const mouseX = event.clientX;
+	const mouseY = event.clientY;
 
-	// Calculate distance from center (where images are concentrated)
-	const distanceFromCenter = Math.sqrt(
-		Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2),
-	);
-
-	// Consider mouse "near images" if within a certain radius from center
-	const proximityRadius =
-		Math.min(containerRect.width, containerRect.height) * 0.3;
-	isMouseNearImages = distanceFromCenter < proximityRadius;
+	const distanceSquared = Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2);
+	const proximityRadius = Math.min(containerRect.width, containerRect.height) * 0.3;
+	
+	isMouseNearImages = distanceSquared < proximityRadius * proximityRadius;
 }
 
 function handleWheel(event: WheelEvent) {
-	// Only prevent default and handle image navigation if mouse is near images
-	if (!isMouseNearImages) {
-		return; // Let the page scroll normally
-	}
+	if (!isMouseNearImages) return;
 
 	event.preventDefault();
 
-	// Simple wheel navigation - directly update activeIndex
+	const now = performance.now();
+	if (now - lastWheelTime < 100) return;
+
+	lastWheelTime = now;
 	const delta = event.deltaY > 0 ? 1 : -1;
 	let newIndex = activeIndex + delta;
 
-	// Loop back to beginning/end
-	if (newIndex >= images.length) {
-		newIndex = 0;
-	} else if (newIndex < 0) {
-		newIndex = images.length - 1;
-	}
+	if (newIndex >= images.length) newIndex = 0;
+	else if (newIndex < 0) newIndex = images.length - 1;
 
 	activeIndex = newIndex;
 }
@@ -261,13 +250,7 @@ function handleImageLoad(event: Event, index: number) {
 		{#each images as image, index}
 			<div 
 				class="orbit-image {imageTransforms[index]?.isEnlarged ? 'enlarged' : ''} {imageTransforms[index]?.isActive ? 'active' : ''}"
-				style="
-					transform: {imageTransforms[index]?.transform || 'none'};
-					opacity: {imageTransforms[index]?.opacity || 1};
-					<!-- width: {imageTransforms[index]?.width || '1200px'}; -->
-					<!-- height: {imageTransforms[index]?.height || '900px'}; -->
-					--aspect-ratio: {imageTransforms[index]?.aspectRatio || 1};
-				"
+				style="transform: {imageTransforms[index]?.transform || 'none'}; opacity: {imageTransforms[index]?.opacity || 1}; --aspect-ratio: {imageTransforms[index]?.aspectRatio || 1};"
 				onclick={() => handleImageClick(index)}
 				onkeydown={(e) => e.key === 'Enter' && handleImageClick(index)}
 				role="button"
@@ -339,7 +322,9 @@ function handleImageLoad(event: Event, index: number) {
 	user-select: none;
 	pointer-events: none;
 	will-change: transform;
-	/* High-quality scaling */
+	/* Optimize for lower-end hardware */
 	image-rendering: auto;
+	transform: translateZ(0); /* Force hardware acceleration */
+	backface-visibility: hidden;
 }
 </style>

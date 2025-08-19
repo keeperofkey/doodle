@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Gallery from "$lib/gallery.svelte";
+    import CssOrbit from "$lib/css-orbit.svelte";
     import ScrollOrbit from "$lib/scroll-orbit.svelte";
 
     import { interior } from "$lib/images.json";
@@ -27,4 +27,4 @@
 
 <ScrollOrbit modelName="interior.glb" splatName="interior.splat" />
 
-<Gallery {images} />
+<CssOrbit {images} />
