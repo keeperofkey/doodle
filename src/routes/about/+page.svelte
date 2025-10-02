@@ -41,8 +41,8 @@
             <li>
                 <a
                     class="underline"
-                    href="https://github.com/huggingface/gsplat.js/"
-                    >Gsplat.js</a
+                    href=https://github.com/sparkjsdev/spark
+                    >Spark.js</a
                 >
             </li>
             <li>

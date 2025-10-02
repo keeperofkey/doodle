@@ -44,7 +44,7 @@
 </script>
 
 <nav
-  class="font-mono font-bold subpixel-antialiased text-md whitespace-nowrap bg-slate-200 hover:bg-opacity-100 bg-opacity-90 rounded-lg shadow-xl fixed max-w-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1"
+  class="font-mono font-bold subpixel-antialiased text-md whitespace-nowrap bg-slate-200 hover:bg-opacity-80 bg-opacity-70 rounded-lg shadow-xl fixed max-w-fit pointer-events-auto z-50 items-center m-4 grid grid-flow-row sm:grid-flow-col p-1 backdrop-blur-sm"
 >
   <button
     class="{isOpen

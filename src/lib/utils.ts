@@ -1,6 +1,8 @@
 export { setScene };
+export type { RenderMode };
 
 import { normalizeScroll } from "./maths";
+import type { RenderMode } from "./types";
 import {
 	Scene,
 	ACESFilmicToneMapping,
@@ -15,6 +17,8 @@ import {
 	Color,
 	AmbientLight,
 	MeshBasicMaterial,
+	PointsMaterial,
+	Points,
 	Clock,
 } from "three";
 // import { Viewer, RenderMode } from "@mkkellogg/gaussian-splats-3d";
@@ -88,7 +92,7 @@ async function loadGLTF(modelName: string) {
 	scene.add(lookAt);
 	scene.add(camera);
 	scene.add(mesh);
-	return { scene, cameras, lookAt };
+	return { scene, cameras, lookAt, mesh };
 }
 
 ////////////////
@@ -268,12 +272,12 @@ async function setScene(
 	stageElement: HTMLElement,
 ) {
 	// Initialize the scene
-	let { scene, cameras, lookAt } = await loadGLTF(modelName);
+	let { scene, cameras, lookAt, mesh } = await loadGLTF(modelName);
 	
 	// Create SparkRenderer for splat rendering
 	const spark = new SparkRenderer({ renderer });
 	scene.add(spark);
-	
+
 	let splat;
 	try {
 		splat = await loadSpark(splatName);
@@ -285,6 +289,19 @@ async function setScene(
 	} catch (error) {
 		console.warn("Splat loading failed, continuing without splat:", error);
 		splat = null;
+	}
+
+	// Create points version of the mesh
+	let pointsObj: Points | null = null;
+	if (mesh && mesh.geometry) {
+		const pointsMaterial = new PointsMaterial({
+			color: 0xffffff,
+			size: 0.05,
+			vertexColors: true,
+		});
+		pointsObj = new Points(mesh.geometry, pointsMaterial);
+		pointsObj.visible = false;
+		scene.add(pointsObj);
 	}
 
 	//   Add lights and set camera
@@ -326,6 +343,34 @@ async function setScene(
 	// Force initial render to show splats and correct camera position
 	animate(scene, camera, mixer, renderer);
 
+	// Function to change render modes
+	const setRenderMode = (mode: RenderMode) => {
+		switch (mode) {
+			case 'combined':
+				if (mesh) mesh.visible = true;
+				if (splat) splat.visible = true;
+				if (pointsObj) pointsObj.visible = false;
+				break;
+			case 'wireframe':
+				if (mesh) mesh.visible = true;
+				if (splat) splat.visible = false;
+				if (pointsObj) pointsObj.visible = false;
+				break;
+			case 'splat':
+				if (mesh) mesh.visible = false;
+				if (splat) splat.visible = true;
+				if (pointsObj) pointsObj.visible = false;
+				break;
+			case 'points':
+				if (mesh) mesh.visible = false;
+				if (splat) splat.visible = false;
+				if (pointsObj) pointsObj.visible = true;
+				break;
+		}
+		// Re-render after mode change
+		animate(scene, camera, mixer, renderer);
+	};
+
 	// mkkellogg viewer setup
 	// let viewer = await setViewer(scene, renderer, camera);
 	// viewer
@@ -366,6 +411,8 @@ async function setScene(
 		renderer,
 		splat,
 		spark,
+		mesh,
+		setRenderMode,
 		// Return cleanup function for event listeners
 		cleanup: () => {
 			window.removeEventListener("scroll", scrollHandler);
