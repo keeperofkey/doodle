@@ -1,4 +1,4 @@
-export { setScene };
+export { setScene, captureHighResScreenshot };
 export type { RenderMode };
 
 import { normalizeScroll } from "./maths";
@@ -21,7 +21,6 @@ import {
 	Points,
 	Clock,
 } from "three";
-// import { Viewer, RenderMode } from "@mkkellogg/gaussian-splats-3d";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
@@ -32,7 +31,6 @@ let clock = new Clock();
 // Performance optimization variables
 let animationFrameId: number | null = null;
 let isScrolling = false;
-let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
 // Cached material for reuse
@@ -103,14 +101,13 @@ async function loadGLTF(modelName: string) {
 async function loadSpark(splatName: string) {
 	try {
 		return new Promise<SplatMesh>((resolve, reject) => {
-			const splat = new SplatMesh({ 
+			const splat = new SplatMesh({
 				url: `/models/${splatName}`,
 				onLoad: (mesh) => {
-					console.log("SplatMesh loaded successfully:", splatName);
 					resolve(mesh);
 				}
 			});
-			
+
 			// Add a timeout to prevent hanging
 			setTimeout(() => {
 				reject(new Error(`Splat loading timeout for ${splatName}`));
@@ -134,10 +131,6 @@ function setRender(renderer: WebGLRenderer) {
 	renderer.toneMapping = ACESFilmicToneMapping;
 	renderer.toneMappingExposure = 1;
 	renderer.domElement.style.zIndex = "-1";
-
-	// TODO: this is required for splats to render into scene
-	// canvas is not getting splat updates for somereason otherwise
-	//   document.body.appendChild(renderer.domElement);
 }
 
 /////////////////////////////////////////////////
@@ -208,11 +201,11 @@ function handleScroll(
 	// Throttle scroll events using requestAnimationFrame
 	if (isScrolling) return;
 	isScrolling = true;
-	
+
 	if (animationFrameId) {
 		cancelAnimationFrame(animationFrameId);
 	}
-	
+
 	animationFrameId = requestAnimationFrame(() => {
 		if (stageElement) {
 			const scroll = normalizeScroll(
@@ -238,7 +231,7 @@ function handleResize(
 	if (resizeTimeout) {
 		clearTimeout(resizeTimeout);
 	}
-	
+
 	resizeTimeout = setTimeout(() => {
 		const isDesktop = window.innerWidth > 768;
 		let width, height;
@@ -273,18 +266,22 @@ async function setScene(
 ) {
 	// Initialize the scene
 	let { scene, cameras, lookAt, mesh } = await loadGLTF(modelName);
-	
-	// Create SparkRenderer for splat rendering
-	const spark = new SparkRenderer({ renderer });
+
+	// Create SparkRenderer for splat rendering with autoUpdate enabled
+	const spark = new SparkRenderer({ renderer, autoUpdate: true });
 	scene.add(spark);
+
+	// Camera setup will be done later, keep reference
+	let camera: PerspectiveCamera;
+	let mixer: AnimationMixer;
 
 	let splat;
 	try {
 		splat = await loadSpark(splatName);
 		if (splat) {
 			scene.add(splat);
-			// Force immediate render after splat is added
-			renderer.render(scene, cameras[0] || new PerspectiveCamera());
+			// Wait for the initialized promise to resolve
+			await (splat as any).initialized;
 		}
 	} catch (error) {
 		console.warn("Splat loading failed, continuing without splat:", error);
@@ -311,7 +308,7 @@ async function setScene(
 
 	// TODO: handle multiple cameras, possibly a drop down
 
-	let camera = cameras[0];
+	camera = cameras[0];
 	if (cameras.length > 1) {
 		console.log("Multiple cameras found, using the first one.");
 	}
@@ -326,7 +323,8 @@ async function setScene(
 		animate(scene, camera, mixer, renderer);
 	});
 
-	let { mixer, camAction, lookAction } = await setAnim(scene, camera, lookAt);
+	let { mixer: mixerInstance, camAction, lookAction } = await setAnim(scene, camera, lookAt);
+	mixer = mixerInstance;
 	const stageHeight = 24 * 400; // fps * view height
 	stageElement.style.height = `${stageHeight}px`;
 
@@ -338,10 +336,29 @@ async function setScene(
 	);
 	camAction.time = initialScroll * camAction.getClip().duration;
 	lookAction.time = initialScroll * lookAction.getClip().duration;
-	mixer.update(0); // Apply the initial time without advancing clock
 
-	// Force initial render to show splats and correct camera position
-	animate(scene, camera, mixer, renderer);
+	// Apply the initial animation state by updating the mixer
+	mixer.update(0.001);
+
+	// Update matrices before first render
+	camera.updateMatrixWorld(true);
+	scene.updateMatrixWorld(true);
+
+	// SparkRenderer processes splats asynchronously in a background worker
+	// Render continuously for the first second to give it time to process
+	let renderCount = 0;
+	const maxRenders = 60; // ~1 second at 60fps
+
+	function initialRenderLoop() {
+		animate(scene, camera, mixer, renderer);
+		renderCount++;
+		if (renderCount < maxRenders) {
+			requestAnimationFrame(initialRenderLoop);
+		}
+	}
+
+	// Start rendering immediately
+	initialRenderLoop();
 
 	// Function to change render modes
 	const setRenderMode = (mode: RenderMode) => {
@@ -367,20 +384,21 @@ async function setScene(
 				if (pointsObj) pointsObj.visible = true;
 				break;
 		}
-		// Re-render after mode change
-		animate(scene, camera, mixer, renderer);
-	};
+		// SparkRenderer needs multiple frames to update after visibility changes
+		// Render continuously for a short period
+		let modeChangeRenders = 0;
+		const maxModeChangeRenders = 10; // ~160ms at 60fps
 
-	// mkkellogg viewer setup
-	// let viewer = await setViewer(scene, renderer, camera);
-	// viewer
-	// 	.addSplatScene(`models/${splatName}`, {
-	// 		showLoadingUI: false,
-	// 		progressiveLoading: true,
-	// 	})
-	// 	.then(() => {
-	// 		animate(scene, camera, viewer, mixer, renderer);
-	// 	});
+		function modeChangeRenderLoop() {
+			animate(scene, camera, mixer, renderer);
+			modeChangeRenders++;
+			if (modeChangeRenders < maxModeChangeRenders) {
+				requestAnimationFrame(modeChangeRenderLoop);
+			}
+		}
+
+		modeChangeRenderLoop();
+	};
 
 	// Store event handlers for cleanup
 	const scrollHandler = () => {
@@ -394,13 +412,14 @@ async function setScene(
 			scene,
 		);
 	};
-	
+
 	const resizeHandler = () => {
 		handleResize(camera, renderer, mixer, scene);
 	};
-	
+
 	window.addEventListener("scroll", scrollHandler, { passive: true });
 	window.addEventListener("resize", resizeHandler);
+
 	return {
 		scene,
 		camera,
@@ -421,10 +440,6 @@ async function setScene(
 				cancelAnimationFrame(animationFrameId);
 				animationFrameId = null;
 			}
-			if (scrollTimeout) {
-				clearTimeout(scrollTimeout);
-				scrollTimeout = null;
-			}
 			if (resizeTimeout) {
 				clearTimeout(resizeTimeout);
 				resizeTimeout = null;
@@ -439,12 +454,6 @@ async function setScene(
 //
 //////////////////
 
-// function render() {
-//   requestAnimationFrame(render);
-//   // viewer.update();
-//   // viewer.render();
-// }
-
 function animate(
 	scene: Scene,
 	camera: PerspectiveCamera,
@@ -456,5 +465,59 @@ function animate(
 	if (delta < 0.1) { // Prevent large jumps when tab was inactive
 		mixer.update(delta);
 	}
+	// SparkRenderer with autoUpdate handles updates automatically during render
 	renderer.render(scene, camera);
+}
+
+///////////////////////////////
+//
+// High-Res Screenshot Capture
+//
+///////////////////////////////
+
+function captureHighResScreenshot(
+	scene: Scene,
+	camera: PerspectiveCamera,
+	renderer: WebGLRenderer,
+	scale: number = 2, // Default 2x upscale
+) {
+	// Save current renderer size
+	const originalWidth = renderer.domElement.width;
+	const originalHeight = renderer.domElement.height;
+	const originalPixelRatio = renderer.getPixelRatio();
+
+	// Calculate new dimensions
+	const newWidth = originalWidth * scale;
+	const newHeight = originalHeight * scale;
+
+	// Temporarily set higher resolution
+	renderer.setSize(newWidth, newHeight, false);
+	renderer.setPixelRatio(1); // Use 1 to avoid double-scaling
+
+	// Update camera aspect ratio
+	const originalAspect = camera.aspect;
+	camera.aspect = newWidth / newHeight;
+	camera.updateProjectionMatrix();
+
+	// Render a single frame at high resolution
+	renderer.render(scene, camera);
+
+	// Get the image data
+	const dataURL = renderer.domElement.toDataURL('image/png');
+
+	// Restore original settings
+	renderer.setSize(originalWidth, originalHeight, false);
+	renderer.setPixelRatio(originalPixelRatio);
+	camera.aspect = originalAspect;
+	camera.updateProjectionMatrix();
+
+	// Re-render at normal resolution to prevent blank screen
+	renderer.render(scene, camera);
+
+	// Trigger download
+	const link = document.createElement('a');
+	const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+	link.download = `render-${timestamp}.png`;
+	link.href = dataURL;
+	link.click();
 }
