@@ -95,10 +95,10 @@ onDestroy(() => {
 
 <div bind:this={stageElement} class="h-dvh">
     <!-- Controls container -->
-    <div class="fixed top-4 right-4 z-10 flex flex-col gap-3">
+    <div class="fixed top-4 right-4 z-10 flex flex-col gap-2">
         <!-- Camera lock/unlock button -->
         <button
-            class="grid grid-col-2 place-items-center grid-flow-col bg-opacity-50 backdrop-blur-sm font-bold text-xl p-2 w-24 h-12 self-center bg-slate-100 border-2 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
+            class="grid grid-col-2 place-items-center grid-flow-col bg-opacity-50 backdrop-blur-sm font-bold text-xl p-2 w-32 h-14 self-center bg-slate-100 border-2 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
             class:border-neutral-500={!controlsActive}
             class:border-dashed={controlsActive}
             on:click={toggle}
@@ -113,10 +113,10 @@ onDestroy(() => {
         </button>
 
         <!-- Photo Capture & Render Mode Buttons -->
-        <div class="relative flex gap-3">
+        <div class="relative flex gap-4">
             <!-- Photo Capture Button -->
             <button
-                class="grid place-items-center bg-opacity-50 backdrop-blur-sm font-bold text-xl p-2 w-12 h-12 bg-slate-100 border-2 border-neutral-500 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
+                class="grid place-items-center bg-opacity-50 backdrop-blur-sm font-bold text-xl p-2 w-14 h-14 bg-slate-100 border-2 border-neutral-500 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
                 on:click={capturePhoto}
                 aria-label="Capture High-Resolution Screenshot"
             >
@@ -125,7 +125,7 @@ onDestroy(() => {
 
             <!-- Render Mode Button -->
             <button
-                class="grid place-items-center bg-opacity-50 backdrop-blur-sm font-bold text-xl p-2 w-12 h-12 bg-slate-100 border-2 border-neutral-500 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
+                class="grid place-items-center bg-opacity-50 backdrop-blur-sm font-bold text-xl p-2 w-14 h-14 bg-slate-100 border-2 border-neutral-500 rounded-lg hover:bg-opacity-90 active:shadow-inner shadow-lg"
                 class:border-dashed={renderModeDropdownOpen}
                 on:click={toggleRenderModeDropdown}
                 aria-label="Render Mode Selector"
